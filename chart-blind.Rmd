@@ -23,3 +23,6 @@ This is the chart that we are discussing:
 
 - data for Colorado (state since August 1, 1876; territory since February 28, 1861) and Nevada (state since October 31, 1864) is missing.
 
+- pros for the angles: they are not affected by the overall number, but con: comparing angles (with different starting points) is cognitively a hard task (Celveland & McGill reference).
+
+- con against angles: the cumulative angles introduce dependencies
