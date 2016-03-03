@@ -24,23 +24,13 @@ This is the chart that we are discussing:
 - data for Colorado (state since August 1, 1876; territory since February 28, 1861) and Nevada (state since October 31, 1864) is missing.
 
 ```{r, echo=FALSE}
-library(rvest)
-blind <- "data/univariate-tables-1870.html"
-html <- read_html(blind)
-tabs <- html %>%  html_nodes("table") 
-#blind <- html_table(tabs[[1]])
-#write.csv(blind, "temp.csv", row.names=FALSE) # slight massaging with excel
 blind <- read.csv("data/temp.csv", stringsAsFactors = FALSE)
 ```
 
-```{r, echo=FALSE}
-library(ggplot2)
-grep("DEAF", names(blind), value=TRUE)
-```
 
 ```{r}
 library(readr)
-cmdr <- read_fwf("data\ extract/usa_00009.sps.txt", skip = 7, 
+cmdr <- read_fwf("data/usa_00009.sps.txt", skip = 7, 
                 fwf_positions(c(3, 14), c(11, 19)), n_max=27)
 cmdr$X2 <- gsub(" \\(.\\)","",cmdr$X2)
 splits <- strsplit(cmdr$X2, split="-")
@@ -50,7 +40,7 @@ names(cmdr) <- c("variable", "start", "stop")
 cmdr$start <- as.numeric(cmdr$start)
 cmdr$stop <- as.numeric(cmdr$stop)
 
-census <- read_fwf("data extract/usa_00009.dat", 
+census <- read_fwf("data/usa_00009.dat", 
                    fwf_positions(cmdr$start, cmdr$stop))
 names(census) <- cmdr$variable
 
@@ -64,7 +54,7 @@ ggplot() + geom_histogram(aes(AGE, fill=factor(BLIND)), binwidth=1,  data=census
   
 
 # this conversion takes pretty long  
-states <- read_fwf("data\ extract/usa_00009.sps.txt", skip = 98, 
+states <- read_fwf("data/usa_00009.sps.txt", skip = 98, 
                 fwf_positions(c(5, 10), c(7, 30)), n_max=55)
 names(states) <- c("STATEICP", "State")  
 states$State <- gsub("\"", "", states$State)
