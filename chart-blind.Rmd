@@ -26,3 +26,17 @@ This is the chart that we are discussing:
 - pros for the angles: they are not affected by the overall number, but con: comparing angles (with different starting points) is cognitively a hard task (Celveland & McGill reference).
 
 - con against angles: the cumulative angles introduce dependencies
+
+- earliest pie chart is credited to Statistical Breviary (William Playfair, 1801)
+
+- other articles critiqing pie charts
+
+  - [Save the Pies for Dessert (Stephen Few)](http://www.perceptualedge.com/articles/08-21-07.pdf) Pro: shows part-to-whole relationships, Con: pies only show percentages better than bar at 0%, 25%, 50%, 75% or 100%. "[William Cleaveland] refers to pie charts as 'pop charts' because they are commonly found in pop culture media, but much less in science and technology media."
+  
+- Did we want to comment on technology 1870's vs 2016 when creating graphics? Have we lost anything from that time?
+
+  - now it is difficult to importing handwriting as a particular font for a pie chart. (I've heard mixed reactions on if handwritten text on graphics looks unprofessional or more artistic)
+  
+  - Placeing "United States" across the entire pie chart. Placing "(Colored, including Indian and Chinese)" across two slices of the pie. Still possible by specifying xy-coordinates but not as straightforward as writing it on the chart.
+  
+  
