@@ -42,4 +42,8 @@ This is the chart that we are discussing:
   - Placeing "United States" across the entire pie chart. Placing "(Colored, including Indian and Chinese)" across two slices of the pie. Still possible by specifying xy-coordinates but not as straightforward as writing it on the chart.
   
   - An interactive display of a pie chart, might have the division across all of the United States as an opening graphic. User clicks on a particular slice to see pie chart of that particular slice and continue to zoom in. Still not as good as bar chart to quickly get a sense of the divisions across all states.
+  
+- Does part of the appeal of pie charts vs bar chart have to do with rounded corners vs straight edge?
+
+  - [Why round corners are easier on the eyes](http://uxmovement.com/thinking/why-rounded-corners-are-easier-on-the-eyes/) Curved lines seem more organic. Does that mean a graphic that has too many straight lines seems unreal or unsettling? Is that why hand-drawn seems appealing? Is there an uncanny valley for statistical graphics? However adding a randomization to the lines may be adjusting the data...
    
