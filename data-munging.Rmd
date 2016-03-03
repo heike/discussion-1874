@@ -9,6 +9,34 @@ output: html_document
 blind <- read.csv("data/temp.csv", stringsAsFactors = FALSE)
 ```
 
+```{r, echo=FALSE}
+blindprop <- read.csv("data/blind-per.state.csv", na.strings="#VALUE!")
+library(ggplot2)
+#qplot(reorder(State,  Female.blind.perc), Female.blind.perc, data=blindprop) + coord_flip()
+
+library(tidyr)
+library(dplyr)
+blind <- blindprop %>% select(State, Male.native.blind.perc, Male.foreign.blind.perc, Female.native.blind.perc, Female.foreign.blind.perc) %>% gather(gender.born, blind, -State)
+
+blind$gender <- "Male"
+blind$gender[grep("Female", blind$gender.born)] <- "Female"
+
+blind$nativity <- "Foreign"
+blind$nativity[grep("native", blind$gender.born)] <- "Native"
+
+library(RColorBrewer)
+cols <- brewer.pal(n=8, name="Paired")
+
+blind$gender.born <- with(blind, interaction(gender, nativity, sep="/"))
+blind$gender.born <- factor(blind$gender.born, levels=c("Female/Native", "Female/Foreign", "Male/Foreign", "Male/Native"))
+blind$State <- reorder(blind$State, blind$blind, function(x) x[1]+x[3])
+
+ggplot(data=blind, aes(x=State, weight=blind, fill=gender.born)) +
+  geom_bar() + 
+  coord_flip() + 
+  scale_fill_manual("Gender/Nativity", values=cols[c(6,5,1,2)]) +
+  theme(legend.position="bottom")
+```
 
 ```{r}
 library(readr)
