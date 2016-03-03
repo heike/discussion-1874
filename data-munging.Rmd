@@ -1,0 +1,80 @@
+---
+title: "data-munging"
+author: "Heike Hofmann"
+date: "March 3, 2016"
+output: html_document
+---
+
+```{r, echo=FALSE}
+blind <- read.csv("data/temp.csv", stringsAsFactors = FALSE)
+```
+
+
+```{r}
+library(readr)
+cmdr <- read_fwf("data/usa_00009.sps.txt", skip = 7, 
+                fwf_positions(c(3, 14), c(11, 19)), n_max=27)
+cmdr$X2 <- gsub(" \\(.\\)","",cmdr$X2)
+splits <- strsplit(cmdr$X2, split="-")
+splits <- plyr::ldply(splits, function(x) x)
+cmdr <- data.frame(cmdr[,-2], splits)
+names(cmdr) <- c("variable", "start", "stop")
+cmdr$start <- as.numeric(cmdr$start)
+cmdr$stop <- as.numeric(cmdr$stop)
+
+census <- read_fwf("data/usa_00009.dat", 
+                   fwf_positions(cmdr$start, cmdr$stop))
+names(census) <- cmdr$variable
+
+library(dplyr)
+census %>% group_by(YEAR, SEX) %>% summarize(propBLIND=sum(BLIND==2)/n()*100, n=sum(BLIND==2), N=n())
+
+census$PERWT <- as.numeric(census$PERWT)
+census$AGE <- as.numeric(census$AGE)
+census$AGE[census$AGE==999] <- NA
+
+library(ggplot2)
+ggplot() + geom_histogram(aes(AGE, fill=factor(BLIND)), binwidth=1,  data=census, position="dodge") + facet_grid(BLIND~YEAR, scales="free_y")
+  
+
+# this conversion takes pretty long  
+states <- read_fwf("data/usa_00009.sps.txt", skip = 98, 
+                fwf_positions(c(5, 10), c(7, 30)), n_max=55)
+names(states) <- c("STATEICP", "State")  
+states$State <- gsub("\"", "", states$State)
+statelookup <- states$State
+names(statelookup) <- states$STATEICP
+census$STATEICP <- statelookup[as.character(census$STATEICP)]
+
+#urban
+table(census$URBAN)
+census$URBAN <- c(NA, "Rural", "Urban")[census$URBAN+1]
+
+census$SEX <- c("Male", "Female")[census$SEX]
+
+census$AGE <- as.numeric(census$AGE)
+
+census$RACE <- c("White", "Black", "American Indian or Alaska Native", "Chinese", "Japanese", "Other Asian or Pacific Islander", "Other race", "Two major races", "Three or more major races")[census$RACE]
+
+census$NATIVITY <- c(NA, 
+                     "Native born, both parents native born",
+                     "Native born, father foreign, mother native",
+                     "Native born, father native, mother foreign",
+                     "Native born, both parents foreign born",
+                     "Foreign born")[as.numeric(census$NATIVITY)+1]
+
+
+census$BLIND <- c(NA, "No", "Yes", "Illegible", "Unknown")[as.numeric(census$BLIND)+1]
+stateprop <- census %>% group_by(STATEICP, SEX) %>% summarize(
+  n=length(BLIND), 
+  BLINDperc=100.0*sum(BLIND=="Yes")/length(BLIND),
+  BLINDup=100.0*(sum(BLIND=="Yes")+1)/length(BLIND),
+  BLINDdown=100.0*(sum(BLIND=="Yes")-1)/length(BLIND),
+  BLIND = sum(BLIND=="Yes")
+  )
+
+qplot(reorder(STATEICP, BLIND), BLIND, data=stateprop, colour=SEX) + coord_flip()
+qplot(reorder(STATEICP, BLINDperc), BLINDperc, data=stateprop, colour=SEX) +
+  geom_segment(aes(y=BLINDdown, yend=BLINDup, xend=STATEICP)) +
+  coord_flip() + ylim(c(-1,2.5))
+```
