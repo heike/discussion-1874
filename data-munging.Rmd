@@ -38,6 +38,23 @@ ggplot(data=blind, aes(x=State, weight=blind, fill=gender.born)) +
   theme(legend.position="bottom")
 ```
 
+
+```{r}
+# founding years of states
+url <- "https://en.wikipedia.org/wiki/List_of_U.S._states_by_date_of_admission_to_the_Union"
+
+library(rvest)
+html <- read_html(url)
+tabs <- html %>%  html_nodes("table") 
+founding <- html_table(tabs[[1]], fill=TRUE)
+
+library(lubridate)
+founding$date <- ymd(gsub("00000000(....-..-..)-0000.*","\\1", founding$`Date of admission`))
+founding$STATE <- trimws(toupper(substr(founding$State,6,nchar(founding$State))))
+
+blind2 <- merge(blind, founding[,c("STATE","date")])
+```
+
 ```{r}
 library(readr)
 cmdr <- read_fwf("data/usa_00009.sps.txt", skip = 7, 

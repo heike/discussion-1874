@@ -31,15 +31,15 @@ This is the chart that we are discussing:
 
 - other sources critiquing pie charts
 
-  - [Save the Pies for Dessert (Stephen Few)](http://www.perceptualedge.com/articles/08-21-07.pdf) Pro: shows part-to-whole relationships, better than bar charts at quarter percentage marks (0%,25%,50%,75%,or 100%) Con: Pie charts often worse than bar charts for other percentage differences. "[William Cleaveland] refers to pie charts as 'pop charts' because they are commonly found in pop culture media, but much less in science and technology media."
+   - [Save the Pies for Dessert (Stephen Few)](http://www.perceptualedge.com/articles/08-21-07.pdf) Pro: shows part-to-whole relationships, better than bar charts at quarter percentage marks (0%,25%,50%,75%,or 100%) Con: Pie charts often worse than bar charts for other percentage differences. "[William Cleaveland] refers to pie charts as 'pop charts' because they are commonly found in pop culture media, but much less in science and technology media."
   
-  - The Visual Display of Quantitative Information (Tufte, 2001, p 178) "A table is nearly always better than a dumb pie chart; the only worse design then a pie chart is several of them, for then the viewer is asked to compare  quantities located in spatial disarray both within and between pies"
+   - The Visual Display of Quantitative Information (Tufte, 2001, p 178) "A table is nearly always better than a dumb pie chart; the only worse design then a pie chart is several of them, for then the viewer is asked to compare  quantities located in spatial disarray both within and between pies"
   
 - Did we want to comment on technology 1870's vs 2016 when creating graphics? Have we lost anything from that time?
 
-  - now it is difficult to importing handwriting as a particular font for a pie chart. (I've heard mixed reactions on if handwritten text on graphics looks unprofessional or more artistic)
+   - now it is difficult to importing handwriting as a particular font for a pie chart. (I've heard mixed reactions on if handwritten text on graphics looks unprofessional or more artistic)
   
-  - Placeing "United States" across the entire pie chart. Placing "(Colored, including Indian and Chinese)" across two slices of the pie. Still possible by specifying xy-coordinates but not as straightforward as writing it on the chart.
+   - Placing "United States" across the entire pie chart. Placing "(Colored, including Indian and Chinese)" across two slices of the pie. Still possible by specifying xy-coordinates but not as straightforward as writing it on the chart.
   
   - An interactive display of a pie chart, might have the division across all of the United States as an opening graphic. User clicks on a particular slice to see pie chart of that particular slice and continue to zoom in. Still not as good as bar chart to quickly get a sense of the divisions across all states.
   
@@ -47,3 +47,38 @@ This is the chart that we are discussing:
 
   - [Why round corners are easier on the eyes](http://uxmovement.com/thinking/why-rounded-corners-are-easier-on-the-eyes/) Curved lines seem more organic. Does that mean a graphic that has too many straight lines seems unreal or unsettling? Is that why hand-drawn seems appealing? Is there an uncanny valley for statistical graphics? However adding a randomization to the lines may be adjusting the data...
    
+## Approach to re-do the chart
+
+- States are sorted according to proportions of native/foreign born individuals.
+- Some things we didn't see before (unless looking very closely):
+    + the proportion of foreigners is high for states that have been founded within the last two decades before the census was taken (such as WI 1848, ... IA 1846, )
+    + there is a huge gender imbalance for blind individuals in Delaware   
+
+```{r, echo=FALSE, fig.width=9, fig.height=6, message=FALSE}
+blindprop <- read.csv("data/blind-per.state.csv", na.strings="#VALUE!")
+library(ggplot2)
+#qplot(reorder(State,  Female.blind.perc), Female.blind.perc, data=blindprop) + coord_flip()
+
+library(tidyr)
+library(dplyr)
+blind <- blindprop %>% select(State, Male.native.blind.perc, Male.foreign.blind.perc, Female.native.blind.perc, Female.foreign.blind.perc) %>% gather(gender.born, blind, -State)
+
+blind$gender <- "Male"
+blind$gender[grep("Female", blind$gender.born)] <- "Female"
+
+blind$nativity <- "Foreign"
+blind$nativity[grep("native", blind$gender.born)] <- "Native"
+
+library(RColorBrewer)
+cols <- brewer.pal(n=8, name="Paired")
+
+blind$gender.born <- with(blind, interaction(gender, nativity, sep="/"))
+blind$gender.born <- factor(blind$gender.born, levels=c("Female/Native", "Female/Foreign", "Male/Foreign", "Male/Native"))
+blind$State <- reorder(blind$State, blind$blind, function(x) x[1]+x[3])
+
+ggplot(data=blind, aes(x=State, weight=blind, fill=gender.born)) +
+  geom_bar() + 
+  coord_flip() + 
+  scale_fill_manual("Gender/Nativity", values=cols[c(6,5,1,2)]) +
+  theme(legend.position="bottom")
+```
