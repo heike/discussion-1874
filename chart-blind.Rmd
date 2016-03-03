@@ -1,0 +1,106 @@
+---
+title: "Discussion of Piechart of the Blind 1874"
+author: "Heike Hofmann"
+date: "February 26, 2016"
+output: html_document
+---
+
+This is the chart that we are discussing:
+
+![Chart of the Blind by Fred H. Wines](ca000104.gif), [high resolution chart](https://www.loc.gov/resource/g3701gm.gct00008/?sp=104)
+
+- Fred H. Wines was the  Secretary of the Illinois State Board of Charities. It seems that he had a personal interest in this aspect of the census records. 
+
+- At the top left of the chart a scale is given (just as in a geographic map): 1 square inch corresponds to 4,800 individuals. Obviously graphs now can be re-scaled, so it would be great to include a visual scale as well.
+
+- Each of the state circles shows the number of blind individuals in each state. This number should be highly correlated with the actual population - so it might be more informative to also show the proportion of blind compared to the overall population. Presumably there a case could be made to get a proportion of state funding for the blind plus some extra allocation in case the proportion of the blind is higher than in other states. 
+
+- The whole interpretation of this chart is confounded by the missing comparison to the overall population. At face value, there are more blind men than blind women.  Does that mean that the proportion of men affected by blindness is also higher or is this a reflection of the gender balance at the time? 
+
+- donut rings: the inner ring is the 1860 data, the outer ring is the data from 1870. These chart only work, if there is an increase in the number of blind individuals in every single state. The U.S. was growing at a fast pace during this time (growing from about 31.2 million people in 1860  to 38.5 million people in 1870), and as long as living conditions and health care conditions did not improve, we would expect proportionally about the same  increase in the blind population.  
+
+- link to [current statistics](https://nfb.org/blindness-statistics)
+
+- data for Colorado (state since August 1, 1876; territory since February 28, 1861) and Nevada (state since October 31, 1864) is missing.
+
+```{r, echo=FALSE}
+library(rvest)
+blind <- "data/univariate-tables-1870.html"
+html <- read_html(blind)
+tabs <- html %>%  html_nodes("table") 
+#blind <- html_table(tabs[[1]])
+#write.csv(blind, "temp.csv", row.names=FALSE) # slight massaging with excel
+blind <- read.csv("data/temp.csv", stringsAsFactors = FALSE)
+```
+
+```{r, echo=FALSE}
+library(ggplot2)
+grep("DEAF", names(blind), value=TRUE)
+```
+
+```{r}
+library(readr)
+cmdr <- read_fwf("data\ extract/usa_00009.sps.txt", skip = 7, 
+                fwf_positions(c(3, 14), c(11, 19)), n_max=27)
+cmdr$X2 <- gsub(" \\(.\\)","",cmdr$X2)
+splits <- strsplit(cmdr$X2, split="-")
+splits <- plyr::ldply(splits, function(x) x)
+cmdr <- data.frame(cmdr[,-2], splits)
+names(cmdr) <- c("variable", "start", "stop")
+cmdr$start <- as.numeric(cmdr$start)
+cmdr$stop <- as.numeric(cmdr$stop)
+
+census <- read_fwf("data extract/usa_00009.dat", 
+                   fwf_positions(cmdr$start, cmdr$stop))
+names(census) <- cmdr$variable
+
+library(dplyr)
+census %>% group_by(YEAR, SEX) %>% summarize(propBLIND=sum(BLIND==2)/n()*100, n=sum(BLIND==2), N=n())
+
+census$PERWT <- as.numeric(census$PERWT)
+census$AGE <- as.numeric(census$AGE)
+census$AGE[census$AGE==999] <- NA
+ggplot() + geom_histogram(aes(AGE, fill=factor(BLIND)), binwidth=1,  data=census, position="dodge") + facet_grid(BLIND~YEAR, scales="free_y")
+  
+
+# this conversion takes pretty long  
+states <- read_fwf("data\ extract/usa_00009.sps.txt", skip = 98, 
+                fwf_positions(c(5, 10), c(7, 30)), n_max=55)
+names(states) <- c("STATEICP", "State")  
+states$State <- gsub("\"", "", states$State)
+statelookup <- states$State
+names(statelookup) <- states$STATEICP
+census$STATEICP <- statelookup[as.character(census$STATEICP)]
+
+#urban
+table(census$URBAN)
+census$URBAN <- c(NA, "Rural", "Urban")[census$URBAN+1]
+
+census$SEX <- c("Male", "Female")[census$SEX]
+
+census$AGE <- as.numeric(census$AGE)
+
+census$RACE <- c("White", "Black", "American Indian or Alaska Native", "Chinese", "Japanese", "Other Asian or Pacific Islander", "Other race", "Two major races", "Three or more major races")[census$RACE]
+
+census$NATIVITY <- c(NA, 
+                     "Native born, both parents native born",
+                     "Native born, father foreign, mother native",
+                     "Native born, father native, mother foreign",
+                     "Native born, both parents foreign born",
+                     "Foreign born")[as.numeric(census$NATIVITY)+1]
+
+
+census$BLIND <- c(NA, "No", "Yes", "Illegible", "Unknown")[as.numeric(census$BLIND)+1]
+stateprop <- census %>% group_by(STATEICP, SEX) %>% summarize(
+  n=length(BLIND), 
+  BLINDperc=100.0*sum(BLIND=="Yes")/length(BLIND),
+  BLINDup=100.0*(sum(BLIND=="Yes")+1)/length(BLIND),
+  BLINDdown=100.0*(sum(BLIND=="Yes")-1)/length(BLIND),
+  BLIND = sum(BLIND=="Yes")
+  )
+
+qplot(reorder(STATEICP, BLIND), BLIND, data=stateprop, colour=SEX) + coord_flip()
+qplot(reorder(STATEICP, BLINDperc), BLINDperc, data=stateprop, colour=SEX) +
+  geom_segment(aes(y=BLINDdown, yend=BLINDup, xend=STATEICP)) +
+  coord_flip() + ylim(c(-1,2.5))
+```
