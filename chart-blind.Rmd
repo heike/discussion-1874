@@ -49,6 +49,12 @@ This is the chart that we are discussing:
    
 ## Approach to re-do the chart
 
+###The data 
+
+Getting the data turns out to be a bit problematic. What we would like are state-level aggregates of the population size and the number of blind individuals by state, gender, nativity and race for both the 1870 census and the 1860 census (for the comparisons).
+The
+
+###The new chart
 - States are sorted according to proportions of native/foreign born individuals.
 - Some things we didn't see before (unless looking very closely):
     + the proportion of foreigners is high for states that have been founded within the last two decades before the census was taken (such as WI 1848, ... IA 1846, )
