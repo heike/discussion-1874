@@ -52,7 +52,15 @@ This is the chart that we are discussing:
 ###The data 
 
 Getting the data turns out to be a bit problematic. What we would like are state-level aggregates of the population size and the number of blind individuals by state, gender, nativity and race for both the 1870 census and the 1860 census (for the comparisons).
-The
+
+There are a few avenues available:
+
+- individual data is available from a lot of sites (such as ancestry.com, FamilySearch, etc): e.g. in the 1870 census there are  391 individuals listed by the name of Helen Keller, who are white females (obviously not THE Helen Keller, because she was not born until 1880).
+
+- state aggregate data  as part of the Historical Census Browser  provided by the University of Virginia at [http://mapserver.lib.virginia.edu/](http://mapserver.lib.virginia.edu/). Citation: (2004). Historical Census Browser. Retrieved [Date you accessed source], from the University of Virginia, Geospatial and Statistical Data Center: http://mapserver.lib.virginia.edu/.
+The data comes from [ICPSR,  Inter-university Consortium for Political and Social Research](http://www.icpsr.umich.edu/icpsrweb/ICPSR/studies/0003). Unfortunately, only political and economic factors are included in these data sources, but no information on disabilities, i.e. the number of blind or deaf individuals is absent.
+
+- [ipums USA](https://usa.ipums.org/usa/) provides access to microsamples of all US census. However, microsamples of 1.2% for the 1860 and 1870 census include only a handful of blind individuals for each of the state, and  therefore do not provide a reliable estimate of these proportions.
 
 ###The new chart
 - States are sorted according to proportions of native/foreign born individuals.

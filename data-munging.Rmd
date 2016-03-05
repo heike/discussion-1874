@@ -52,7 +52,15 @@ library(lubridate)
 founding$date <- ymd(gsub("00000000(....-..-..)-0000.*","\\1", founding$`Date of admission`))
 founding$STATE <- trimws(toupper(substr(founding$State,6,nchar(founding$State))))
 
-blind2 <- merge(blind, founding[,c("STATE","date")])
+blind2 <- merge(blind, founding[,c("STATE","date")], by.x="State", by.y="STATE", all.x=TRUE)
+
+# blind2$State <- reorder(blind2$State, blind2$date, min)
+ggplot(data=blind2, aes(x=State, weight=blind, fill=gender.born)) +
+  geom_bar() + 
+  coord_flip() + 
+  scale_fill_manual("Gender/Nativity", values=cols[c(6,5,1,2)]) +
+  theme(legend.position="bottom")
+
 ```
 
 ```{r}
