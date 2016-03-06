@@ -157,6 +157,10 @@ ggplot(data=blind, aes(x=State, weight=blind, fill=gender.born)) +
 The dots and the white vertical line segment shows the number of expected blind individuals in each of the four classes of nativity and gender, assuming that the proportion of blind individuals follows the  distribution of the overall population, and that there is no interaction between gender and nativity for any of the states. Except for a few deviations, this latter assumption generally holds well (Oregon is an exception: here, there are fewer women than expected).
 
 ### 1% microsample
+The chart below shows the actual proportions of blind individuals by gender and nativity for each state in 1870. The dots are showing expected proportions based on the 1.2% microsample for the 1870 census. The expected proportions are based on the assumption that gender and nativity demographics of each state are the same for blind individuals as for the total population.
+There are obvious differences:
+
+- Generally, we can see that with a few notable exceptions (Delaware, Rhode Island; Vermont, Connecticut, Louisiana, New Hampshire, Maine, Alabama, Mississippi), the proportions of native born blind men are following the expectation.  
 
 ```{r, echo=FALSE, fig.width=9, fig.height=6, message=FALSE, warning=FALSE}
 ipums <- read.csv("data/ipums-1870.csv")
