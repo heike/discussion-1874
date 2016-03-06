@@ -94,5 +94,6 @@ ggplot(data=blind, aes(x=State, weight=blind, fill=gender.born)) +
   geom_bar() + 
   coord_flip() + 
   scale_fill_manual("Gender/Nativity", values=cols[c(6,5,1,2)]) +
-  theme(legend.position="bottom")
+  theme(legend.position="bottom") +
+  ylab("Percentage")
 ```
