@@ -198,6 +198,9 @@ ggplot(data=blind.plus2, aes(x=State, weight=blind, fill=gender.born)) +
 ```
 
 ## Putting the residuals on a map
+This might be the real story in the data: we calculate expected proportions for blind by gender and nativity based on the assumption that the demographics of the general population are reflected among the blind. The deviations (in form of absolute residuals) are plotted on choropleth maps below. We see that the largest negative residuals (i.e. most overestimated proportion of bline) are the native born female. There are far fewer native born blind women than expected. The most under-estimated group are foreign born blind men, who in almost all of the states make up a larger number than expected.
+
+California makes an exception: foreign born blind women in California are a hugely underestimated group, while there are fewer foreign born blind men than expected.
 
 ```{r, echo=FALSE, message=FALSE, fig.width=8, fig.height=7}
 library(maps)
