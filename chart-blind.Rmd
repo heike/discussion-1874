@@ -67,6 +67,7 @@ The data comes from [ICPSR,  Inter-university Consortium for Political and Socia
 - Some things we didn't see before (unless looking very closely):
     + the proportion of blind individuals among foreigners is high for states that have been founded within the last two decades before the census was taken (such as WI 1848, ... IA 1846). However, this is not consistent - states along the East Coast, particularly New York, are traditional immigration states with large percentages of foreign born population. On the other hand, Kansas and West Virginia became states in 1861 and 1863, respectively, and the percentages of foreign born population are at below 10% in these two states, which is well below the national level of foreign born population of 16% in 1870. Again, these percentages are much more likely a reflection of state level demographics rather than characteristics of the state-level population of blind individuals. 
     + Generally, the number of blind men is higher than the number of blind women in all states, but there are some states that show a huge gender imbalance between blind individuals:  Delaware is the only state, in which the population of blind females is much higher than the male population. Oregon, Vermont, Maine, Virginia, and to a lesser degree, Mississippi, show a (significantly?) markedly higher percentage of blind men than women.
+    
 ```{r, echo=FALSE, fig.width=9, fig.height=6, message=FALSE}
 blindprop <- read.csv("data/blind-per.state.csv", na.strings="#VALUE!")
 library(ggplot2)
@@ -98,8 +99,9 @@ ggplot(data=blind, aes(x=State, weight=blind, fill=gender.born)) +
 ```
 
 
-## Ratios 
-XXX Follow-up: calculate ratios of gender by nativity for overall population. Then we can compare. 
+## Expected versus observed proportions of blind individuals
+
+As a follow-up to the state-wide proportions of blind individuals by gender and nativity, we can calculate the proportions of all individuals, regardless of disabilities, and calculate the ratios of gender by nativity for the overall population. Using the marginal distributions for gender and nativity for each state, we calculate an expected percentage.  
 
 ```{r, echo=FALSE, fig.width=9, fig.height=6, message=FALSE}
 census1870 <- read.csv("data/states-1870.csv", stringsAsFactors = FALSE)
@@ -150,3 +152,6 @@ ggplot(data=blind, aes(x=State, weight=blind, fill=gender.born)) +
   geom_point(aes(y=100-blind.exp), data=subset(blind.plus, gender.born=="Male/Native"), colour="white", shape=1, show.legend=FALSE) +
   geom_point(aes(x= State, y=blind.exp), data=subset(blind.plus.fem, gender=="Female"), shape="|", show.legend=FALSE, inherit.aes=FALSE, colour="white", size=3)
 ```
+
+The dots and the white vertical line segment shows the number of expected blind individuals in each of the four classes of nativity and gender, assuming that the proportion of blind individuals follows the  distribution of the overall population, and that there is no interaction between gender and nativity for any of the states. This latter assumption might not be very realistic, as shown below.
+
