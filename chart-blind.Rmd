@@ -65,9 +65,9 @@ The data comes from [ICPSR,  Inter-university Consortium for Political and Socia
 ###The new chart
 - States are sorted according to proportions of native/foreign born individuals.
 - Some things we didn't see before (unless looking very closely):
-    + the proportion of foreigners is high for states that have been founded within the last two decades before the census was taken (such as WI 1848, ... IA 1846, )
-    + there is a huge gender imbalance for blind individuals in Delaware   
-
+    + the proportion of blind individuals among foreigners is high for states that have been founded within the last two decades before the census was taken (such as WI 1848, ... IA 1846). However, this is not consistent - states along the East Coast, particularly New York, are traditional immigration states with large percentages of foreign born population. On the other hand, Kansas and West Virginia became states in 1861 and 1863, respectively, and the percentages of foreign born population are at below 10% in these two states, which is well below the national level of foreign born population of 16% in 1870. Again, these percentages are much more likely a reflection of state level demographics rather than characteristics of the state-level population of blind individuals. 
+    + Generally, the number of blind men is higher than the number of blind women in all states, but there are some states that show a huge gender imbalance between blind individuals:  Delaware is the only state, in which the population of blind females is much higher than the male population. Oregon, Vermont, Maine, Virginia, and to a lesser degree, Mississippi, show a (significantly?) markedly higher percentage of blind men than women.
+XXX Follow-up: calculate ratios of gender by nativity for overall population. Then we can compare. 
 ```{r, echo=FALSE, fig.width=9, fig.height=6, message=FALSE}
 blindprop <- read.csv("data/blind-per.state.csv", na.strings="#VALUE!")
 library(ggplot2)
