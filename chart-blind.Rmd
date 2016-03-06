@@ -161,6 +161,13 @@ The chart below shows the actual proportions of blind individuals by gender and 
 There are obvious differences:
 
 - Generally, we can see that with a few notable exceptions (Delaware, Rhode Island; Vermont, Connecticut, Louisiana, New Hampshire, Maine, Alabama, Mississippi), the proportions of native born blind men are following the expectation.  
+- in most states, the proportion of foreign born blind individuals is higher compared to what might be expected compared to the number of foreigners in each state. Exceptions to that are
+
+    - California: here, the proportion of foreign born blind reflect the proportion of foreigners in the whole population. However, there are about twice as many blind women among the foreigners as expected.
+    - Nebraska: the proportion of observed foreign born blind is only about 2/3 of the expected proportion.
+
+THese deviations go hand in hand with an over-estimation of the proportion of native born blind women in almost all states. Kansas, Delaware and Nebraska are the only states, in which the proportion of blind native born women is higher than expected based on the demographics of the overall population. 
+
 
 ```{r, echo=FALSE, fig.width=9, fig.height=6, message=FALSE, warning=FALSE}
 ipums <- read.csv("data/ipums-1870.csv")
