@@ -91,6 +91,7 @@ census %>% group_by(YEAR, SEX) %>% summarize(propBLIND=sum(BLIND==2)/n()*100, n=
 census$PERWT <- as.numeric(census$PERWT)
 census$AGE <- as.numeric(census$AGE)
 census$AGE[census$AGE==999] <- NA
+#write.csv(subset(census, YEAR==1870),"data/ipums-1870.csv", row.names=FALSE)
 
 library(ggplot2)
 ggplot() + geom_histogram(aes(AGE, fill=factor(BLIND)), binwidth=1,  data=census, position="dodge") + facet_grid(BLIND~YEAR, scales="free_y")
@@ -102,7 +103,7 @@ states <- read_fwf("data/usa_00009.sps.txt", skip = 98,
 names(states) <- c("STATEICP", "State")  
 states$State <- gsub("\"", "", states$State)
 statelookup <- states$State
-names(statelookup) <- states$STATEICP
+names(statelookup) <- as.numeric(states$STATEICP)
 census$STATEICP <- statelookup[as.character(census$STATEICP)]
 
 #urban

@@ -101,6 +101,7 @@ ggplot(data=blind, aes(x=State, weight=blind, fill=gender.born)) +
 
 ## Expected versus observed proportions of blind individuals
 
+### State-wide aggregates
 As a follow-up to the state-wide proportions of blind individuals by gender and nativity, we can calculate the proportions of all individuals, regardless of disabilities, and calculate the ratios of gender by nativity for the overall population. Using the marginal distributions for gender and nativity for each state, we calculate an expected percentage.  
 
 ```{r, echo=FALSE, fig.width=9, fig.height=6, message=FALSE}
@@ -153,5 +154,33 @@ ggplot(data=blind, aes(x=State, weight=blind, fill=gender.born)) +
   geom_point(aes(x= State, y=blind.exp), data=subset(blind.plus.fem, gender=="Female"), shape="|", show.legend=FALSE, inherit.aes=FALSE, colour="white", size=3)
 ```
 
-The dots and the white vertical line segment shows the number of expected blind individuals in each of the four classes of nativity and gender, assuming that the proportion of blind individuals follows the  distribution of the overall population, and that there is no interaction between gender and nativity for any of the states. This latter assumption might not be very realistic, as shown below.
+The dots and the white vertical line segment shows the number of expected blind individuals in each of the four classes of nativity and gender, assuming that the proportion of blind individuals follows the  distribution of the overall population, and that there is no interaction between gender and nativity for any of the states. Except for a few deviations, this latter assumption generally holds well (Oregon is an exception: here, there are fewer women than expected).
 
+### 1% microsample
+
+```{r, echo=FALSE, fig.width=9, fig.height=6, message=FALSE, warning=FALSE}
+ipums <- read.csv("data/ipums-1870.csv")
+gborn <- as.data.frame(xtabs(data=ipums, ~STATEICP+SEX+I(NATIVITY=="Foreign born")))
+gborn$State <- toupper(gborn$STATEICP)
+names(gborn)[3] <- "nativity"
+levels(gborn$nativity) <- c("Native", "Foreign")
+gborn<- gborn %>% group_by(State) %>% mutate(totals=sum(Freq))
+gborn$blind.exp <- with(gborn, Freq/totals*100)
+
+blind.plus2 <- merge(blind, gborn[, c("State", "SEX","nativity", "blind.exp")], by.x=c("State","gender", "nativity"), by.y=c("State", "SEX", "nativity"), all.x=TRUE)
+blind.plus2.fem <- blind.plus2 %>% group_by(State, gender) %>% summarize(
+  blind.exp = sum(blind.exp)
+)
+
+ggplot(data=blind.plus2, aes(x=State, weight=blind, fill=gender.born)) +
+  geom_bar() + 
+  coord_flip() + 
+  scale_fill_manual("Gender/Nativity", values=cols[c(6,5,1,2)]) +
+  theme(legend.position="bottom") +
+  ylab("Percentage") + 
+  geom_point(aes(y=blind.exp), data=subset(blind.plus2, gender=="Female" & nativity=="Native"),  colour=cols[6], show.legend=FALSE) +
+  geom_point(aes(y=blind.exp), subset(blind.plus2, gender=="Female" & nativity=="Native"), colour="white", shape=1, show.legend=FALSE) +
+    geom_point(aes(y=100-blind.exp), data=subset(blind.plus2, gender=="Male" & nativity=="Native"), colour=cols[2], show.legend=FALSE) +
+  geom_point(aes(y=100-blind.exp), subset(blind.plus2, gender=="Male" & nativity=="Native"), colour="white", shape=1, show.legend=FALSE) +
+  geom_point(aes(x= State, y=blind.exp), data=subset(blind.plus2.fem, gender=="Female"), shape="|", show.legend=FALSE, inherit.aes=FALSE, colour="white", size=3)
+```
