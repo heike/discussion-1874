@@ -67,7 +67,6 @@ The data comes from [ICPSR,  Inter-university Consortium for Political and Socia
 - Some things we didn't see before (unless looking very closely):
     + the proportion of blind individuals among foreigners is high for states that have been founded within the last two decades before the census was taken (such as WI 1848, ... IA 1846). However, this is not consistent - states along the East Coast, particularly New York, are traditional immigration states with large percentages of foreign born population. On the other hand, Kansas and West Virginia became states in 1861 and 1863, respectively, and the percentages of foreign born population are at below 10% in these two states, which is well below the national level of foreign born population of 16% in 1870. Again, these percentages are much more likely a reflection of state level demographics rather than characteristics of the state-level population of blind individuals. 
     + Generally, the number of blind men is higher than the number of blind women in all states, but there are some states that show a huge gender imbalance between blind individuals:  Delaware is the only state, in which the population of blind females is much higher than the male population. Oregon, Vermont, Maine, Virginia, and to a lesser degree, Mississippi, show a (significantly?) markedly higher percentage of blind men than women.
-XXX Follow-up: calculate ratios of gender by nativity for overall population. Then we can compare. 
 ```{r, echo=FALSE, fig.width=9, fig.height=6, message=FALSE}
 blindprop <- read.csv("data/blind-per.state.csv", na.strings="#VALUE!")
 library(ggplot2)
@@ -96,4 +95,58 @@ ggplot(data=blind, aes(x=State, weight=blind, fill=gender.born)) +
   scale_fill_manual("Gender/Nativity", values=cols[c(6,5,1,2)]) +
   theme(legend.position="bottom") +
   ylab("Percentage")
+```
+
+
+## Ratios 
+XXX Follow-up: calculate ratios of gender by nativity for overall population. Then we can compare. 
+
+```{r, echo=FALSE, fig.width=9, fig.height=6, message=FALSE}
+census1870 <- read.csv("data/states-1870.csv", stringsAsFactors = FALSE)
+names(census1870)[1] <- "STATE"
+foreigners <- census1870[, c("STATE", "FOREIGN.BORN.PERSONS", "NATIVE.BORN.PERSONS", "TOTAL.POPULATION")]
+genders <- census1870[, c("STATE", "TOTAL.FEMALES", "TOTAL.MALES", "TOTAL.POPULATION")]
+
+foreigners.all <- foreigners %>% gather(NATIVITY, number, -c(STATE, TOTAL.POPULATION ))
+foreigners.all$NATIVITY <- gsub(".BORN.PERSONS", "", foreigners.all$NATIVITY)
+foreigners.all$NATIVITYperc <- with(foreigners.all, number/TOTAL.POPULATION*100)
+
+genders.all <- genders %>% gather(GENDER, number, -c(STATE, TOTAL.POPULATION ))
+genders.all$GENDER <- gsub("TOTAL.", "", genders.all$GENDER)
+genders.all$GENDERperc <- with(genders.all, number/TOTAL.POPULATION*100)
+
+
+capwords <- function(s, strict = FALSE) {
+    cap <- function(s) paste(toupper(substring(s, 1, 1)),
+                  {s <- substring(s, 2); if(strict) tolower(s) else s},
+                             sep = "", collapse = " " )
+    sapply(strsplit(s, split = " "), cap, USE.NAMES = !is.null(names(s)))
+}
+
+genders.all$GENDER <- capwords(genders.all$GENDER, strict=TRUE)
+genders.all$GENDER <- gsub("s$", "", genders.all$GENDER)
+
+foreigners.all$NATIVITY <- capwords(foreigners.all$NATIVITY, strict=TRUE)
+
+blind.plus <- merge(blind, foreigners.all[,c("STATE", "NATIVITY", "NATIVITYperc")], by.x=c("State", "nativity"), by.y=c("STATE", "NATIVITY"))
+
+blind.plus <- merge(blind.plus, genders.all[,c("STATE", "GENDER", "GENDERperc")], by.x=c("State", "gender"), by.y=c("STATE", "GENDER"))
+
+blind.plus$blind.exp <- with(blind.plus, NATIVITYperc*GENDERperc/100)
+blind.plus$blind.resid <- with(blind.plus, (blind-blind.exp)/blind.exp)
+
+blind.plus.fem <- blind.plus %>% group_by(State, gender) %>% summarize(
+  blind.exp = sum(blind.exp)
+)
+ggplot(data=blind, aes(x=State, weight=blind, fill=gender.born)) +
+  geom_bar() + 
+  coord_flip() + 
+  scale_fill_manual("Gender/Nativity", values=cols[c(6,5,1,2)]) +
+  theme(legend.position="bottom") +
+  ylab("Percentage") + 
+  geom_point(aes(y=blind.exp), data=subset(blind.plus, gender.born=="Female/Native"), colour=cols[6], show.legend=FALSE) +
+  geom_point(aes(y=blind.exp), data=subset(blind.plus, gender.born=="Female/Native"), colour="white", shape=1, show.legend=FALSE) + 
+  geom_point(aes(y=100-blind.exp), data=subset(blind.plus, gender.born=="Male/Native"), colour=cols[2], show.legend=FALSE) +
+  geom_point(aes(y=100-blind.exp), data=subset(blind.plus, gender.born=="Male/Native"), colour="white", shape=1, show.legend=FALSE) +
+  geom_point(aes(x= State, y=blind.exp), data=subset(blind.plus.fem, gender=="Female"), shape="|", show.legend=FALSE, inherit.aes=FALSE, colour="white", size=3)
 ```

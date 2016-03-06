@@ -6,7 +6,13 @@ output: html_document
 ---
 
 ```{r, echo=FALSE}
-blind <- read.csv("data/temp.csv", stringsAsFactors = FALSE)
+census1870 <- read.csv("data/states-1870.csv", stringsAsFactors = FALSE)
+foreigners <- census1870[, c("FOREIGN.BORN.PERSONS", "NATIVE.BORN.PERSONS", "TOTAL.FEMALES", "TOTAL.MALES", "TOTAL.POPULATION")]
+
+# sanity check:
+summary(with(foreigners, FOREIGN.BORN.PERSONS+NATIVE.BORN.PERSONS==TOTAL.POPULATION))
+summary(with(foreigners, TOTAL.FEMALES+TOTAL.MALES==TOTAL.POPULATION))
+
 ```
 
 ```{r, echo=FALSE}
@@ -131,3 +137,4 @@ qplot(reorder(STATEICP, BLINDperc), BLINDperc, data=stateprop, colour=SEX) +
   geom_segment(aes(y=BLINDdown, yend=BLINDup, xend=STATEICP)) +
   coord_flip() + ylim(c(-1,2.5))
 ```
+
