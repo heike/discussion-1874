@@ -101,6 +101,8 @@ ggplot(data=blind, aes(x=State, weight=blind, fill=gender.born)) +
 
 ## Expected versus observed proportions of blind individuals
 
+XXX We will need only one of these expected values. At the moment I lean towards using the values from the microsample because they take care of the two-way interaction between gender and nativitiy in each of the states. XXX
+
 ### State-wide aggregates
 As a follow-up to the state-wide proportions of blind individuals by gender and nativity, we can calculate the proportions of all individuals, regardless of disabilities, and calculate the ratios of gender by nativity for the overall population. Using the marginal distributions for gender and nativity for each state, we calculate an expected percentage.  
 
@@ -166,8 +168,7 @@ There are obvious differences:
     - California: here, the proportion of foreign born blind reflect the proportion of foreigners in the whole population. However, there are about twice as many blind women among the foreigners as expected.
     - Nebraska: the proportion of observed foreign born blind is only about 2/3 of the expected proportion.
 
-THese deviations go hand in hand with an over-estimation of the proportion of native born blind women in almost all states. Kansas, Delaware and Nebraska are the only states, in which the proportion of blind native born women is higher than expected based on the demographics of the overall population. 
-
+These deviations go hand in hand with an over-estimation of the proportion of native born blind women in almost all states. Kansas, Delaware and Nebraska are the only states, in which the proportion of blind native born women is higher than expected based on the demographics of the overall population. 
 
 ```{r, echo=FALSE, fig.width=9, fig.height=6, message=FALSE, warning=FALSE}
 ipums <- read.csv("data/ipums-1870.csv")
@@ -194,4 +195,41 @@ ggplot(data=blind.plus2, aes(x=State, weight=blind, fill=gender.born)) +
     geom_point(aes(y=100-blind.exp), data=subset(blind.plus2, gender=="Male" & nativity=="Native"), colour=cols[2], show.legend=FALSE) +
   geom_point(aes(y=100-blind.exp), subset(blind.plus2, gender=="Male" & nativity=="Native"), colour="white", shape=1, show.legend=FALSE) +
   geom_point(aes(x= State, y=blind.exp), data=subset(blind.plus2.fem, gender=="Female"), shape="|", show.legend=FALSE, inherit.aes=FALSE, colour="white", size=3)
+```
+
+## Putting the residuals on a map
+
+```{r, echo=FALSE, message=FALSE, fig.width=8, fig.height=7}
+library(maps)
+states <- map_data("state")
+
+blind.plus2$State <- tolower(blind.plus2$State)
+
+states.resids <- merge(states, na.omit(blind.plus2), by.x="region", by.y="State")
+states.resids <- states.resids[order(states.resids$order),]
+library(ggplot2)
+library(ggthemes)
+ggplot(data=states, 
+       aes(x=long, y=lat, group=group, order=order)) +
+  geom_polygon(fill=NA, colour="grey90", size=.25) + 
+  geom_polygon(aes(fill=blind-blind.exp), data=states.resids) + 
+  facet_wrap(~gender.born) + scale_fill_gradient2() + 
+  theme_bw() +
+  ggtitle("absolute residuals") +
+  theme(legend.position="bottom") +
+  theme(axis.text=element_blank(), axis.title = element_blank(), 
+        axis.ticks=element_blank())
+```
+
+```{r, echo=FALSE, message=FALSE, fig.width=8, fig.height=7}
+ggplot(data=states, 
+       aes(x=long, y=lat, group=group, order=order)) +
+  geom_polygon(fill=NA, colour="grey90", size=.25) + 
+  geom_polygon(aes(fill=(blind-blind.exp)/blind.exp), data=states.resids) + 
+  facet_wrap(~gender.born) + scale_fill_gradient2(limits=c(-2,2)) + 
+  theme_bw() +
+  ggtitle("relative residuals") +
+  theme(legend.position="bottom") +
+  theme(axis.text=element_blank(), axis.title = element_blank(), 
+        axis.ticks=element_blank())
 ```
