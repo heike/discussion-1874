@@ -210,6 +210,9 @@ This might be the real story in the data: we calculate expected proportions for 
 
 California makes an exception: foreign born blind women in California are a hugely underestimated group, while there are fewer foreign born blind men than expected.
 
+Kansas and Nebraska are two of the youngest states and might have been affected the most by the Homestead Act of 1862, which gave the opportunity to anyone 'who had not taken up arms against the United States' to own 160 acres of land, if they settled and farmed the land for five years. In both Kansas and Nebraska, the proportion of foreign-born blind individuals is lower than expected, favoring the proportion of native born blind men and women, instead.
+Nebraska is a state since 1867, Kansas since 1861 (Nevada 1864, West Virginia 1863).
+
 ```{r, echo=FALSE, message=FALSE, fig.width=8, fig.height=7}
 library(maps)
 states <- map_data("state")
