@@ -77,7 +77,7 @@ Let's assume that the actual proportion of blind individuals in the US at 1870 i
     + Generally, the number of blind men is higher than the number of blind women in all states, but there are some states that show a huge gender imbalance between blind individuals:  Delaware is the only state, in which the population of blind females is much higher than the male population. Oregon, Vermont, Maine, Virginia, and to a lesser degree, Mississippi, show a (significantly?) markedly higher percentage of blind men than women.
     
 ```{r, echo=FALSE, fig.width=9, fig.height=6, message=FALSE}
-blindprop <- read.csv("data/blind-per.state.csv", na.strings="#VALUE!")
+blindprop <- read.csv("data/blind-per.state.csv", na.strings="NA")
 library(ggplot2)
 #qplot(reorder(State,  Female.blind.perc), Female.blind.perc, data=blindprop) + coord_flip()
 
@@ -252,3 +252,80 @@ ggplot(data=states,
         axis.ticks=element_blank())
 ```
 
+##Investigating the relationship of gender and race by state
+
+```{r, echo=FALSE}
+blind2 <- blindprop %>% select(State, REGION, Male.white.blind.perc, Male.colored.blind.perc, Female.white.blind.perc, Female.colored.blind.perc) %>% gather(gender.race, blind, Male.white.blind.perc, Male.colored.blind.perc, Female.white.blind.perc, Female.colored.blind.perc)
+
+blind2$gender <- "Male"
+blind2$gender[grep("Female", blind2$gender.race)] <- "Female"
+
+blind2$race <- "White"
+blind2$race[grep("colored", blind2$gender.race)] <- "Non-White"
+
+library(RColorBrewer)
+cols <- brewer.pal(n=8, name="Paired")
+
+blind2$gender.race <- with(blind2, interaction(gender, race, sep="/"))
+blind2$gender.race <- factor(blind2$gender.race, levels=c("Female/White", "Female/Non-White", "Male/Non-White", "Male/White"))
+blind2$State <- reorder(blind2$State, blind2$blind, function(x) x[1]+x[3])
+
+ggplot(data=blind2, aes(x=State, weight=blind, fill=gender.race)) +
+  geom_bar() + 
+  coord_flip() + 
+  scale_fill_manual("Gender/Race", values=cols[c(6,5,1,2)]) +
+  theme(legend.position="bottom") +
+  ylab("Percentage") + ggtitle("Proportion of blind by Gender & Race for each State")
+
+```
+
+```{r, eacho=FALSE}
+grace <- as.data.frame(xtabs(data=ipums, ~STATEICP+SEX+I(RACE=="White")))
+grace$State <- toupper(grace$STATEICP)
+names(grace)[3] <- "race"
+levels(grace$race) <- c("Non-White", "White")
+grace<- grace %>% group_by(State) %>% mutate(totals=sum(Freq))
+grace$blind.exp <- with(grace, Freq/totals*100)
+
+blind.plus3 <- merge(blind2, grace[, c("State", "SEX","race", "blind.exp")], by.x=c("State","gender", "race"), by.y=c("State", "SEX", "race"), all.x=TRUE)
+blind.plus3.fem <- blind.plus3 %>% group_by(State, gender) %>% summarize(
+  blind.exp = sum(blind.exp)
+)
+
+ggplot(data=blind.plus3, aes(x=State, weight=blind, fill=gender.race)) +
+  geom_bar() + 
+  coord_flip() + 
+  scale_fill_manual("Gender/Race", values=cols[c(6,5,1,2)]) +
+  theme(legend.position="bottom") +
+  ylab("Percentage") + 
+  geom_point(aes(y=blind.exp), data=subset(blind.plus3, gender=="Female" & race=="White"),  colour=cols[6], show.legend=FALSE) +
+  geom_point(aes(y=blind.exp), subset(blind.plus3, gender=="Female" & race=="White"), colour="white", shape=1, show.legend=FALSE) +
+    geom_point(aes(y=100-blind.exp), data=subset(blind.plus3, gender=="Male" & race=="White"), colour=cols[2], show.legend=FALSE) +
+  geom_point(aes(y=100-blind.exp), subset(blind.plus3, gender=="Male" & race=="White"), colour="white", shape=1, show.legend=FALSE) +
+  geom_point(aes(x= State, y=blind.exp), data=subset(blind.plus3.fem, gender=="Female"), shape="|", show.legend=FALSE, inherit.aes=FALSE, colour="white", size=3)
+```
+
+The maps seem to tell a story of discrimination: the proportion of white men among the blind is so much higher higher than expected, that it dominates all of the other groups. Blind women are generally fewer than expected in the North, while the estimates seem to be mostly on target in the South. The proportion of Non-White blind (black, chinese and american indian/Alaska native) are estimated at higher levels than observed, particularly in the South and the West Coast.
+
+Nebraska and Kansas have, again, a different, maybe due to their special status as youngest states.
+```{r, echo=FALSE, message=FALSE, fig.width=8, fig.height=7}
+library(maps)
+states <- map_data("state")
+
+blind.plus3$State <- tolower(blind.plus3$State)
+
+states.resids <- merge(states, na.omit(blind.plus3), by.x="region", by.y="State")
+states.resids <- states.resids[order(states.resids$order),]
+library(ggplot2)
+library(ggthemes)
+ggplot(data=states, 
+       aes(x=long, y=lat, group=group, order=order)) +
+  geom_polygon(fill=NA, colour="grey90", size=.25) + 
+  geom_polygon(aes(fill=blind-blind.exp), data=states.resids) + 
+  facet_wrap(~gender.race) + scale_fill_gradient2() + 
+  theme_bw() +
+  ggtitle("absolute residuals") +
+  theme(legend.position="bottom") +
+  theme(axis.text=element_blank(), axis.title = element_blank(), 
+        axis.ticks=element_blank())
+```
