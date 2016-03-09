@@ -1,3 +1,6 @@
+# location specifies the row number on the image. 1L for 1st row on the left.
+# 4I and 4O stand for the 4th row and Inner diameter or Outer diameter respectively. 
+# Need to replace state accronyms with state names... Can probably calculate area...
 state,pixel_diameter,location
 USA,701,1L
 USA,700,1R
