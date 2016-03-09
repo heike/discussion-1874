@@ -233,10 +233,14 @@ ggplot(data=states,
 ```
 
 ```{r, echo=FALSE, message=FALSE, fig.width=8, fig.height=7}
+states.resids$rel.resids <- with(states.resids, (blind-blind.exp)/blind.exp)
+# scale the relative residuals back to +-2:
+states.resids$rel.resids <- with(states.resids, pmax(pmin(2, rel.resids), -2))
+  
 ggplot(data=states, 
        aes(x=long, y=lat, group=group, order=order)) +
   geom_polygon(fill=NA, colour="grey90", size=.25) + 
-  geom_polygon(aes(fill=(blind-blind.exp)/blind.exp), data=states.resids) + 
+  geom_polygon(aes(fill=rel.resids), data=states.resids) + 
   facet_wrap(~gender.born) + scale_fill_gradient2(limits=c(-2,2)) + 
   theme_bw() +
   ggtitle("relative residuals") +
