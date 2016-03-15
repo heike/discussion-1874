@@ -307,7 +307,7 @@ ggplot(data=blind.plus3, aes(x=State, weight=blind, fill=gender.race)) +
 
 The maps seem to tell a story of discrimination: the proportion of white men among the blind is so much higher higher than expected, that it dominates all of the other groups. Blind women are generally fewer than expected in the North, while the estimates seem to be mostly on target in the South. The proportion of Non-White blind (black, chinese and american indian/Alaska native) are estimated at higher levels than observed, particularly in the South and the West Coast.
 
-Nebraska and Kansas have, again, a different, maybe due to their special status as youngest states.
+Nebraska and Kansas have, again, a different pattern, maybe due to their special status as youngest states.
 ```{r, echo=FALSE, message=FALSE, fig.width=8, fig.height=7}
 library(maps)
 states <- map_data("state")
