@@ -175,8 +175,13 @@ circles <- merge(circles, blindByState, by.x="State", by.y="STATEICP", all=TRUE)
 circles$blindIPUMS[circles$location=="4I"] <- NA
 circles$StateTotalIPUMS[circles$location=="4I"] <- NA
 write.csv(circles, file="data/diameters.csv", row.names=FALSE)
+
 # the IPUMS based estimates are pretty bad:
 
-qplot(blindIPUMS-blindEst, y=State, data=circles)
+# generally they increase with population (which is to be expected)
+qplot(abs(blindIPUMS-blindEst), y=reorder(State, area), data=circles)
+
+# we are more interested in the relative errors. Using blindEst as a reference, we see that with a decrease in the population size, the relative error increases. 
+qplot(abs(blindIPUMS-blindEst)/blindEst, y=reorder(State, area), data=circles)
 ```
 
