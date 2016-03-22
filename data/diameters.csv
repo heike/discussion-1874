@@ -1,148 +1,145 @@
-# location specifies the row number on the image. 1L for 1st row on the left.
-# 4I and 4O stand for the 4th row and Inner diameter or Outer diameter respectively. 
-# Need to replace state accronyms with state names... Can probably calculate area...
-state,pixel_diameter,location
-USA,701,1L
-USA,700,1R
-ME,88,2
-NH,70,2
-VT,71,2
-MASS,135,2
-RI,57,2
-CONN,84,2
-NY,235,2
-NJ,91,2
-DEL,45,2
-PENN,202,2
-OHIO,185,2
-IND,158,2
-ILL,161,2
-IA,103,2
-KAN,58,2
-NEB,25,2
-MICH,100,2
-WIS,100,2
-MINN,48,2
-MO,150,2
-KY,158,2
-WVA,64,2
-VA,148,2
-MD,101,2
-NC,142,2
-TENN,144,2
-ARK,91,2
-TEX,101,2
-LA,102,2
-MISS,91,2
-ALA,120,2
-GA,133,2
-SC,105,2
-FLA,47,2
-OR,29,2
-CAL,69,2
-ME,88,3
-NH,71,3
-VT,70,3
-MASS,136,3
-RI,57,3
-CONN,81,3
-NY,231,3
-NJ,90,3
-DEL,44,3
-PENN,204,3
-OHIO,182,3
-IND,159,3
-ILL,159,3
-IA,102,3
-KAN,56,3
-NEB,28,3
-MICH,100,3
-WIS,101,3
-MINN,52,3
-MO,148,3
-KY,154,3
-WVA,65,3
-VA,150,3
-MD,104,3
-NC,142,3
-TENN,146,3
-ARK,89,3
-TEX,100,3
-LA,104,3
-MISS,91,3
-ALA,120,3
-GA,136,3
-SC,105,3
-FLA,45,3
-OR,31,3
-CAL,68,3
-ME,71,4I
-ME,84,4O
-NH,59,4I
-NH,74,4O
-VT,59,4I
-VT,69,4O
-MASS,108,4I
-MASS,135,4O
-RI,46,4I
-RI,56,4O
-CONN,66,4I
-CONN,79,4O
-NY,208,4I
-NY,231,4O
-NJ,72,4I
-NJ,93,4O
-DEL,30,4I
-DEL,42,4O
-PENN,169,4I
-PENN,207,4O
-OHIO,142,4I
-OHIO,183,4O
-IND,114,4I
-IND,153,4O
-ILL,108,4I
-ILL,160,4O
-IA,64,4I
-IA,103,4O
-KAN,18,4I
-KAN,59,4O
-NEB,12,4I
-NEB,31,4O
-MICH,78,4I
-MICH,102,4O
-WIS,86,4I
-WIS,98,4O
-MINN,24,4I
-MINN,49,4O
-MO,98,4I
-MO,146,4O
-KY,127,4I
-KY,156,4O
-VA,139,4I
-VA,158,4O
-MD,82,4I
-MD,101,4O
-NC,117,4I
-NC,138,4O
-TENN,117,4I
-TENN,144,4O
-ARK,61,4I
-ARK,88,4O
-TEX,64,4I
-TEX,98,4O
-LA,75,4I
-LA,103,4O
-MISS,80,4I
-MISS,89,4O
-ALA,93,4I
-ALA,123,4O
-GA,106,4I
-GA,133,4O
-SC,89,4I
-SC,105,4O
-FLA,29,4I
-FLA,47,4O
-OR,16,4I
-OR,30,4O
-CAL,40,4I
-CAL,68,4O
+"state","pixel_diameter","location","State"
+"USA",701,"1L","US"
+"USA",700,"1R","US"
+"ME",88,"2","Maine"
+"NH",70,"2","New Hampshire"
+"VT",71,"2","Vermont"
+"MASS",135,"2","Massachusetts"
+"RI",57,"2","Rhode Island"
+"CONN",84,"2","Connecticut"
+"NY",235,"2","New York"
+"NJ",91,"2","New Jersey"
+"DEL",45,"2","Delaware"
+"PENN",202,"2","Pennsylvania"
+"OHIO",185,"2","Ohio"
+"IND",158,"2","Indiana"
+"ILL",161,"2","Illinois"
+"IA",103,"2","Iowa"
+"KAN",58,"2","Kansas"
+"NEB",25,"2","Nebraska"
+"MICH",100,"2","Michigan"
+"WIS",100,"2","Wisconsin"
+"MINN",48,"2","Minnesota"
+"MO",150,"2","Missouri"
+"KY",158,"2","Kentucky"
+"WVA",64,"2","West Virginia"
+"VA",148,"2","Virginia"
+"MD",101,"2","Maryland"
+"NC",142,"2","North Carolina"
+"TENN",144,"2","Tennessee"
+"ARK",91,"2","Arkansas"
+"TEX",101,"2","Texas"
+"LA",102,"2","Louisiana"
+"MISS",91,"2","Mississippi"
+"ALA",120,"2","Alabama"
+"GA",133,"2","Georgia"
+"SC",105,"2","South Carolina"
+"FLA",47,"2","Florida"
+"OR",29,"2","Oregon"
+"CAL",69,"2","California"
+"ME",88,"3","Maine"
+"NH",71,"3","New Hampshire"
+"VT",70,"3","Vermont"
+"MASS",136,"3","Massachusetts"
+"RI",57,"3","Rhode Island"
+"CONN",81,"3","Connecticut"
+"NY",231,"3","New York"
+"NJ",90,"3","New Jersey"
+"DEL",44,"3","Delaware"
+"PENN",204,"3","Pennsylvania"
+"OHIO",182,"3","Ohio"
+"IND",159,"3","Indiana"
+"ILL",159,"3","Illinois"
+"IA",102,"3","Iowa"
+"KAN",56,"3","Kansas"
+"NEB",28,"3","Nebraska"
+"MICH",100,"3","Michigan"
+"WIS",101,"3","Wisconsin"
+"MINN",52,"3","Minnesota"
+"MO",148,"3","Missouri"
+"KY",154,"3","Kentucky"
+"WVA",65,"3","West Virginia"
+"VA",150,"3","Virginia"
+"MD",104,"3","Maryland"
+"NC",142,"3","North Carolina"
+"TENN",146,"3","Tennessee"
+"ARK",89,"3","Arkansas"
+"TEX",100,"3","Texas"
+"LA",104,"3","Louisiana"
+"MISS",91,"3","Mississippi"
+"ALA",120,"3","Alabama"
+"GA",136,"3","Georgia"
+"SC",105,"3","South Carolina"
+"FLA",45,"3","Florida"
+"OR",31,"3","Oregon"
+"CAL",68,"3","California"
+"ME",71,"4I","Maine"
+"ME",84,"4O","Maine"
+"NH",59,"4I","New Hampshire"
+"NH",74,"4O","New Hampshire"
+"VT",59,"4I","Vermont"
+"VT",69,"4O","Vermont"
+"MASS",108,"4I","Massachusetts"
+"MASS",135,"4O","Massachusetts"
+"RI",46,"4I","Rhode Island"
+"RI",56,"4O","Rhode Island"
+"CONN",66,"4I","Connecticut"
+"CONN",79,"4O","Connecticut"
+"NY",208,"4I","New York"
+"NY",231,"4O","New York"
+"NJ",72,"4I","New Jersey"
+"NJ",93,"4O","New Jersey"
+"DEL",30,"4I","Delaware"
+"DEL",42,"4O","Delaware"
+"PENN",169,"4I","Pennsylvania"
+"PENN",207,"4O","Pennsylvania"
+"OHIO",142,"4I","Ohio"
+"OHIO",183,"4O","Ohio"
+"IND",114,"4I","Indiana"
+"IND",153,"4O","Indiana"
+"ILL",108,"4I","Illinois"
+"ILL",160,"4O","Illinois"
+"IA",64,"4I","Iowa"
+"IA",103,"4O","Iowa"
+"KAN",18,"4I","Kansas"
+"KAN",59,"4O","Kansas"
+"NEB",12,"4I","Nebraska"
+"NEB",31,"4O","Nebraska"
+"MICH",78,"4I","Michigan"
+"MICH",102,"4O","Michigan"
+"WIS",86,"4I","Wisconsin"
+"WIS",98,"4O","Wisconsin"
+"MINN",24,"4I","Minnesota"
+"MINN",49,"4O","Minnesota"
+"MO",98,"4I","Missouri"
+"MO",146,"4O","Missouri"
+"KY",127,"4I","Kentucky"
+"KY",156,"4O","Kentucky"
+"VA",139,"4I","Virginia"
+"VA",158,"4O","Virginia"
+"MD",82,"4I","Maryland"
+"MD",101,"4O","Maryland"
+"NC",117,"4I","North Carolina"
+"NC",138,"4O","North Carolina"
+"TENN",117,"4I","Tennessee"
+"TENN",144,"4O","Tennessee"
+"ARK",61,"4I","Arkansas"
+"ARK",88,"4O","Arkansas"
+"TEX",64,"4I","Texas"
+"TEX",98,"4O","Texas"
+"LA",75,"4I","Louisiana"
+"LA",103,"4O","Louisiana"
+"MISS",80,"4I","Mississippi"
+"MISS",89,"4O","Mississippi"
+"ALA",93,"4I","Alabama"
+"ALA",123,"4O","Alabama"
+"GA",106,"4I","Georgia"
+"GA",133,"4O","Georgia"
+"SC",89,"4I","South Carolina"
+"SC",105,"4O","South Carolina"
+"FLA",29,"4I","Florida"
+"FLA",47,"4O","Florida"
+"OR",16,"4I","Oregon"
+"OR",30,"4O","Oregon"
+"CAL",40,"4I","California"
+"CAL",68,"4O","California"

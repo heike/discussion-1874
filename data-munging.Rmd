@@ -137,5 +137,11 @@ qplot(reorder(STATEICP, BLIND), BLIND, data=stateprop, colour=SEX) + coord_flip(
 qplot(reorder(STATEICP, BLINDperc), BLINDperc, data=stateprop, colour=SEX) +
   geom_segment(aes(y=BLINDdown, yend=BLINDup, xend=STATEICP)) +
   coord_flip() + ylim(c(-1,2.5))
+
+
+circles <- read.csv("data/diameters.csv", skip=3)
+circles <- circles %>% group_by(state) %>% mutate(State = na.omit(State)[1])
+write.csv(circles, "data/diameters.csv", row.names=FALSE)
+
 ```
 
