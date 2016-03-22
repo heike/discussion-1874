@@ -35,9 +35,11 @@ This is the chart that we are discussing:
   
    - The Visual Display of Quantitative Information (Tufte, 2001, p 178) "A table is nearly always better than a dumb pie chart; the only worse design then a pie chart is several of them, for then the viewer is asked to compare  quantities located in spatial disarray both within and between pies"
   
-- Did we want to comment on technology 1870's vs 2016 when creating graphics? Have we lost anything from that time?
+- Did we want to comment on technology 1870's vs 2016 when creating graphics? HH: I think commenting on the technology a bit would be good.  
 
-   - now it is difficult to importing handwriting as a particular font for a pie chart. (I've heard mixed reactions on if handwritten text on graphics looks unprofessional or more artistic)
+- Have we lost anything from that time? HH: I guess we have, but it's hard to tell what we have lost - but one example would be the 1890 census, which got damaged by fire in two separate incidences: [fate of 1890 census](http://www.archives.gov/publications/prologue/1996/spring/1890-census-1.html)
+
+   - now it is difficult to importing handwriting as a particular font for a pie chart. (I've heard mixed reactions on if handwritten text on graphics looks unprofessional or more artistic) - HH: Howard Wainer and others seem to think of it as artistic. There are several instances where they make charts look like their more dated counterparts, e.g. in [A century and a half of moral statistics in the United Kingdom: Variations on Joseph Fletcher's thematic maps](http://onlinelibrary.wiley.com/doi/10.1111/j.1740-9713.2012.00575.x/epdf)
   
    - Placing "United States" across the entire pie chart. Placing "(Colored, including Indian and Chinese)" across two slices of the pie. Still possible by specifying xy-coordinates but not as straightforward as writing it on the chart.
   
