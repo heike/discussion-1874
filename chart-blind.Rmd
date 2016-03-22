@@ -27,6 +27,8 @@ This is the chart that we are discussing:
 
 - con against angles: the cumulative angles introduce dependencies
 
+- con against the pies: the areas of the first two rows of circles combined are the same area as each one of the large circles at the top of the page. Visually this is not at all clear. HH: I am not at all sure how we could visualize this relationship in a meaningful way. 
+
 - earliest pie chart is credited to Statistical Breviary (William Playfair, 1801)
 
 - other sources critiquing pie charts
