@@ -331,3 +331,49 @@ ggplot(data=states,
   theme(axis.text=element_blank(), axis.title = element_blank(), 
         axis.ticks=element_blank())
 ```
+
+# Changes between 1860 and 1870
+
+
+```{r}
+circles <- read.csv("data/diameters.csv")
+fourth <- subset(circles, location %in% c("4I", "4O"))
+fourth$Year <- factor(c(1860, 1870)[as.numeric(factor(fourth$location))])
+
+fsp <- tidyr::spread(fourth[, c("State","location", "blindEst")], location, blindEst)
+fsp$Change <- with(fsp, `4O` - `4I`)
+fsp$relChange <- with(fsp, Change/`4I`)
+fsp$Multiple <- cut(fsp$relChange, breaks=c(0,0.5, 1, 2, 11))
+
+fourth <- merge(fourth, fsp[, c("State", "Change", "relChange", "Multiple")], by="State")
+
+qplot(Year, blindEst, colour=Multiple, data=fourth, size=I(3)) + geom_line(aes(group=State), size=1.25) + 
+  scale_colour_brewer(palette="Reds") + theme_bw() + 
+  geom_label(aes(x=Year, y=blindEst, label=State)) + facet_grid(.~Multiple)
+```
+
+A relative change of 1 means that the numbers have doubled between 1860 and 1870. All states see an influx in the number of blind.
+
+There are several other comparisons possible: 
+
+The first one would be against the overall increase in the number of people living in the US in 1860 and 1870. The population totals in 1860 and 1870 are 31,443,321 and 38,515,505, respectively. This comes out at a net increase of 22.5%. 
+We would expect the same percent-wise increase in the number of blind in each state.
+```{r}
+fourth$adjRelChange <- fourth$relChange - ((38515505 - 31443321)/31443321)
+summary(fourth$adjRelChange)
+```
+The number of blind in all states increases by more than the 22.5%
+There is a definite geographic pattern as can be seen in the figure below. The most established states of the North East and the East Coast show the lowest rates of increases in the blind population, while the less established, young states shows the largest increases.  West Virgina is missing from the set - note, that it is also missing from the fourth line of circles (shaped like donuts).
+```{r}
+require(ggthemes)
+states <- map_data("state")
+
+fourth$region <- tolower(fourth$State)
+ggplot(aes(fill=Multiple), data=fourth) + 
+  geom_polygon(aes(x=long, y=lat, group=group), 
+               fill="grey95", colour = "grey80", data=states) +
+  geom_map(aes(map_id=region), map=states)+ 
+  expand_limits(x=states$long, y = states$lat) + 
+  theme_map() +
+  scale_fill_brewer(palette="Reds") 
+```

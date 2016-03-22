@@ -142,7 +142,7 @@ qplot(reorder(STATEICP, BLINDperc), BLINDperc, data=stateprop, colour=SEX) +
 circles <- read.csv("data/diameters.csv")
 circles <- circles %>% group_by(state) %>% mutate(State = na.omit(State)[1])
 circles$area <- (circles$pixel_diameter/2)^2*pi
-write.csv(circles, file="data/diameters.csv", row.names=FALSE)
+# write.csv(circles, file="data/diameters.csv", row.names=FALSE)
 # the areas of states' circles sort of add up to the area of the US. 
 
 base <- subset(circles, State=="US") # this is all the blind in the US in 1870
@@ -174,7 +174,7 @@ blindByState <- ipums %>% group_by(STATEICP) %>% summarize(
 circles <- merge(circles, blindByState, by.x="State", by.y="STATEICP", all=TRUE)
 circles$blindIPUMS[circles$location=="4I"] <- NA
 circles$StateTotalIPUMS[circles$location=="4I"] <- NA
-write.csv(circles, file="data/diameters.csv", row.names=FALSE)
+#write.csv(circles, file="data/diameters.csv", row.names=FALSE)
 
 # the IPUMS based estimates are pretty bad:
 
@@ -184,4 +184,5 @@ qplot(abs(blindIPUMS-blindEst), y=reorder(State, area), data=circles)
 # we are more interested in the relative errors. Using blindEst as a reference, we see that with a decrease in the population size, the relative error increases. 
 qplot(abs(blindIPUMS-blindEst)/blindEst, y=reorder(State, area), data=circles)
 ```
+
 
