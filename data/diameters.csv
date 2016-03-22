@@ -1,145 +1,145 @@
-"state","pixel_diameter","location","State"
-"USA",701,"1L","US"
-"USA",700,"1R","US"
-"ME",88,"2","Maine"
-"NH",70,"2","New Hampshire"
-"VT",71,"2","Vermont"
-"MASS",135,"2","Massachusetts"
-"RI",57,"2","Rhode Island"
-"CONN",84,"2","Connecticut"
-"NY",235,"2","New York"
-"NJ",91,"2","New Jersey"
-"DEL",45,"2","Delaware"
-"PENN",202,"2","Pennsylvania"
-"OHIO",185,"2","Ohio"
-"IND",158,"2","Indiana"
-"ILL",161,"2","Illinois"
-"IA",103,"2","Iowa"
-"KAN",58,"2","Kansas"
-"NEB",25,"2","Nebraska"
-"MICH",100,"2","Michigan"
-"WIS",100,"2","Wisconsin"
-"MINN",48,"2","Minnesota"
-"MO",150,"2","Missouri"
-"KY",158,"2","Kentucky"
-"WVA",64,"2","West Virginia"
-"VA",148,"2","Virginia"
-"MD",101,"2","Maryland"
-"NC",142,"2","North Carolina"
-"TENN",144,"2","Tennessee"
-"ARK",91,"2","Arkansas"
-"TEX",101,"2","Texas"
-"LA",102,"2","Louisiana"
-"MISS",91,"2","Mississippi"
-"ALA",120,"2","Alabama"
-"GA",133,"2","Georgia"
-"SC",105,"2","South Carolina"
-"FLA",47,"2","Florida"
-"OR",29,"2","Oregon"
-"CAL",69,"2","California"
-"ME",88,"3","Maine"
-"NH",71,"3","New Hampshire"
-"VT",70,"3","Vermont"
-"MASS",136,"3","Massachusetts"
-"RI",57,"3","Rhode Island"
-"CONN",81,"3","Connecticut"
-"NY",231,"3","New York"
-"NJ",90,"3","New Jersey"
-"DEL",44,"3","Delaware"
-"PENN",204,"3","Pennsylvania"
-"OHIO",182,"3","Ohio"
-"IND",159,"3","Indiana"
-"ILL",159,"3","Illinois"
-"IA",102,"3","Iowa"
-"KAN",56,"3","Kansas"
-"NEB",28,"3","Nebraska"
-"MICH",100,"3","Michigan"
-"WIS",101,"3","Wisconsin"
-"MINN",52,"3","Minnesota"
-"MO",148,"3","Missouri"
-"KY",154,"3","Kentucky"
-"WVA",65,"3","West Virginia"
-"VA",150,"3","Virginia"
-"MD",104,"3","Maryland"
-"NC",142,"3","North Carolina"
-"TENN",146,"3","Tennessee"
-"ARK",89,"3","Arkansas"
-"TEX",100,"3","Texas"
-"LA",104,"3","Louisiana"
-"MISS",91,"3","Mississippi"
-"ALA",120,"3","Alabama"
-"GA",136,"3","Georgia"
-"SC",105,"3","South Carolina"
-"FLA",45,"3","Florida"
-"OR",31,"3","Oregon"
-"CAL",68,"3","California"
-"ME",71,"4I","Maine"
-"ME",84,"4O","Maine"
-"NH",59,"4I","New Hampshire"
-"NH",74,"4O","New Hampshire"
-"VT",59,"4I","Vermont"
-"VT",69,"4O","Vermont"
-"MASS",108,"4I","Massachusetts"
-"MASS",135,"4O","Massachusetts"
-"RI",46,"4I","Rhode Island"
-"RI",56,"4O","Rhode Island"
-"CONN",66,"4I","Connecticut"
-"CONN",79,"4O","Connecticut"
-"NY",208,"4I","New York"
-"NY",231,"4O","New York"
-"NJ",72,"4I","New Jersey"
-"NJ",93,"4O","New Jersey"
-"DEL",30,"4I","Delaware"
-"DEL",42,"4O","Delaware"
-"PENN",169,"4I","Pennsylvania"
-"PENN",207,"4O","Pennsylvania"
-"OHIO",142,"4I","Ohio"
-"OHIO",183,"4O","Ohio"
-"IND",114,"4I","Indiana"
-"IND",153,"4O","Indiana"
-"ILL",108,"4I","Illinois"
-"ILL",160,"4O","Illinois"
-"IA",64,"4I","Iowa"
-"IA",103,"4O","Iowa"
-"KAN",18,"4I","Kansas"
-"KAN",59,"4O","Kansas"
-"NEB",12,"4I","Nebraska"
-"NEB",31,"4O","Nebraska"
-"MICH",78,"4I","Michigan"
-"MICH",102,"4O","Michigan"
-"WIS",86,"4I","Wisconsin"
-"WIS",98,"4O","Wisconsin"
-"MINN",24,"4I","Minnesota"
-"MINN",49,"4O","Minnesota"
-"MO",98,"4I","Missouri"
-"MO",146,"4O","Missouri"
-"KY",127,"4I","Kentucky"
-"KY",156,"4O","Kentucky"
-"VA",139,"4I","Virginia"
-"VA",158,"4O","Virginia"
-"MD",82,"4I","Maryland"
-"MD",101,"4O","Maryland"
-"NC",117,"4I","North Carolina"
-"NC",138,"4O","North Carolina"
-"TENN",117,"4I","Tennessee"
-"TENN",144,"4O","Tennessee"
-"ARK",61,"4I","Arkansas"
-"ARK",88,"4O","Arkansas"
-"TEX",64,"4I","Texas"
-"TEX",98,"4O","Texas"
-"LA",75,"4I","Louisiana"
-"LA",103,"4O","Louisiana"
-"MISS",80,"4I","Mississippi"
-"MISS",89,"4O","Mississippi"
-"ALA",93,"4I","Alabama"
-"ALA",123,"4O","Alabama"
-"GA",106,"4I","Georgia"
-"GA",133,"4O","Georgia"
-"SC",89,"4I","South Carolina"
-"SC",105,"4O","South Carolina"
-"FLA",29,"4I","Florida"
-"FLA",47,"4O","Florida"
-"OR",16,"4I","Oregon"
-"OR",30,"4O","Oregon"
-"CAL",40,"4I","California"
-"CAL",68,"4O","California"
+"state","pixel_diameter","location","State","area"
+"USA",701,"1L","US",385945.442891669
+"USA",700,"1R","US",384845.10006475
+"ME",88,"2","Maine",6082.12337734984
+"NH",70,"2","New Hampshire",3848.4510006475
+"VT",71,"2","Vermont",3959.19214168654
+"MASS",135,"2","Massachusetts",14313.8815279185
+"RI",57,"2","Rhode Island",2551.75863287831
+"CONN",84,"2","Connecticut",5541.76944093239
+"NY",235,"2","New York",43373.6135736241
+"NJ",91,"2","New Jersey",6503.88219109427
+"DEL",45,"2","Delaware",1590.43128087983
+"PENN",202,"2","Pennsylvania",32047.3866592695
+"OHIO",185,"2","Ohio",26880.2521422777
+"IND",158,"2","Indiana",19606.6797510539
+"ILL",161,"2","Illinois",20358.3057934253
+"IA",103,"2","Iowa",8332.28911548353
+"KAN",58,"2","Kansas",2642.07942166902
+"NEB",25,"2","Nebraska",490.873852123405
+"MICH",100,"2","Michigan",7853.98163397448
+"WIS",100,"2","Wisconsin",7853.98163397448
+"MINN",48,"2","Minnesota",1809.55736846772
+"MO",150,"2","Missouri",17671.4586764426
+"KY",158,"2","Kentucky",19606.6797510539
+"WVA",64,"2","West Virginia",3216.99087727595
+"VA",148,"2","Virginia",17203.3613710577
+"MD",101,"2","Maryland",8011.84666481737
+"NC",142,"2","North Carolina",15836.7685667461
+"TENN",144,"2","Tennessee",16286.0163162095
+"ARK",91,"2","Arkansas",6503.88219109427
+"TEX",101,"2","Texas",8011.84666481737
+"LA",102,"2","Louisiana",8171.28249198705
+"MISS",91,"2","Mississippi",6503.88219109427
+"ALA",120,"2","Alabama",11309.7335529233
+"GA",133,"2","Georgia",13892.9081123375
+"SC",105,"2","South Carolina",8659.01475145687
+"FLA",47,"2","Florida",1734.94454294496
+"OR",29,"2","Oregon",660.519855417254
+"CAL",69,"2","California",3739.28065593525
+"ME",88,"3","Maine",6082.12337734984
+"NH",71,"3","New Hampshire",3959.19214168654
+"VT",70,"3","Vermont",3848.4510006475
+"MASS",136,"3","Massachusetts",14526.7244301992
+"RI",57,"3","Rhode Island",2551.75863287831
+"CONN",81,"3","Connecticut",5152.99735005066
+"NY",231,"3","New York",41909.6313970512
+"NJ",90,"3","New Jersey",6361.72512351933
+"DEL",44,"3","Delaware",1520.53084433746
+"PENN",204,"3","Pennsylvania",32685.1299679482
+"OHIO",182,"3","Ohio",26015.5287643771
+"IND",159,"3","Indiana",19855.6509688509
+"ILL",159,"3","Illinois",19855.6509688509
+"IA",102,"3","Iowa",8171.28249198705
+"KAN",56,"3","Kansas",2463.0086404144
+"NEB",28,"3","Nebraska",615.752160103599
+"MICH",100,"3","Michigan",7853.98163397448
+"WIS",101,"3","Wisconsin",8011.84666481737
+"MINN",52,"3","Minnesota",2123.7166338267
+"MO",148,"3","Missouri",17203.3613710577
+"KY",154,"3","Kentucky",18626.5028431339
+"WVA",65,"3","West Virginia",3318.30724035422
+"VA",150,"3","Virginia",17671.4586764426
+"MD",104,"3","Maryland",8494.8665353068
+"NC",142,"3","North Carolina",15836.7685667461
+"TENN",146,"3","Tennessee",16741.54725098
+"ARK",89,"3","Arkansas",6221.13885227119
+"TEX",100,"3","Texas",7853.98163397448
+"LA",104,"3","Louisiana",8494.8665353068
+"MISS",91,"3","Mississippi",6503.88219109427
+"ALA",120,"3","Alabama",11309.7335529233
+"GA",136,"3","Georgia",14526.7244301992
+"SC",105,"3","South Carolina",8659.01475145687
+"FLA",45,"3","Florida",1590.43128087983
+"OR",31,"3","Oregon",754.767635024948
+"CAL",68,"3","California",3631.6811075498
+"ME",71,"4I","Maine",3959.19214168654
+"ME",84,"4O","Maine",5541.76944093239
+"NH",59,"4I","New Hampshire",2733.97100678652
+"NH",74,"4O","New Hampshire",4300.84034276443
+"VT",59,"4I","Vermont",2733.97100678652
+"VT",69,"4O","Vermont",3739.28065593525
+"MASS",108,"4I","Massachusetts",9160.88417786784
+"MASS",135,"4O","Massachusetts",14313.8815279185
+"RI",46,"4I","Rhode Island",1661.902513749
+"RI",56,"4O","Rhode Island",2463.0086404144
+"CONN",66,"4I","Connecticut",3421.19439975928
+"CONN",79,"4O","Connecticut",4901.66993776347
+"NY",208,"4I","New York",33979.4661412272
+"NY",231,"4O","New York",41909.6313970512
+"NJ",72,"4I","New Jersey",4071.50407905237
+"NJ",93,"4O","New Jersey",6792.90871522453
+"DEL",30,"4I","Delaware",706.858347057703
+"DEL",42,"4O","Delaware",1385.4423602331
+"PENN",169,"4I","Pennsylvania",22431.7569447945
+"PENN",207,"4O","Pennsylvania",33653.5259034173
+"OHIO",142,"4I","Ohio",15836.7685667461
+"OHIO",183,"4O","Ohio",26302.1990940171
+"IND",114,"4I","Indiana",10207.0345315132
+"IND",153,"4O","Indiana",18385.3856069709
+"ILL",108,"4I","Illinois",9160.88417786784
+"ILL",160,"4O","Illinois",20106.1929829747
+"IA",64,"4I","Iowa",3216.99087727595
+"IA",103,"4O","Iowa",8332.28911548353
+"KAN",18,"4I","Kansas",254.469004940773
+"KAN",59,"4O","Kansas",2733.97100678652
+"NEB",12,"4I","Nebraska",113.097335529233
+"NEB",31,"4O","Nebraska",754.767635024948
+"MICH",78,"4I","Michigan",4778.36242611007
+"MICH",102,"4O","Michigan",8171.28249198705
+"WIS",86,"4I","Wisconsin",5808.80481648753
+"WIS",98,"4O","Wisconsin",7542.96396126909
+"MINN",24,"4I","Minnesota",452.38934211693
+"MINN",49,"4O","Minnesota",1885.74099031727
+"MO",98,"4I","Missouri",7542.96396126909
+"MO",146,"4O","Missouri",16741.54725098
+"KY",127,"4I","Kentucky",12667.6869774374
+"KY",156,"4O","Kentucky",19113.4497044403
+"VA",139,"4I","Virginia",15174.6779150021
+"VA",158,"4O","Virginia",19606.6797510539
+"MD",82,"4I","Maryland",5281.01725068444
+"MD",101,"4O","Maryland",8011.84666481737
+"NC",117,"4I","North Carolina",10751.3154587477
+"NC",138,"4O","North Carolina",14957.122623741
+"TENN",117,"4I","Tennessee",10751.3154587477
+"TENN",144,"4O","Tennessee",16286.0163162095
+"ARK",61,"4I","Arkansas",2922.4665660019
+"ARK",88,"4O","Arkansas",6082.12337734984
+"TEX",64,"4I","Texas",3216.99087727595
+"TEX",98,"4O","Texas",7542.96396126909
+"LA",75,"4I","Louisiana",4417.86466911065
+"LA",103,"4O","Louisiana",8332.28911548353
+"MISS",80,"4I","Mississippi",5026.54824574367
+"MISS",89,"4O","Mississippi",6221.13885227119
+"ALA",93,"4I","Alabama",6792.90871522453
+"ALA",123,"4O","Alabama",11882.28881404
+"GA",106,"4I","Georgia",8824.73376393373
+"GA",133,"4O","Georgia",13892.9081123375
+"SC",89,"4I","South Carolina",6221.13885227119
+"SC",105,"4O","South Carolina",8659.01475145687
+"FLA",29,"4I","Florida",660.519855417254
+"FLA",47,"4O","Florida",1734.94454294496
+"OR",16,"4I","Oregon",201.061929829747
+"OR",30,"4O","Oregon",706.858347057703
+"CAL",40,"4I","California",1256.63706143592
+"CAL",68,"4O","California",3631.6811075498
