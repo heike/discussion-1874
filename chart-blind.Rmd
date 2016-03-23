@@ -365,7 +365,7 @@ fourth$adjRelChange <- fourth$relChange - ((38515505 - 31443321)/31443321)
 summary(fourth$adjRelChange)
 ```
 The number of blind in all states increases by more than the 22.5%
-There is a definite geographic pattern as can be seen in the figure below. The most established states of the North East and the East Coast show the lowest rates of increases in the blind population, while the less established, young states shows the largest increases.  West Virgina is missing from the set - note, that it is also missing from the fourth line of circles (shaped like donuts).
+There is a definite geographic pattern as can be seen in the figure below. The most established states of the North East and the East Coast show the lowest rates of increases in the blind population, while the less established, young states shows the largest increases.  West Virgina is missing from the set - note, that it is also missing from the fourth line of circles (shaped like donuts), because it only became a state three years after the 1860 census. Note that while West Virginia is a relatively young state, its inhabitants might have lived there longer, because West Virginia seceded from Virginia and parts of the British Virginia Colony during the Civil War. Some of the West Virginians in the 1870 census will therefore have been counted towards Virginia in the 1860 census. 
 ```{r}
 require(ggthemes)
 states <- map_data("state")
