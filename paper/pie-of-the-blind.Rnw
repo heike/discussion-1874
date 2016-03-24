@@ -132,9 +132,17 @@
 
 %% the only exception to this rule is the \firstsection command
 \firstsection{Introduction}
-Three times in the past, the US Census Bureau published a Statistical Atlas to map the state of the union based on data collected in the 9th, 10th, and 11th US census (in 1870, 1880, and 1890). Each of these atlases represents a  masterpiece in science and technology.
-In this paper, we want to discuss just one of the charts of the first Statistical Atlas: a chart consisting of the very first piecharts of the Statistical Atlas. In 1874  
 \maketitle
+
+Three times in the past, the US Census Bureau published a Statistical Atlas to map the state of the union based on data collected in the 9th, 10th, and 11th US census (in 1870, 1880, and 1890). Each of these atlases represents a  masterpiece in science and technology.
+In this paper, we want to discuss just one of the charts of the first Statistical Atlas: a chart consisting of the very first piecharts of the Statistical Atlas drawn by Fred H. Wines, the  Secretary of the Illinois State Board of Charities. The chart in question is shown in Figure~\ref{fig:pie-blind}.
+
+\begin{figure}
+\centering
+\includegraphics{figures/ca000104}
+\caption{\label{fig:pie-blind}}
+\end{figure}
+
 <<knitr-setup, fig.keep='all', cache=FALSE, echo=FALSE, eval=TRUE, include=FALSE>>=
 #rm(list=ls())
 options(replace.assign=TRUE,width=70)
