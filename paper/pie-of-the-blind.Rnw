@@ -136,12 +136,16 @@
 
 Three times in the past, the US Census Bureau published a Statistical Atlas to map the state of the union based on data collected in the 9th, 10th, and 11th US census (in 1870, 1880, and 1890). Each of these atlases represents a  masterpiece in science and technology.
 In this paper, we want to discuss just one of the charts of the first Statistical Atlas: a chart consisting of the very first piecharts of the Statistical Atlas drawn by Fred H. Wines, the  Secretary of the Illinois State Board of Charities. The chart in question is shown in Figure~\ref{fig:pie-blind} in its whole. Figure~\ref{fig:us-foreign} shows a zoom into the top left corner of chart to highlight the amazing amount of detail that went into its construction. 
-
 \begin{figure}
 \centering
 \includegraphics[width=\linewidth]{figures/fig-blind}
 \caption{\label{fig:pie-blind}``Chart showing the aggregate number of the blind". Fred H Wines authored this chart for the Statistical Atlas published in 1874. The pie charts show the number of blind by state. The pies are segmented according to gender and nativity (top row) and by gender and race (middle row). The rings along the bottom row show changes in the number of blind individuals  between 1860 and 1870 for each state.}
 \end{figure}
+
+For each of the pie charts drawn in Figure~\ref{fig:pie-blind} the numbers at the outside end of each of the segments are the angle at which this line is drawn with respect to the vertical line (anchored in 0 at the bottom). The directionality of the text implies the left/right orientation of the angle. From Figure~\ref{fig:us-foreign} we therefore see that a total of 165/360 = 45.8\% of all blind individuals are native born men, while native born women make up 137/360 = 38.1\% of the blind population.
+159/360 = 44.2\% of all blind are female.
+
+In order to get the numbers of foreign born females and males, we need to work with the difference in angles.
 
 \begin{figure}
 \centering
@@ -154,6 +158,9 @@ options(replace.assign=TRUE,width=70)
 require(knitr)
 opts_chunk$set(fig.path='figure/', cache.path='cache/', fig.align='center', fig.width=5, fig.height=5, par=TRUE, cache=TRUE, concordance=TRUE, autodep=TRUE, message=F, warning=F)
 @
+
+While amazing in its complexity and amount of detail, this chart has several major problems, which we will discuss in the next section.
+
 \section{Discussion of the 1874 Chart}
 \section{Data Acquisition}
 \section{Re-worked Graphic and Story}
