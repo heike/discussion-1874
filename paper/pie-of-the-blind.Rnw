@@ -140,7 +140,7 @@ In this paper, we want to discuss just one of the charts of the first Statistica
 \begin{figure}
 \centering
 \includegraphics{figures/ca000104}
-\caption{\label{fig:pie-blind}}
+\caption{\label{fig:pie-blind}``Pie chart of the blind". Fred H Wines authored this chart for the Statistical Atlas published in 1874. The pie charts show the number of blind by state. The pies are segmented according to gender and nativity (top row) and by gender and race (middle row). The rings along the bottom row show changes in the number of blind individuals  between 1860 and 1870 for each state.}
 \end{figure}
 
 <<knitr-setup, fig.keep='all', cache=FALSE, echo=FALSE, eval=TRUE, include=FALSE>>=
