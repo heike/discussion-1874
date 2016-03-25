@@ -31,7 +31,10 @@
 \usepackage{color}
 \definecolor{purple}{rgb}{.4,0,.8}
 \newcommand{\hh}[1]{{\color{magenta} #1}}
-\newcommand{\st}[1]{{\color{purple} #1}}
+% Jennifer, Andee, just define 'your color' here - so we know who is commenting on which section
+%\newcommand{\ak}[1]{{\color{purple} #1}}
+%\newcommand{\jc}[1]{{\color{forestgreen} #1}}
+
 
 %% We encourage the use of mathptmx for consistent usage of times font
 %% throughout the proceedings. However, if you encounter conflicts
@@ -142,7 +145,7 @@ In this paper, we want to discuss just one of the charts of the first Statistica
 \caption{\label{fig:pie-blind}``Chart showing the aggregate number of the blind". Fred H Wines authored this chart for the Statistical Atlas published in 1874. The pie charts show the number of blind by state. The pies are segmented according to gender and nativity (top row) and by gender and race (middle row). The rings along the bottom row show changes in the number of blind individuals  between 1860 and 1870 for each state.}
 \end{figure}
 
-For each of the pie charts drawn in Figure~\ref{fig:pie-blind} the numbers at the outside end of each of the segments are the angle at which this line is drawn with respect to the vertical line (anchored in 0 at the bottom). The directionality of the text implies the left/right orientation of the angle. From Figure~\ref{fig:us-foreign} we therefore see that a total of 165/360 = 45.8\% of all blind individuals are native born men, while native born women make up 137/360 = 38.1\% of the blind population.
+The area of each of the pie charts in Figure~\ref{fig:pie-blind} is directly proportional to the number of individuals it represents. In fact, at the top left corner, the scale is given as 1 square inch for every 4,800 individuals. Unfortunately, in an electronic medium, the chart can now be rescaled, which un-anchors \hh{XXX (??? need a better word here)} this absolute scale. However, in its original scale the two pie charts in the corners in the top left and right corners have a diameter of about 2.15 inch, corresponding to 21,882 blind individuals in 1874. Note, this is just an estimate as detailed in Section~\ref{sec:data} \hh{XXX  I'm still looking for a better reference number.}  all of the numbers along the outside of each of the pie segments is the angle (in degrees) at which this line is drawn with respect to the vertical line (anchored in 0 at the bottom). The directionality, in which the text is shown,  implies whether the angle is drawn clockwise or counter-clockwise. From Figure~\ref{fig:us-foreign} we therefore see that a total of 165/360 = 45.8\% of all blind individuals are native born men, while native born women make up 137/360 = 38.1\% of the blind population.
 159/360 = 44.2\% of all blind are female.
 
 In order to get the numbers of foreign born females and males, we need to work with the difference in angles.
@@ -162,7 +165,12 @@ opts_chunk$set(fig.path='figure/', cache.path='cache/', fig.align='center', fig.
 While amazing in its complexity and amount of detail, this chart has several major problems, which we will discuss in the next section.
 
 \section{Discussion of the 1874 Chart}
-\section{Data Acquisition}
+
+
+
+\section{Data Acquisition}\label{sec:data}
+
+\hh{Here, we need to detail somewhere, how we get to our estimate of a total of 21882 blind individuals in 1874. (based on 1.2\% microsample, in which we observe 252 blind individuals total. This corresponds to an estimate of $252/443377*38.5*10^6$ blind in the whole population.)}
 \section{Re-worked Graphic and Story}
 
 \section{Conclusion}

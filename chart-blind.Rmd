@@ -23,7 +23,7 @@ This is the chart that we are discussing:
 
 - data for Colorado (state since August 1, 1876; territory since February 28, 1861) and Nevada (state since October 31, 1864) is missing.
 
-- pros for the angles: they are not affected by the overall number, but con: comparing angles (with different starting points) is cognitively a hard task (Celveland & McGill reference).
+- pros for the angles: they are not affected by the overall number, but con: comparing angles (with different starting points) is cognitively a hard task (Cleveland & McGill reference).
 
 - con against angles: the cumulative angles introduce dependencies
 
@@ -67,7 +67,7 @@ The data comes from [ICPSR,  Inter-university Consortium for Political and Socia
 - [ipums USA](https://usa.ipums.org/usa/) provides access to microsamples of all US census. However, microsamples of 1.2% for the 1860 and 1870 census include only a handful of blind individuals for each of the state, and  therefore do not provide a reliable estimate of these proportions.
 
 The reliability of the microsample for questions regarding the blind is not high enough to allow accurate statements: The microsample for the 1870 census consists of 443,377 individuals, out of which 252 are identified as blind, i.e. on average there are only 5 to 6 blind individuals in a population of size 10,000.
-Let's assume that the actual proportion of blind individuals in the US at 1870 is actually 252 in 443,377. The microsample  consists of 443,377 individuals. Let X be the number of blind individuals in the microsample. We can assume that X follows a Binomial distribution $B_{443377, 252/443377}$. This means that X has an expected value of 252, but its variance is almost as big as this (251.9), which eans that a Wald 95% confidence interval is (220, 284), i.e. putting the uncertainty at about a quarter of the number of individuals.
+Let's assume that the actual proportion of blind individuals in the US at 1870 is actually 252 in 443,377. The microsample  consists of 443,377 individuals. Let X be the number of blind individuals in the microsample. We can assume that X follows a Binomial distribution $B_{443377, 252/443377}$. This means that X has an expected value of 252, but its variance is almost as big as this (251.9), which means that a Wald 95% confidence interval is (220, 284), i.e. putting the uncertainty at about a quarter of the number of individuals.
 
  At the state level the situation is worse, i.e. the microsample does not allow us to draw any inference at this level.
 
