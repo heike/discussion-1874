@@ -226,7 +226,7 @@ ggplot(aes(fill=blindEst), data=state_pop) +
   scale_fill_gradient("Blind individuals", na.value = "grey80")
 @
 \end{subfigure}
-\caption{\label{fig:map-total}Maps of the United States. States established in 1870 are filled by color. Color shows total population (top) and total number of blind (bottom). The value for Nevada is missing from the second figure, because it is missing from Figure~\ref{fig:pie-blind}. It is not clear, why Wines left Nevada out of his chart.}
+\caption{\label{fig:map-total}Maps of the United States. States established in 1870 are filled by color. Color shows total population (top) and total number of blind (bottom). The value for Nevada is missing from the second figure, because it is missing from Figure~\ref{fig:pie-blind}. It is not clear, why Wines  excluded Nevada from his chart.}
 \end{figure}
 
 We can see from these two maps the geographic distribution of the population across the United States in 1870: New York is still by far the most populous state, followed by Pennsylvania and Ohio.
@@ -258,9 +258,90 @@ Let's assume that the actual proportion of blind individuals in the US at 1870 i
  Wines himself provides us with estimates of the proportions: for each of the pie segments he included a numeric value for the angle (out of 360). Based on these numbers, we can recover the proportions (if not the overall numbers).
 \end{itemize}
 
-While the 1.2\% microsample does not help with  the small number of blind at the state level, it does allow us to get an estimate for the total number of blind for the nation: using the 252 blind individuals in the 1.2\% microsample as a basis, we get an estimated number of  $252/443377 \cdot 38.5 \cdot 10^6 = 21,882$ blind individuals nationwide with a corresponding 95\% Wald confidence interval of (21,586, 22,178). This is the number that the values in Figure~\ref{fig:map-blind} is based on.
+While the 1.2\% microsample does not help with  the small number of blind at the state level, it does allow us to get an estimate for the total number of blind for the nation: using the 252 blind individuals in the 1.2\% microsample as a basis, we get an estimated number of  $252/443377 \cdot 38.5 \cdot 10^6 = 21,882$ blind individuals nationwide with a corresponding 95\% Wald confidence interval of (21,586, 22,178). This is the number that the values in Figure~\ref{fig:mapblind} is based on.
 
 \section{Re-worked Graphic and Story}
+
+Figure~\ref{fig:redo-foreign} shows the exact same information as the set of pie charts in the second row of Wines' chart. 
+States are sorted according to proportions of native/foreign born individuals.
+
+Some things we did not see before (unless looking very closely) are that:
+\begin{itemize}
+\item the proportion of blind individuals among foreigners is high for states that have been founded within the last two decades before the census was taken (such as WI 1848, ... IA 1846). However, this is not consistent - states along the East Coast, particularly New York, are traditional immigration states with large percentages of foreign born population. On the other hand, Kansas and West Virginia became states in 1861 and 1863, respectively, and the percentages of foreign born population are at below 10\% in these two states, which is well below the national level of foreign born population of 16\% in 1870. Again, these percentages are much more likely a reflection of state level demographics rather than characteristics of the state-level population of blind individuals. 
+\item Generally, the number of blind men is higher than the number of blind women in all states, but there are some states that show a huge gender imbalance between blind individuals:  Delaware is the only state, in which the population of blind females is much higher than the male population. Oregon, Vermont, Maine, Virginia, and to a lesser degree, Mississippi, show a (significantly?) markedly higher percentage of blind men than women.
+\end{itemize}
+
+\begin{figure}
+<<redo:foreign, echo=FALSE, fig.width=8, fig.height=7, message=FALSE>>=
+blindprop <- read.csv("../data/blind-per.state.csv", na.strings="NA")
+# exclude Colorado
+blindprop <- subset(blindprop, State!= "COLORADO")
+library(ggplot2)
+library(tidyr)
+library(dplyr)
+
+blind <- blindprop %>% select(State, Male.native.blind.perc, Male.foreign.blind.perc, Female.native.blind.perc, Female.foreign.blind.perc) %>% gather(gender.born, blind, -State)
+
+blind$gender <- "Male"
+blind$gender[grep("Female", blind$gender.born)] <- "Female"
+
+blind$nativity <- "Foreign"
+blind$nativity[grep("native", blind$gender.born)] <- "Native"
+
+library(RColorBrewer)
+cols <- brewer.pal(n=8, name="Paired")
+
+blind$gender.born <- with(blind, interaction(gender, nativity, sep="/"))
+blind$gender.born <- factor(blind$gender.born, levels=c("Female/Native", "Female/Foreign", "Male/Foreign", "Male/Native"))
+blind$State <- reorder(blind$State, blind$blind, function(x) x[1]+x[3])
+
+ggplot(data=blind, aes(x=State, weight=blind, fill=gender.born)) +
+  geom_bar() + 
+  coord_flip() + 
+  scale_fill_manual("Gender/Nativity", values=cols[c(6,5,1,2)]) +
+  ylab("Percentage") + 
+  xlab("") +
+  theme_bw() + 
+  theme(legend.position="bottom", 
+        plot.margin=grid::unit(c(0,0,0,0), units="cm")) 
+  
+@
+\caption{\label{fig:redo-foreign}Overview of the proportion of the blind by gender and nativity. Wisconsin has the highest number of foreign born blind, Arkansas has the fewest. Delaware is the only state in which there are more blind women than men. Just below Delaware are the proportions for the whole nation. }
+\end{figure}
+
+
+Figure~\ref{fig:redo-race} is a re-working of the information shown in  the set of pie charts in the third row of Wines' chart. 
+
+\begin{figure}
+<<redo:race, echo=FALSE, fig.width=8, fig.height=7, message=FALSE>>=
+blind2 <- blindprop %>% select(State, REGION, Male.white.blind.perc, Male.colored.blind.perc, Female.white.blind.perc, Female.colored.blind.perc) %>% gather(gender.race, blind, Male.white.blind.perc, Male.colored.blind.perc, Female.white.blind.perc, Female.colored.blind.perc)
+
+blind2$gender <- "Male"
+blind2$gender[grep("Female", blind2$gender.race)] <- "Female"
+
+blind2$race <- "White"
+blind2$race[grep("colored", blind2$gender.race)] <- "Non-White"
+
+library(RColorBrewer)
+cols <- brewer.pal(n=8, name="Paired")
+
+blind2$gender.race <- with(blind2, interaction(gender, race, sep="/"))
+blind2$gender.race <- factor(blind2$gender.race, levels=c("Female/White", "Female/Non-White", "Male/Non-White", "Male/White"))
+blind2$State <- reorder(blind2$State, blind2$blind, function(x) x[1]+x[3])
+
+ggplot(data=blind2, aes(x=State, weight=blind, fill=gender.race)) +
+  geom_bar() + 
+  coord_flip() + 
+  scale_fill_manual("Gender/Race", values=cols[c(6,5,1,2)]) +
+  theme_bw() +
+  theme(legend.position="bottom", 
+        plot.margin = grid::unit(c(0,0,0,0), units="cm")) +
+  ylab("Percentage") + xlab("")
+@
+\caption{\label{fig:redo-race}Overview of the proportion of the blind by gender and race, sorted according to proportion of white/non-white blind. Southern states have a much higher proportion of non-white blind, reflecting the demographics of the total state population. }
+\end{figure}
+
+\hh{XXX and now we need to move on to relative numbers and residuals.}
 
 \section{Conclusion}
 
