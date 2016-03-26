@@ -176,6 +176,10 @@ circles$blindIPUMS[circles$location=="4I"] <- NA
 circles$StateTotalIPUMS[circles$location=="4I"] <- NA
 #write.csv(circles, file="data/diameters.csv", row.names=FALSE)
 
+# state_pop <- merge(state_pop, state_blind[, c("state", "blindEst")], by="state", all.x=TRUE)
+# write.csv(state_pop, file="states-1870.csv", row.names=FALSE)
+
+
 # the IPUMS based estimates are pretty bad:
 
 # generally they increase with population (which is to be expected)
