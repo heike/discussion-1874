@@ -237,9 +237,7 @@ We see a similar problem with the `donut' rings  at the bottom of Wines' chart. 
 
 \section{Data Acquisition}\label{sec:data}
 
-\hh{Here, we need to detail somewhere, how we get to our estimate of a total of 21882 blind individuals in 1874. (based on 1.2\% microsample, in which we observe 252 blind individuals total. This corresponds to an estimate of $252/443377*38.5*10^6$ blind in the whole population.)}
-
-Getting the data turns out to be a bit problematic. What we would like are state-level aggregates of the population size and the number of blind individuals by state, gender, nativity and race for both the 1870 census and the 1860 census (for the comparisons).
+Getting the data shown in the chart turns out to be a bit problematic. What we would like are state-level aggregates of the population size and the number of blind individuals by state, gender, nativity and race for both the 1870 census and the 1860 census (for the comparisons).
 
 There are a few avenues available:
 
@@ -259,6 +257,8 @@ Let's assume that the actual proportion of blind individuals in the US at 1870 i
 \item {\bf chart based estimates}
  Wines himself provides us with estimates of the proportions: for each of the pie segments he included a numeric value for the angle (out of 360). Based on these numbers, we can recover the proportions (if not the overall numbers).
 \end{itemize}
+
+While the 1.2\% microsample does not help with  the small number of blind at the state level, it does allow us to get an estimate for the total number of blind for the nation: using the 252 blind individuals in the 1.2\% microsample as a basis, we get an estimated number of  $252/443377 \cdot 38.5 \cdot 10^6 = 21,882$ blind individuals nationwide with a corresponding 95\% Wald confidence interval of (21,586, 22,178). This is the number that the values in Figure~\ref{fig:map-blind} is based on.
 
 \section{Re-worked Graphic and Story}
 
