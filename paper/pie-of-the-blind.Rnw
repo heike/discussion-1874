@@ -144,7 +144,7 @@ In this paper, we want to discuss just one of the charts of the first Statistica
 \begin{figure}
 \centering
 \includegraphics[width=\linewidth]{figures/fig-blind}
-\caption{\label{fig:pie-blind}``Chart showing the aggregate number of the blind". Fred H Wines authored this chart for the Statistical Atlas published in 1874. The pie charts show the number of blind by state. The pies are segmented according to gender and nativity (top row) and by gender and race (middle row). The rings along the bottom row show changes in the number of blind individuals  between 1860 and 1870 for each state.}
+\caption{\label{fig:pie-blind}``Chart showing the aggregate number of the blind". Fred H Wines authored this chart for the Statistical Atlas published in 1874. The pie charts show the number of blind by state. The pies are segmented according to gender and nativity (top row) and by gender and race (middle row). The rings along the bottom row show changes in the number of blind individuals  between 1860 and 1870 for each state. A high-resolution figure is available  at \url{https://www.loc.gov/resource/g3701gm.gct00008/?sp=104} as part of the online collection of the Library of Congress.}
 \end{figure}
 
 The area of each of the pie charts in Figure~\ref{fig:pie-blind} is directly proportional to the number of individuals it represents. In fact, at the top left corner, the scale is given as 1 square inch for every 4,800 individuals. Unfortunately, in an electronic medium, the chart can now be rescaled, which un-anchors \hh{XXX (??? need a better word here)} this absolute scale. However, in its original scale the two pie charts in the corners in the top left and right corners have a diameter of about 2.15 inch, corresponding to 21,882 blind individuals in 1874. Note, this is just an estimate as detailed in Section~\ref{sec:data} \hh{XXX  I'm still looking for a better reference number.}  
@@ -181,9 +181,11 @@ In the chart here, geometric elements corresponding to quantitaties in the data 
 \item The pies in each row are {\bf grouped} into four regions (Eastern, Western, Southern and Pacific). Within each region no obvious strategy for the order of states is apparent.
 \end{enumerate}
 
-Unfortunately, both comparing circle sizes or angles that are not aligned on the same axis or have the same origin are both cognitively relatively hard tasks \cite{cleveland84, cleveland85}.
+Unfortunately, both comparing circle sizes or angles that are not aligned on the same axis or have the same origin are both cognitively relatively hard tasks \cite{cleveland84, cleveland85}. 
+The saving grace about angles is that they are 
 
-All of the quantities shown are absolute numbers of blind individuals. Most likely, these numbers are highly correlated with the total population. Absolute numbers are therefore much less likely to tell a story specific to the blind than one of settling a continent. Figure~\ref{fig:mapus} shows the number of total population by state according to the ninth decennial census. Figure~\ref{fig:mapblind} looks almost identical, but shows the (estimates of the) number of blind individuals by state.
+All of the quantities shown are absolute numbers of blind individuals. As can be seen from Figure~\ref{fig:mapus}, these numbers are highly correlated with the total population. Absolute numbers are therefore much less likely to tell a story specific to the blind than one of settling a continent. 
+Figure~\ref{fig:mapus} shows the number of total population by state according to the ninth decennial census. Figure~\ref{fig:mapblind} looks almost identical, but shows the (estimates of the) number of blind individuals by state. 
 
 \begin{figure}
 \begin{subfigure}{\columnwidth}
@@ -195,6 +197,7 @@ library(ggplot2)
 states <- map_data("state")
 
 state_pop <- read.csv("../data/states-1870.csv")
+state_pop <- subset(state_pop, State != "COLORADO") # not a state until 1876
 names(state_pop)[1] <- "State"
 state_pop$state <- tolower(state_pop$State)
 
@@ -223,15 +226,39 @@ ggplot(aes(fill=blindEst), data=state_pop) +
   scale_fill_gradient("Blind individuals", na.value = "grey80")
 @
 \end{subfigure}
-\caption{\label{fig:map-total}Maps of the United States. States established in 1870 are filled by color. Color shows total population (top) and total number of blind (bottom). Values for Nebraska and Colorado are missing from the second figure, because they are missing from Figure~\ref{fig:pie-blind}.}
+\caption{\label{fig:map-total}Maps of the United States. States established in 1870 are filled by color. Color shows total population (top) and total number of blind (bottom). The value for Nevada is missing from the second figure, because it is missing from Figure~\ref{fig:pie-blind}. It is not clear, why Wines left Nevada out of his chart.}
 \end{figure}
 
 We can see from these two maps the geographic distribution of the population across the United States in 1870: New York is still by far the most populous state, followed by Pennsylvania and Ohio.
+What is missing in both Figure~\ref{fig:pie-blind} and the maps, are a comparison of the absolute numbers to population size, allowing us to investigate rates. This missing comparison to the overall population  confounds
+the whole interpretation of this chart, e.g. at face value, there are more blind men than blind women.  Does that mean that the proportion of men affected by blindness is also higher or is this a reflection of the gender balance at the time? 
+We see a similar problem with the `donut' rings  at the bottom of Wines' chart. Here, the inner ring stands for the number of blind in 1860, while the outer ring represents the number of blind in 1870. This representation only works, if there is an increase in the number of blind individuals in every single state. The US was growing at a fast pace during this time (from about 31.2 million people in 1860  to 38.5 million people in 1870), and as long as living conditions and health care conditions did not improve, we would expect proportionally about the same  increase in the blind population. Again, the fact that the absolute number of blind increased is less of a story than if there are deviations from this growth.  
 
 
 \section{Data Acquisition}\label{sec:data}
 
 \hh{Here, we need to detail somewhere, how we get to our estimate of a total of 21882 blind individuals in 1874. (based on 1.2\% microsample, in which we observe 252 blind individuals total. This corresponds to an estimate of $252/443377*38.5*10^6$ blind in the whole population.)}
+
+Getting the data turns out to be a bit problematic. What we would like are state-level aggregates of the population size and the number of blind individuals by state, gender, nativity and race for both the 1870 census and the 1860 census (for the comparisons).
+
+There are a few avenues available:
+
+\begin{itemize}
+\item {\bf individual data} is available from a lot of sites (such as ancestry.com, FamilySearch, etc): e.g. in the 1870 census there are  391 individuals listed by the name of Helen Keller, who are white females (obviously not THE Helen Keller, because she was not born until 1880).
+
+\item {\bf state aggregate data}  as part of the Historical Census Browser  provided by the University of Virginia at \url{http://mapserver.lib.virginia.edu/}. Citation: (2004). Historical Census Browser. Retrieved [Date you accessed source], from the University of Virginia, Geospatial and Statistical Data Center: http://mapserver.lib.virginia.edu/. \hh{XXX makes these addresses real citations.}
+The data comes from [ICPSR,  Inter-university Consortium for Political and Social Research](http://www.icpsr.umich.edu/icpsrweb/ICPSR/studies/0003). Unfortunately, only political and economic factors are included in these data sources, but no information on disabilities, i.e. the number of blind or deaf individuals is absent.
+
+
+\item {\bf state microsamples} ipums USA at \url{https://usa.ipums.org/usa/} provides access to microsamples of all US census. However, microsamples of 1.2\% for the 1860 and 1870 census include only a handful of blind individuals for each of the state, and  therefore do not provide a reliable estimate of these proportions.
+
+The reliability of the microsample for questions regarding the blind is not high enough to allow accurate statements: The microsample for the 1870 census consists of 443,377 individuals, out of which 252 are identified as blind, i.e. on average there are only 5 to 6 blind individuals in a population of size 10,000.
+Let's assume that the actual proportion of blind individuals in the US at 1870 is actually 252 in 443,377. The microsample  consists of 443,377 individuals. Let X be the number of blind individuals in the microsample. We can assume that X follows a Binomial distribution $B_{443377, 252/443377}$. This means that X has an expected value of 252, but its variance is almost as big as this (251.9), which means that a Wald 95\% confidence interval is (220, 284), i.e. putting the uncertainty at about a quarter of the number of individuals.
+
+ At the state level the situation is worse, i.e. the microsample does not allow us to draw any inference at this level.
+\item {\bf chart based estimates}
+ Wines himself provides us with estimates of the proportions: for each of the pie segments he included a numeric value for the angle (out of 360). Based on these numbers, we can recover the proportions (if not the overall numbers).
+\end{itemize}
 
 \section{Re-worked Graphic and Story}
 
