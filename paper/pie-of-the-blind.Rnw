@@ -28,6 +28,9 @@
 \usepackage{mathptmx, amsmath, amssymb}
 \usepackage{graphicx}
 \usepackage{times}
+\usepackage[font=small,skip=5pt]{caption}
+\usepackage{subcaption}
+
 \usepackage{color}
 \definecolor{purple}{rgb}{.4,0,.8}
 \newcommand{\hh}[1]{{\color{magenta} #1}}
@@ -136,7 +139,6 @@
 %% the only exception to this rule is the \firstsection command
 \firstsection{Introduction}
 \maketitle
-
 Three times in the past, the US Census Bureau published a Statistical Atlas to map the state of the union based on data collected in the 9th, 10th, and 11th US census (in 1870, 1880, and 1890). Each of these atlases represents a  masterpiece in science and technology.
 In this paper, we want to discuss just one of the charts of the first Statistical Atlas: a chart consisting of the very first piecharts of the Statistical Atlas drawn by Fred H. Wines, the  Secretary of the Illinois State Board of Charities. The chart in question is shown in Figure~\ref{fig:pie-blind} in its whole. Figure~\ref{fig:us-foreign} shows a zoom into the top left corner of chart to highlight the amazing amount of detail that went into its construction. 
 \begin{figure}
@@ -160,7 +162,7 @@ In order to get the numbers of foreign born females and males, we need to work w
 #rm(list=ls())
 options(replace.assign=TRUE,width=70)
 require(knitr)
-opts_chunk$set(fig.path='figure/', cache.path='cache/', fig.align='center', fig.width=5, fig.height=5, par=TRUE, cache=TRUE, concordance=TRUE, autodep=TRUE, message=F, warning=F)
+opts_chunk$set(fig.path='figure/', cache.path='cache/', fig.align='center', fig.width=6, fig.height=6, par=TRUE, cache=TRUE, concordance=TRUE, autodep=TRUE, message=F, warning=F)
 @
 
 While amazing in its complexity and amount of detail, this chart has several major problems, which we will discuss in the next section.
@@ -169,14 +171,63 @@ While amazing in its complexity and amount of detail, this chart has several maj
 
  Generally, William Playfair is credited to have published the first pie chart~\cite{spence04, friendly01} in his Statistical Breviary~\cite{playfair1801} from 1801.
 The discussion of suitability of pie charts is almost as old as pie charts themselves. \hh{XXX citations and a bit of discussion XXX}
+The purpose of this paper is not to add to this lengthy discussion, but to let this data set tell its story. 
 
 In the chart here, geometric elements corresponding to quantitaties in the data are the following: 
 \begin{enumerate}
 \item The {\bf area} of each pie is proportional to the number of blind individuals in each state.
 \item {\bf Angles} segment the number of individuals according to gender and nativity (top row) or race (middle row). 
+\item The {\bf area between the circles} (in the bottom row) represents the change in the number of blind individuals in each state between 1860 and 1870. 
+\item The pies in each row are {\bf grouped} into four regions (Eastern, Western, Southern and Pacific). Within each region no obvious strategy for the order of states is apparent.
 \end{enumerate}
 
 Unfortunately, both comparing circle sizes or angles that are not aligned on the same axis or have the same origin are both cognitively relatively hard tasks \cite{cleveland84, cleveland85}.
+
+All of the quantities shown are absolute numbers of blind individuals. Most likely, these numbers are highly correlated with the total population. Absolute numbers are therefore much less likely to tell a story specific to the blind than one of settling a continent. Figure~\ref{fig:mapus} shows the number of total population by state according to the ninth decennial census. Figure~\ref{fig:mapblind} looks almost identical, but shows the (estimates of the) number of blind individuals by state.
+
+\begin{figure}
+\begin{subfigure}{\columnwidth}
+\centering
+\subcaption{\label{fig:mapus} Fill color is total population. }
+<<mapUS, echo=FALSE, out.width='.9\\linewidth', fig.height=4>>=
+library(ggthemes)
+library(ggplot2)
+states <- map_data("state")
+
+state_pop <- read.csv("../data/states-1870.csv")
+names(state_pop)[1] <- "State"
+state_pop$state <- tolower(state_pop$State)
+
+ggplot(aes(fill=TOTAL.POPULATION), 
+       data=subset(state_pop, State != "UNITED STATES")) + 
+  geom_polygon(aes(x=long, y=lat, group=group), fill=NA, 
+               colour="grey85", data=states) + 
+  geom_map(aes(map_id=state), map=states) +
+  expand_limits(x=states$long, y=states$lat) + 
+  theme_map() +
+  theme(plot.margin=grid::unit(c(0,0,0,0), units="cm")) + 
+  scale_fill_gradient("Total population")
+@
+\end{subfigure}
+\begin{subfigure}{\columnwidth}
+\centering
+\subcaption{\label{fig:mapblind} Fill color is (estimate) of blind population. }
+<<mapBlind, dependson='mapUS', echo=FALSE, out.width='.9\\linewidth', fig.height=4>>=
+ggplot(aes(fill=blindEst), data=state_pop) + 
+  geom_polygon(aes(x=long, y=lat, group=group), fill=NA, 
+               colour="grey85", data=states) + 
+  geom_map(aes(map_id=state), map=states) +
+  expand_limits(x=states$long, y=states$lat) + 
+  theme_map() +
+  theme(plot.margin=grid::unit(c(0,0,0,0), units="cm")) + 
+  scale_fill_gradient("Blind individuals", na.value = "grey80")
+@
+\end{subfigure}
+\caption{\label{fig:map-total}Maps of the United States. States established in 1870 are filled by color. Color shows total population (top) and total number of blind (bottom). Values for Nebraska and Colorado are missing from the second figure, because they are missing from Figure~\ref{fig:pie-blind}.}
+\end{figure}
+
+We can see from these two maps the geographic distribution of the population across the United States in 1870: New York is still by far the most populous state, followed by Pennsylvania and Ohio.
+
 
 \section{Data Acquisition}\label{sec:data}
 
