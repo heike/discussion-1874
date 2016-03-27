@@ -261,8 +261,10 @@ Let's assume that the actual proportion of blind individuals in the US at 1870 i
 While the 1.2\% microsample does not help with  the small number of blind at the state level, it does allow us to get an estimate for the total number of blind for the nation: using the 252 blind individuals in the 1.2\% microsample as a basis, we get an estimated number of  $252/443377 \cdot 38.5 \cdot 10^6 = 21,882$ blind individuals nationwide with a corresponding 95\% Wald confidence interval of (21,586, 22,178). This is the number that the values in Figure~\ref{fig:mapblind} is based on.
 
 \section{Re-worked Graphic and Story}
+We are going to let this dataset tell its story in two steps. First, we plot the same data that Wines used in a different design to get a better overview of the situation. In a second step, we are going to use demographics of the total population to find where the blind population deviates the most. 
 
-Figure~\ref{fig:redo-foreign} shows the exact same information as the set of pie charts in the second row of Wines' chart. 
+\subsection{Proportions of the blind by gender and nativity/race}
+Apart from the overall number of blind individuals in each state, Figure~\ref{fig:redo-foreign} shows in a concise overview the same information as the set of pie charts in the second row of Wines' chart. 
 States are sorted according to proportions of native/foreign born individuals.
 
 Some things we did not see before (unless looking very closely) are that:
@@ -338,10 +340,46 @@ ggplot(data=blind2, aes(x=State, weight=blind, fill=gender.race)) +
         plot.margin = grid::unit(c(0,0,0,0), units="cm")) +
   ylab("Percentage") + xlab("")
 @
-\caption{\label{fig:redo-race}Overview of the proportion of the blind by gender and race, sorted according to proportion of white/non-white blind. Southern states have a much higher proportion of non-white blind, reflecting the demographics of the total state population. }
+\caption{\label{fig:redo-race}Overview of the proportion of the blind by gender and race, sorted according to proportion of white/non-white blind. Southern states have a much higher proportion of non-white blind, reflecting the demographics of the total state population. Both Illinois and New York have surprisingly high proportions of whites  (8th and 10th place) among their blind population.}
 \end{figure}
 
 \hh{XXX and now we need to move on to relative numbers and residuals.}
+
+\subsection{Patterns specific to the blind population}
+We calculate expected proportions for blind by gender and nativity/race based on the assumption that the demographics of the general population are reflected among the blind. To get the state aggregates for these populations, we again make use of the 1.2\% microsample. 
+
+<<ipums-gender-nativity, echo=FALSE>>=
+ipums <- read.csv("../data/ipums-1870.csv")
+ipums <- subset(ipums, STATEICP != "Colorado")
+
+gborn <- as.data.frame(xtabs(data=ipums, ~STATEICP+SEX+I(NATIVITY=="Foreign born")))
+gborn$State <- toupper(gborn$STATEICP)
+names(gborn)[3] <- "nativity"
+levels(gborn$nativity) <- c("Native", "Foreign")
+gborn<- gborn %>% group_by(State) %>% mutate(totals=sum(Freq))
+gborn$blind.exp <- with(gborn, Freq/totals*100)
+
+blind.plus2 <- merge(subset(blind, State!="COLORADO"), gborn[, c("State", "SEX","nativity", "blind.exp")], by.x=c("State","gender", "nativity"), by.y=c("State", "SEX", "nativity"), all.x=TRUE)
+blind.plus2$region <- tolower(blind.plus2$State)
+blind.plus2$resid <- with(blind.plus2, (blind-blind.exp)/sqrt(blind.exp))
+blind.plus2$residCut <- cut(blind.plus2$resid, breaks=c(-20,-2.6,-2,-1.65, 1.65, 2, 2.6, 20)/2)
+## this needs some more work
+
+ggplot(aes(fill=residCut), data=blind.plus2) + 
+  geom_polygon(aes(x=long, y=lat, group=group), fill=NA, colour="grey90", data=states) +
+  geom_map(aes(map_id=region), map=states) +
+  expand_limits(x=states$long, y=states$lat) +
+  facet_wrap(~gender.born) + 
+  scale_fill_brewer("(obs - exp)/sqrt(exp)", palette="RdYlBu") + #, na.value = "grey", limits=c(-2.5,2.5)) +
+  theme_map() + 
+  theme(legend.position="bottom")
+@
+
+The deviations (in form of absolute residuals) are plotted on choropleth maps below. We see that the largest negative residuals (i.e. most overestimated proportion of bline) are the native born female. There are far fewer native born blind women than expected. The most under-estimated group are foreign born blind men, who in almost all of the states make up a larger number than expected.
+
+California makes an exception: foreign born blind women in California are a hugely underestimated group, while there are fewer foreign born blind men than expected.
+
+Kansas and Nebraska are two of the youngest states and might have been affected the most by the Homestead Act of 1862, which gave the opportunity to anyone ‘who had not taken up arms against the United States’ to own 160 acres of land, if they settled and farmed the land for five years. In both Kansas and Nebraska, the proportion of foreign-born blind individuals is lower than expected, favoring the proportion of native born blind men and women, instead. Nebraska is a state since 1867, Kansas since 1861 (Nevada 1864, West Virginia 1863).
 
 \section{Conclusion}
 
