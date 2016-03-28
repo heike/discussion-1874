@@ -237,25 +237,24 @@ We see a similar problem with the `donut' rings  at the bottom of Wines' chart. 
 
 \section{Data Acquisition}\label{sec:data}
 
-Getting the data shown in the chart turns out to be a bit problematic. What we would like are state-level aggregates of the population size and the number of blind individuals by state, gender, nativity and race for both the 1870 census and the 1860 census (for the comparisons).
+Getting the data shown in the chart turns out to be a bit problematic. What we would like are state-level aggregates of the population size and the number of blind individuals by state, gender, nativity and race for both the 1870 and, as a comparison, the 1860 census.
 
-There are a few avenues available:
+There are a few avenues available to us. 
 
 \begin{itemize}
-\item {\bf individual data} is available from a lot of sites (such as ancestry.com, FamilySearch, etc): e.g. in the 1870 census there are  391 individuals listed by the name of Helen Keller, who are white females (obviously not THE Helen Keller, because she was not born until 1880).
+\item {\bf individual records} are available from a lot of sites (such as ancestry.com, FamilySearch, etc): e.g.\ in the 1870 census there are  391 individuals listed by the name of Helen Keller, who are white females (obviously not THE Helen Keller, because she was not born until 1880). Using individual records is obviously not an avenue we can follow to access all the relevant information.
 
-\item {\bf state aggregate data}  as part of the Historical Census Browser  provided by the University of Virginia at \url{http://mapserver.lib.virginia.edu/}. Citation: (2004). Historical Census Browser. Retrieved [Date you accessed source], from the University of Virginia, Geospatial and Statistical Data Center: http://mapserver.lib.virginia.edu/. \hh{XXX makes these addresses real citations.}
-The data comes from [ICPSR,  Inter-university Consortium for Political and Social Research](http://www.icpsr.umich.edu/icpsrweb/ICPSR/studies/0003). Unfortunately, only political and economic factors are included in these data sources, but no information on disabilities, i.e. the number of blind or deaf individuals is absent.
+\item {\bf state aggregate data} is provided as part of the Historical Census Browser~\cite{historical2004} (curated by ICPSR, the InterUniversity Consortium for Political and Social Research).
+Unfortunately, only political and economic factors are included in these data sources, while information on social aspects such as disabilities, i.e.\ the number of blind or deaf individuals, is not included.
 
 
-\item {\bf state microsamples} ipums USA at \url{https://usa.ipums.org/usa/} provides access to microsamples of all US census. However, microsamples of 1.2\% for the 1860 and 1870 census include only a handful of blind individuals for each of the state, and  therefore do not provide a reliable estimate of these proportions.
+\item {\bf census microsamples}: ipums USA at \url{https://usa.ipums.org/usa/} provides access to microsamples of all of the US census data. However, microsamples of 1.2\% for the 1860 and 1870 census include only a handful of blind individuals for each state, and  therefore do not provide a reliable estimate of these proportions.
 
-The reliability of the microsample for questions regarding the blind is not high enough to allow accurate statements: The microsample for the 1870 census consists of 443,377 individuals, out of which 252 are identified as blind, i.e. on average there are only 5 to 6 blind individuals in a population of size 10,000.
-Let's assume that the actual proportion of blind individuals in the US at 1870 is actually 252 in 443,377. The microsample  consists of 443,377 individuals. Let X be the number of blind individuals in the microsample. We can assume that X follows a Binomial distribution $B_{443377, 252/443377}$. This means that X has an expected value of 252, but its variance is almost as big as this (251.9), which means that a Wald 95\% confidence interval is (220, 284), i.e. putting the uncertainty at about a quarter of the number of individuals.
+The reliability of the microsample for questions regarding the blind is not high enough to allow accurate statements: The microsample for the 1870 census consists of 443,377 individuals, out of which 252 are identified as blind, i.e.\ on average there are only 5 to 6 blind individuals in a population of size 10,000.
+Let's assume that the actual proportion of blind individuals in the US at 1870 is actually 252 in 443,377. The microsample  consists of 443,377 individuals. Let $X$ be the number of blind individuals in the microsample. We can assume that $X$ follows a Binomial distribution $B_{n, p }$ with $\hat{p} = 252/443377$ and $n = 443377$. This means that $X$ has an expected value of 252, but its variance is almost as big as this (251.9), which means that a Wald 95\% confidence interval is (220, 284), i.e.\ putting the uncertainty at about a quarter of the number of individuals.
 
- At the state level the situation is worse, i.e. the microsample does not allow us to draw any inference at this level.
-\item {\bf chart based estimates}
- Wines himself provides us with estimates of the proportions: for each of the pie segments he included a numeric value for the angle (out of 360). Based on these numbers, we can recover the proportions (if not the overall numbers).
+ At the state level the situation is worse, i.e.\ the microsample does not allow us to draw any inference at this level.
+\item {\bf chart based estimates:} the route that we are finally going to take is provided by Wines himself: for each of the pie segments Wines included the numeric values for each of the angles (out of 360). Based on these numbers, we can recover the proportions, if not the overall numbers. For the overall numbers, we will make use of the 1.2\% microsample as detailed below.
 \end{itemize}
 
 While the 1.2\% microsample does not help with  the small number of blind at the state level, it does allow us to get an estimate for the total number of blind for the nation: using the 252 blind individuals in the 1.2\% microsample as a basis, we get an estimated number of  $252/443377 \cdot 38.5 \cdot 10^6 = 21,882$ blind individuals nationwide with a corresponding 95\% Wald confidence interval of (21,586, 22,178). This is the number that the values in Figure~\ref{fig:mapblind} is based on.
