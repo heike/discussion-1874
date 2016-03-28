@@ -348,7 +348,49 @@ ggplot(data=blind2, aes(x=State, weight=blind, fill=gender.race)) +
 \subsection{Patterns specific to the blind population}
 We calculate expected proportions for blind by gender and nativity/race based on the assumption that the demographics of the general population are reflected among the blind. To get the state aggregates for these populations, we again make use of the 1.2\% microsample. 
 
-<<ipums-gender-nativity, echo=FALSE>>=
+<<simulate-resid-distr, cache=TRUE, echo=FALSE>>=
+B <- 100000
+# getting an initial set of probabilities:
+dframe <- data.frame(matrix(data=runif(B*4), ncol=4))
+dframe$sum <- rowSums(dframe) 
+dframe <- dframe[,-5]/dframe$sum
+names(dframe) <- c("p11", "p12", "p21", "p22")
+dframe$id <- 1:nrow(dframe)
+dm <- tidyr::gather(dframe, group, p, -id)
+dm <- dm %>% group_by(id) %>% mutate(group = group[sample(4,4,replace=FALSE)])
+# qplot(data=dm, x=p, facets=~group, binwidth=0.05) # nicely symmetric
+
+# expected values based on independence
+library(tidyr)
+ds <- spread(dm, group, p)
+ds <- ds %>% transform(
+  p1 = p11 + p12,
+  p2 = p11 + p21
+)
+ds <- ds %>% transform(
+  e11 = p1*p2,
+  e12 = p1*(1-p2),
+  e21 = (1-p1)*p2,
+  e22 = (1-p1)*(1-p2)
+)
+
+obs <- gather(ds[,1:5], group, obs, -id)
+exp <- gather(ds[,c(1,8:11)], group, exp, -id)
+exp$group <- gsub("e","", exp$group)
+obs$group <- gsub("p","", obs$group)
+
+tabs <- merge(obs, exp, by=c("id", "group"))
+tabs$resid <- with(tabs, (obs-exp)/sqrt(exp))
+# qplot(resid, data=tabs, facets=~group) # looks normal and identical
+# qplot(resid, data=tabs) # normal ?
+# qqnorm(tabs$resid) # lower tail is too light - that's to be expected. 
+qu1 <- quantile(tabs$resid, probs = c(0.01, 0.05, 0.95, 0.99))
+qu2 <- qnorm(c(0.01, 0.05, 0.95, 0.99), sd=1/6)
+# normal quantiles with sd = 1/6 is pretty good :)
+@
+
+\begin{figure}
+<<ipums-gender-nativity, dependson='simulate-resid-distr', echo=FALSE>>=
 ipums <- read.csv("../data/ipums-1870.csv")
 ipums <- subset(ipums, STATEICP != "Colorado")
 
@@ -362,24 +404,40 @@ gborn$blind.exp <- with(gborn, Freq/totals*100)
 blind.plus2 <- merge(subset(blind, State!="COLORADO"), gborn[, c("State", "SEX","nativity", "blind.exp")], by.x=c("State","gender", "nativity"), by.y=c("State", "SEX", "nativity"), all.x=TRUE)
 blind.plus2$region <- tolower(blind.plus2$State)
 blind.plus2$resid <- with(blind.plus2, (blind-blind.exp)/sqrt(blind.exp))
-blind.plus2$residCut <- cut(blind.plus2$resid, breaks=c(-20,-2.6,-2,-1.65, 1.65, 2, 2.6, 20)/2)
-## this needs some more work
+blind.plus2$residCut <- cut(blind.plus2$resid, breaks=c(-20,qu2, 20))
+## quantiles are based on thresholds from normal distribution
+## how do we communicate that?
+levels(blind.plus2$residCut) <- 
+  c("significantly too few (p < 0.01%)",
+    "significantly too few (p < 0.05%)",
+    "as expected", 
+    "significantly too many (p < 0.05%)",
+    "significantly too many (p < 0.01%)")
 
+blind.plus2$gender.born <- factor(
+  blind.plus2$gender.born, 
+  levels=c("Female/Native", "Male/Native", "Female/Foreign", "Male/Foreign")) 
 ggplot(aes(fill=residCut), data=blind.plus2) + 
-  geom_polygon(aes(x=long, y=lat, group=group), fill=NA, colour="grey90", data=states) +
+  geom_polygon(aes(x=long, y=lat, group=group), fill=NA, 
+               colour="grey90", data=states) +
   geom_map(aes(map_id=region), map=states) +
   expand_limits(x=states$long, y=states$lat) +
   facet_wrap(~gender.born) + 
-  scale_fill_brewer("(obs - exp)/sqrt(exp)", palette="RdYlBu") + #, na.value = "grey", limits=c(-2.5,2.5)) +
+  scale_fill_brewer("(obs - exp)/sqrt(exp)", palette="RdYlBu",
+                    guide = guide_legend(nrow=2, byrow=TRUE, 
+                                         reverse=TRUE)) + 
   theme_map() + 
-  theme(legend.position="bottom")
+  theme(legend.position="bottom") 
 @
+\caption{\label{fig:map-resids} Comparing the observed proportions of blind by gender and nativity to the whole population in each state reveals strong patterns: there are by far too few native born blind women, while there are significantly too many foreign born blind individuals in most states. A notable exception are Kansas and Nebraska: there are significantly too many native born blind females.  
+\hh{The colors correspond to quantiles of a normal distribution we got from simulating deviations in a 2x2 table. If you have a better idea for the levels, please let me know.}}
+\end{figure}
 
-The deviations (in form of absolute residuals) are plotted on choropleth maps below. We see that the largest negative residuals (i.e. most overestimated proportion of bline) are the native born female. There are far fewer native born blind women than expected. The most under-estimated group are foreign born blind men, who in almost all of the states make up a larger number than expected.
+The deviations (in form of relative residuals) are plotted on choropleth maps as shown in Figure~\ref{fig:map-resids}. We see that the largest negative residuals (i.e. most underrepresented proportion of blind) are the native born female. There are far fewer native born blind women than expected. The most over-represented group are foreign born blind men, who in almost all of the states make up a by far larger number than expected.
 
 California makes an exception: foreign born blind women in California are a hugely underestimated group, while there are fewer foreign born blind men than expected.
 
-Kansas and Nebraska are two of the youngest states and might have been affected the most by the Homestead Act of 1862, which gave the opportunity to anyone ‘who had not taken up arms against the United States’ to own 160 acres of land, if they settled and farmed the land for five years. In both Kansas and Nebraska, the proportion of foreign-born blind individuals is lower than expected, favoring the proportion of native born blind men and women, instead. Nebraska is a state since 1867, Kansas since 1861 (Nevada 1864, West Virginia 1863).
+Kansas and Nebraska are two of the youngest states and might have been affected the most by the Homestead Act of 1862, which gave the opportunity to anyone `who had not taken up arms against the United States' to own 160 acres of land, if they settled and farmed the land for five years. In both Kansas and Nebraska, the proportion of foreign-born blind individuals is lower than expected, favoring the proportion of native born blind men and women, instead. Nebraska is a state since 1867, Kansas since 1861 (Nevada 1864, West Virginia 1863).
 
 \section{Conclusion}
 
