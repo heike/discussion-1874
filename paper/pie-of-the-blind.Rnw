@@ -433,7 +433,7 @@ ggplot(aes(fill=residCut), data=blind.plus2) +
 \hh{The colors correspond to quantiles of a normal distribution we got from simulating deviations in a 2x2 table. If you have a better idea for the levels, please let me know.}}
 \end{figure}
 
-The deviations (in form of relative residuals) are plotted on choropleth maps as shown in Figure~\ref{fig:map-resids}. We see that the largest negative residuals (i.e. most underrepresented proportion of blind) are the native born female. There are far fewer native born blind women than expected. The most over-represented group are foreign born blind men, who in almost all of the states make up a by far larger number than expected.
+The deviations (in form of relative residuals) are plotted on choropleth maps as shown in Figure~\ref{fig:map-resids}. We see that the largest negative residuals (i.e.\ most underrepresented proportion of blind) are  native born females. There are far fewer native born blind women than expected. The most over-represented group are foreign born blind men, who in almost all of the states make up a by far larger number than expected.
 
 California makes an exception: foreign born blind women in California are a hugely underestimated group, while there are fewer foreign born blind men than expected.
 
