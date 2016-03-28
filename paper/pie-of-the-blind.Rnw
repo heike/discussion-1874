@@ -346,7 +346,11 @@ ggplot(data=blind2, aes(x=State, weight=blind, fill=gender.race)) +
 \hh{XXX and now we need to move on to relative numbers and residuals.}
 
 \subsection{Patterns specific to the blind population}
-We calculate expected proportions for blind by gender and nativity/race based on the assumption that the demographics of the general population are reflected among the blind. To get the state aggregates for these populations, we again make use of the 1.2\% microsample. 
+We calculate expected proportions for blind by gender and nativity/race based on the assumption that the demographics of the general population are reflected among the blind. To get the state aggregates for these populations, we again make use of the 1.2\% microsample. We then derive deviations of the proportions by assuming that the microsample gives us the {\it expected} proportions, while the actual proportions as given by Wines' chart will be called the {\it observed} proportions.
+(Relative) deviations for each of these groups and each state are then defined as
+\[
+D = \frac{obs - exp}{\sqrt{exp}}.
+\]
 
 <<simulate-resid-distr, cache=TRUE, echo=FALSE>>=
 B <- 100000
@@ -390,7 +394,7 @@ qu2 <- qnorm(c(0.01, 0.05, 0.95, 0.99), sd=1/6)
 @
 
 \begin{figure}
-<<ipums-gender-nativity, dependson='simulate-resid-distr', echo=FALSE>>=
+<<ipums-gender-nativity, dependson='simulate-resid-distr', echo=FALSE, fig.height=5.75>>=
 ipums <- read.csv("../data/ipums-1870.csv")
 ipums <- subset(ipums, STATEICP != "Colorado")
 
@@ -423,7 +427,7 @@ ggplot(aes(fill=residCut), data=blind.plus2) +
   geom_map(aes(map_id=region), map=states) +
   expand_limits(x=states$long, y=states$lat) +
   facet_wrap(~gender.born) + 
-  scale_fill_brewer("(obs - exp)/sqrt(exp)", palette="RdYlBu",
+  scale_fill_brewer("Deviation", palette="RdYlBu",
                     guide = guide_legend(nrow=2, byrow=TRUE, 
                                          reverse=TRUE)) + 
   theme_map() + 
@@ -433,11 +437,53 @@ ggplot(aes(fill=residCut), data=blind.plus2) +
 \hh{The colors correspond to quantiles of a normal distribution we got from simulating deviations in a 2x2 table. If you have a better idea for the levels, please let me know.}}
 \end{figure}
 
-The deviations (in form of relative residuals) are plotted on choropleth maps as shown in Figure~\ref{fig:map-resids}. We see that the largest negative residuals (i.e.\ most underrepresented proportion of blind) are  native born females. There are far fewer native born blind women than expected. The most over-represented group are foreign born blind men, who in almost all of the states make up a by far larger number than expected.
+Relative deviations are then plotted on choropleth maps as shown in Figure~\ref{fig:map-resids}. We see that the largest negative deviations (i.e.\ most underrepresented proportion of blind) in most states are  native born females. There are far fewer native born blind women than expected. The most over-represented group are foreign born blind men, who in all but six of the states make up a by far larger number than expected.
 
-California makes an exception: foreign born blind women in California are a hugely underestimated group, while there are fewer foreign born blind men than expected.
 
-Kansas and Nebraska are two of the youngest states and might have been affected the most by the Homestead Act of 1862, which gave the opportunity to anyone `who had not taken up arms against the United States' to own 160 acres of land, if they settled and farmed the land for five years. In both Kansas and Nebraska, the proportion of foreign-born blind individuals is lower than expected, favoring the proportion of native born blind men and women, instead. Nebraska is a state since 1867, Kansas since 1861 (Nevada 1864, West Virginia 1863).
+Kansas and Nebraska are two exceptions of the general trend. These are two of the youngest states and might have been affected the most by the Homestead Act of 1862, which gave the opportunity to anyone `who had not taken up arms against the United States' to own 160 acres of land, if they settled and farmed the land for five years. In both Kansas and Nebraska, the proportion of foreign-born blind individuals is by far lower than expected, favoring the proportion of native born blind men and women, instead. %Nebraska is a state since 1867, Kansas since 1861 (Nevada 1864, West Virginia 1863).
+
+Figure~\ref{fig:map-resids-race} tells maybe the most important story of the blind population of the US in 1870. Unfortunately, it is the story of discrimination within a minority. From the pattern of deviations in the choropleth maps we see that in all but a few states white men among the blind are by far over-represented, while all other demographics, i.e.\ women and people of color are under-represented in a lot of states. For white women, this pattern is particularly predominant in the Northeast, while for women of color, the pattern is very strong in the South.  Blind men of color are with a few exceptions a by far under-represented group all across the US.
+\begin{figure}
+<<ipums-gender-race, dependson='simulate-resid-distr', echo=FALSE>>=
+grace <- as.data.frame(xtabs(data=ipums, ~STATEICP+SEX+I(RACE=="White")))
+grace$State <- toupper(grace$STATEICP)
+names(grace)[3] <- "race"
+levels(grace$race) <- c("Non-White", "White")
+grace<- grace %>% group_by(State) %>% mutate(totals=sum(Freq))
+grace$blind.exp <- with(grace, Freq/totals*100)
+
+blind.plus3 <- merge(blind2, grace[, c("State", "SEX","race", "blind.exp")], by.x=c("State","gender", "race"), by.y=c("State", "SEX", "race"), all.x=TRUE)
+
+blind.plus3$region <- tolower(blind.plus3$State)
+blind.plus3$resid <- with(blind.plus3, (blind-blind.exp)/sqrt(blind.exp))
+blind.plus3$residCut <- cut(blind.plus3$resid, breaks=c(-20,qu2, 20))
+## quantiles are based on thresholds from normal distribution
+## how do we communicate that?
+levels(blind.plus3$residCut) <- 
+  c("significantly too few (p < 0.01%)",
+    "significantly too few (p < 0.05%)",
+    "as expected", 
+    "significantly too many (p < 0.05%)",
+    "significantly too many (p < 0.01%)")
+
+blind.plus3$gender.race <- factor(
+  blind.plus3$gender.race, 
+  levels=c("Female/White", "Male/White", "Female/Non-White", "Male/Non-White")) 
+ggplot(aes(fill=residCut), data=blind.plus3) + 
+  geom_polygon(aes(x=long, y=lat, group=group), fill=NA, 
+               colour="grey90", data=states) +
+  geom_map(aes(map_id=region), map=states) +
+  expand_limits(x=states$long, y=states$lat) +
+  facet_wrap(~gender.race) + 
+  scale_fill_brewer("Deviation", palette="RdYlBu",
+                    guide = guide_legend(nrow=2, byrow=TRUE, 
+                                         reverse=TRUE)) + 
+  theme_map() + 
+  theme(legend.position="bottom") +
+  ggtitle("Where are the Women and People of Color?")
+@
+\caption{\label{fig:map-resids-race} Choropleth maps of the deviations of observed and expected proportions of blind by gender and race show the real story in the data: there are significantly too many white men among the blind in all but three states. All other demographics are by far under-represented. }
+\end{figure}
 
 \section{Conclusion}
 
