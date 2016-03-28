@@ -502,7 +502,7 @@ fsp <- tidyr::spread(fourth[, c("State","location", "blindEst")], location, blin
 fsp$Change <- with(fsp, `4O` - `4I`)
 fsp$relChange <- with(fsp, Change/`4I`)
 fsp$Multiple <- cut(fsp$relChange, breaks=c(0,0.5, 1, 2, 11))
-levels(fsp$Multiple) <- c("Up to 50% increase", "50-100% increase", "100-200% increase", "more than 200% increase")
+levels(fsp$Multiple) <- c("up to 50% increase", "50-100% increase", "100-200% increase", "more than 200% increase")
 
 fourth <- merge(fourth, fsp[, c("State", "Change", "relChange", "Multiple")], by="State")
 
@@ -524,7 +524,7 @@ It turns out that the number of blind in all states increase by more than these 
 There is a definite geographic pattern as can be seen in the figure below. The most established states of the North East and the East Coast show the lowest rates of increases in the blind population, while the less established, younger states shows the largest increases.  West Virgina is missing from the set -- note, that it is also missing from the fourth line of circles (shaped like donuts), because West Virginia did not become a state until three years after the 1860 census. Note that while West Virginia is a relatively young state, its inhabitants mostly lived in the area for much longer, because West Virginia seceded from Virginia and parts of the British Virginia Colony during the Civil War. Some of the West Virginians in the 1870 census will therefore have been counted towards Virginia's population in the 1860 census. 
 
 \begin{figure}
-<<echo=FALSE, fig.height=4.5>>=
+<<echo=FALSE, fig.height=4.25>>=
 require(ggthemes)
 states <- map_data("state")
 
@@ -535,9 +535,9 @@ ggplot(aes(fill=Multiple), data=fourth) +
   geom_map(aes(map_id=region), map=states)+ 
   expand_limits(x=states$long, y = states$lat) + 
   theme_map() +
-  scale_fill_brewer(palette="Reds") 
+  scale_fill_brewer("Change from 1860 to 1870", palette="Reds") 
 @
-\caption{\label{fig:map-change}}
+\caption{\label{fig:map-change}Choropleth map of a geographic overview of the changes in the number of blind between 1860 and 1870.}
 \end{figure}
 
 \section{Conclusion}
