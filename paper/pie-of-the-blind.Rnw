@@ -499,7 +499,7 @@ ggplot(aes(fill=residCut), data=blind.plus3) +
 
 Figure~\ref{fig:change} shows the change in the number of blind from 1860 to 1870 in each state.  All states see an influx in the number of blind.
 A change of 100\% means that the numbers have doubled between 1860 and 1870. 
-If we compare these numbers to  the overall increase in the number of people living in the US in 1860 and 1870. The population totals in 1860 and 1870 are 31,443,321 and 38,515,505, respectively. This comes out at a net increase of 22.5%. 
+If we compare these numbers to  the overall increase in the number of people living in the US in 1860 and 1870. The population totals in 1860 and 1870 are 31,443,321 and 38,515,505, respectively. This comes out at a net increase of 22.5\%. 
 We would expect the same percent-wise increase in the number of blind in each state.
 \begin{figure}
 <<echo=FALSE, fig.width=8, fig.height=8>>=
