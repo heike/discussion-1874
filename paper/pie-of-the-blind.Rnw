@@ -37,7 +37,8 @@
 % Jennifer, Andee, just define 'your color' here - so we know who is commenting on which section
 \newcommand{\ak}[1]{{\color{purple} #1}}
 %\newcommand{\jc}[1]{{\color{forestgreen} #1}}
-
+\definecolor{forestgreen}{rgb}{0.133,0.584,0.133}
+\newcommand{\jc}[1]{{\color{forestgreen} #1}}
 
 %% We encourage the use of mathptmx for consistent usage of times font
 %% throughout the proceedings. However, if you encounter conflicts
@@ -255,7 +256,7 @@ Let's assume that the actual proportion of blind individuals in the US at 1870 i
 
 For blind individuals at the state level the situation is worse and therefore does not allow us to draw any inference based on the microsample.
 
-\item {\bf chart based estimates:} the route that we are finally going to take is provided by Wines himself: for each of the pie segments Wines included the numeric values for each of the angles (out of 360). Based on these numbers, we can recover the proportions, if not the overall numbers. For the number of blind individuals in each state, we make use of the size at which each of the circles is drawn. \hh{XXX Jennifer, could you describe in a sentence how you got the pixels?}.
+\item {\bf chart based estimates:} the route that we are finally going to take is provided by Wines himself: for each of the pie segments Wines included the numeric values for each of the angles (out of 360). Based on these numbers, we can recover the proportions, if not the overall numbers. For the number of blind individuals in each state, we make use of the size at which each of the circles is drawn. \hh{XXX Jennifer, could you describe in a sentence how you got the pixels?}.\jc{The TIFF of the chart was loaded into Preview and bounding boxes drawn around each circle to measure the diameter in pixels.}
 This leaves the overall number of blind individuals as the only variable. For this number we will make use of the 1.2\% microsample as detailed below. 
 \end{itemize}
 
