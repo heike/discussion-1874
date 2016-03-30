@@ -227,8 +227,16 @@ ggplot(aes(fill=blindEst), data=state_pop) +
   scale_fill_gradient("Blind individuals", na.value = "grey80")
 @
 \end{subfigure}
-\caption{\label{fig:map-total}Maps of the United States. States established in 1870 are filled by color. Color shows total population (top) and total number of blind (bottom). The value for Nevada is missing from the second figure, because it is missing from Figure~\ref{fig:pie-blind}. It is not clear, why Wines  excluded Nevada from his chart.}
+\caption{\label{fig:map-total}Maps of the United States. States established in 1870 are filled by color. Color shows total population (top) and total number of blind (bottom). The value for Nevada is missing from the second figure, because it is missing from Figure~\ref{fig:pie-blind}. It is not clear, why Wines excluded Nevada from his chart.}
 \end{figure}
+
+\ak{We're talking about correlation here, would a scatter plot make sense to include also?}
+<<correlation, include=FALSE>>=
+ggplot(state_pop) +
+  geom_point(aes(TOTAL.POPULATION, blindEst)) +
+  xlab("Total population") + ylab("Blind individuals")
+@
+
 
 We can see from these two maps the geographic distribution of the population across the United States in 1870: New York is still by far the most populous state, followed by Pennsylvania and Ohio.
 What is missing in both Figure~\ref{fig:pie-blind} and the maps, are a comparison of the absolute numbers to population size, allowing us to investigate rates. This missing comparison to the overall population  confounds
