@@ -140,15 +140,23 @@
 %% the only exception to this rule is the \firstsection command
 \firstsection{Introduction}
 \maketitle
+\hh{HH: some things not yet included: 
+\begin{itemize}
+\item discussion of the historic and current rates of blind individuals; link to current statistics: \url{https://nfb.org/blindness-statistics}. The historic numbers are surprisingly(?) small. 
+\item expand on the technology used to produce the statistical atlas.
+\item Jennifer, how did you want to include the missing information? - did you see the example of the 1890 census?
+\end{itemize}
+}
+
 Three times in the past, the US Census Bureau published a Statistical Atlas to map the state of the Union based on data collected in the 9th, 10th, and 11th US census (in 1870, 1880, and 1890). Each of these atlases represents a  masterpiece in science and technology.
 In this paper, we want to discuss just one of the charts of the first Statistical Atlas: a chart consisting of the very first piecharts of the Statistical Atlas drawn by Fred H. Wines, the  Secretary of the Illinois State Board of Charities. The chart in question is shown in Figure~\ref{fig:pie-blind} in its whole. Figure~\ref{fig:us-foreign} shows a zoom into the top left corner of chart to highlight the amazing amount of detail that went into its construction. 
 \begin{figure}
 \centering
 \includegraphics[width=\linewidth]{figures/fig-blind}
-\caption{\label{fig:pie-blind}``Chart showing the aggregate number of the blind". Fred H Wines authored this chart for the Statistical Atlas published in 1874. The pie charts show the number of blind by state. The pies are segmented according to gender and nativity (top row) and by gender and race (middle row). The rings along the bottom row show changes in the number of blind individuals  between 1860 and 1870 for each state. A high-resolution figure is available  at \url{https://www.loc.gov/resource/g3701gm.gct00008/?sp=104} as part of the online collection of the Library of Congress.}
+\caption{\label{fig:pie-blind}``Chart showing the aggregate number of the blind". Fred H Wines authored this chart for the Statistical Atlas published in 1874. The pie charts show the number of blind individuals by state. The pies are segmented according to gender and nativity (top row) and by gender and race (middle row). The rings along the bottom row show changes in the number of blind individuals  between 1860 and 1870 for each state. A high-resolution figure is available  at \url{https://www.loc.gov/resource/g3701gm.gct00008/?sp=104} as part of the online collection of the Library of Congress.}
 \end{figure}
 
-The area of each of the pie charts in Figure~\ref{fig:pie-blind} is directly proportional to the number of individuals it represents. In fact, at the top left corner, the scale is given as 1 square inch for every 4,800 individuals. Unfortunately, in an electronic medium, the chart can now be rescaled, which nullifies \ak{XXX (is this better?)} this absolute scale. However, in its original scale the two pie charts in the corners in the top left and right corners have a diameter of about 2.15 inch, corresponding to 21,882 blind individuals in 1874. Note, this is just an estimate as detailed in Section~\ref{sec:data} \hh{XXX  I'm still looking for a better reference number.}  
+The area of each of the pie charts in Figure~\ref{fig:pie-blind} is directly proportional to the number of individuals it represents. In fact, at the top left corner, the scale is given as 1 square inch for every 4,800 individuals. Unfortunately, in an electronic medium, the chart can now be rescaled, which nullifies  this absolute scale. However, in its original scale the two pie charts in the corners in the top left and right corners have a diameter of about 2.15 inch, corresponding to 21,882 blind individuals in 1874. Note, this is just an estimate as detailed in Section~\ref{sec:data} \hh{XXX  a good alternative reference number would be nice.}  
 All of the numbers along the outside of each of the pie segments is the angle (in degrees) at which this line is drawn with respect to the vertical line (with the 0 at the bottom). The directionality, in which the text is shown,  implies whether the angle is drawn clockwise or counter-clockwise. From Figure~\ref{fig:us-foreign} we therefore see that a total of 165/360 = 45.8\% of all blind individuals are native born men, while native born women make up 137/360 = 38.1\% of the blind population.
 159/360 = 44.2\% of all blind are female.
 
@@ -183,7 +191,9 @@ In the chart here, geometric elements correspond to quantitaties in the data as 
 \end{enumerate}
 
 Unfortunately, both comparing circle sizes or angles that are not aligned on the same axis or have the same origin are both cognitively relatively hard tasks \cite{cleveland84, cleveland85}. 
-The saving grace about angles is that they are \ak{XXX ??}
+One of the nice features of the pie charts is that angles do not depend on the absolute number which makes them comparable across all of the states.
+On the other hand, by design the sizes of the pie charts in the second and third row each sum up to the pie chart at the top. While this is true (as shown by measuring every one of the pie charts involved), this feature is not at all apparent from just looking at the charts. \hh{XXX it is also not part of the re-worked graphic. It'd be really nice to visualize this directly, but right now I am not sure how.}
+
 
 All of the quantities shown are absolute numbers of blind individuals. As can be seen from Figure~\ref{fig:mapus}, these numbers are highly correlated with the total population. Absolute numbers are therefore much less likely to tell a story specific to the blind than one of settling a continent. 
 Figure~\ref{fig:mapus} shows the number of total population by state according to the ninth decennial census. Figure~\ref{fig:mapblind} looks almost identical, but shows the (estimates of the) number of blind individuals by state. 
@@ -264,7 +274,8 @@ Let's assume that the actual proportion of blind individuals in the US at 1870 i
 
 For blind individuals at the state level the situation is worse and therefore does not allow us to draw any inference based on the microsample.
 
-\item {\bf chart based estimates:} the route that we are finally going to take is provided by Wines himself: for each of the pie segments Wines included the numeric values for each of the angles (out of 360). Based on these numbers, we can recover the proportions, if not the overall numbers. For the number of blind individuals in each state, we make use of the size at which each of the circles is drawn. \hh{XXX Jennifer, could you describe in a sentence how you got the pixels?}.\jc{The TIFF of the chart was loaded into Preview and bounding boxes drawn around each circle to measure the diameter in pixels.}
+\item {\bf chart based estimates:} the route that we are finally going to take is provided by Wines himself: for each of the pie segments Wines included the numeric values for each of the angles (out of 360). Based on these numbers, we can recover the proportions, if not the overall numbers. For the number of blind individuals in each state, we make use of the size at which each of the circles is drawn. 
+\jc{The TIFF of the chart was loaded into Preview and bounding boxes drawn around each circle to measure the diameter in pixels.}
 This leaves the overall number of blind individuals as the only variable. For this number we will make use of the 1.2\% microsample as detailed below. 
 \end{itemize}
 
