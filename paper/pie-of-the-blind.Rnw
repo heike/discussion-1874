@@ -251,17 +251,45 @@ ggplot(aes(fill=blindEst), data=state_pop) +
 \caption{\label{fig:map-total}Maps of the United States. States established in 1870 are filled by color. Color shows total population (top) and total number of blind (bottom). The value for Nevada is missing from the second figure, because it is missing from Figure~\ref{fig:pie-blind}. It is not clear, why Wines excluded Nevada from his chart.}
 \end{figure}
 
-\ak{We're talking about correlation here, would a scatter plot make sense to include also?}
-<<correlation, include=FALSE>>=
-ggplot(state_pop) +
-  geom_point(aes(TOTAL.POPULATION, blindEst)) +
-  xlab("Total population") + ylab("Blind individuals")
-@
+\ak{We're talking about correlation here, would a scatter plot make sense to include also?} 
+\hh{XXX I agree, it does make sense - showing correlation on a map is not ideal. \Sexpr{with(state_pop, cor(TOTAL.POPULATION, blindEst, use="complete.obs"))}}
+\begin{figure}
+<<correlation, echo=FALSE, out.width='.7\\linewidth'>>=
+state.labels <- data.frame(state.abb, state=tolower(state.name))
+state_pop <- merge(state_pop, state.labels, by="state")
+state_pop$blindRates <- with(state_pop, blindEst/TOTAL.POPULATION*10000)
 
+miniLM <- lm(blindEst~TOTAL.POPULATION, data=state_pop)
+state_pop$blindPred <- predict(miniLM, newdata=state_pop)
+  
+ggplot(aes(x=TOTAL.POPULATION/10^6, y=blindEst), data = state_pop) +
+  geom_smooth(method="lm", se=FALSE, colour="grey50") +
+  geom_point() +
+  xlab("Total population (in millions)") + ylab("Blind individuals") + 
+  theme_bw() +
+  geom_label(aes(label=state.abb), nudge_x=-.175, alpha=0.5,
+             data=subset(state_pop, blindEst-blindPred>100 & state.abb != "TN"), size=3) + 
+  geom_label(aes(label=state.abb), nudge_x=.175, alpha=0.5,
+             data=subset(state_pop, state.abb == "TN"), size=3)
+@
+\caption{\label{fig:correlation}Scatterplot of blind individuals by total population. Overall, the numbers are highly correlated, but the more interesting story is the set of states with a larger than average rate of blind individuals (labelled). }
+\end{figure}
 
 We can see from these two maps the geographic distribution of the population across the United States in 1870: New York is still by far the most populous state, followed by Pennsylvania and Ohio.
 What is missing in both Figure~\ref{fig:pie-blind} and the maps, are a comparison of the absolute numbers to population size, allowing us to investigate rates. This missing comparison to the overall population  confounds
 the whole interpretation of this chart, e.g. at face value, there are more blind men than blind women.  Does that mean that the proportion of men affected by blindness is also higher or is this a reflection of the gender balance at the time? 
+
+<<mapBlindRate, dependson='mapUS', echo=FALSE, out.width='.9\\linewidth', fig.height=4>>=
+ggplot(aes(fill=blindEst/TOTAL.POPULATION*10000), data=state_pop) + 
+  geom_polygon(aes(x=long, y=lat, group=group), fill=NA, 
+               colour="grey85", data=states) + 
+  geom_map(aes(map_id=state), map=states) +
+  expand_limits(x=states$long, y=states$lat) + 
+  theme_map() +
+  theme(plot.margin=grid::unit(c(0,0,0,0), units="cm")) + 
+  scale_fill_gradient("#Blind per 10,000", na.value = "grey80")
+@
+
 We see a similar problem with the `donut' rings  at the bottom of Wines' chart. Here, the inner ring stands for the number of blind in 1860, while the outer ring represents the number of blind in 1870. This representation only works, if there is an increase in the number of blind individuals in every single state. The US was growing at a fast pace during this time (from about 31.2 million people in 1860  to 38.5 million people in 1870), and as long as living conditions and health care conditions did not improve, we would expect proportionally about the same  increase in the blind population. Again, the fact that the absolute number of blind increased is less of a story than if there are deviations from this growth.  
 
 
