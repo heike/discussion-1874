@@ -180,6 +180,9 @@ While amazing in its complexity and amount of detail, this chart has several maj
 
  Generally, William Playfair is credited to have published the first pie chart~\cite{spence04, friendly01} in his Statistical Breviary~\cite{playfair1801} from 1801.
 The discussion of suitability of pie charts is almost as old as pie charts themselves. \hh{XXX citations and a bit of discussion XXX; 1926 W. C. Ells }
+The next citation comes verbatim from the R help file for pie charts:
+
+Cleveland (1985), page 264: ``Data that can be shown by pie charts always can be shown by a dot chart. This means that judgements of position along a common scale can be made instead of the less accurate angle judgements." This statement is based on the empirical investigations of Cleveland and McGill as well as investigations by perceptual psychologists.
 
 \hh{XXX cognitive problems in judging area of circles leads to Steven's Power Law: the perceived
 area of a circle is usually equal to the actual area raised to an exponent of about 0.8 times a
