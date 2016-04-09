@@ -179,7 +179,13 @@ While amazing in its complexity and amount of detail, this chart has several maj
 \section{Discussion of the 1874 Chart}
 
  Generally, William Playfair is credited to have published the first pie chart~\cite{spence04, friendly01} in his Statistical Breviary~\cite{playfair1801} from 1801.
-The discussion of suitability of pie charts is almost as old as pie charts themselves. \hh{XXX citations and a bit of discussion XXX}
+The discussion of suitability of pie charts is almost as old as pie charts themselves. \hh{XXX citations and a bit of discussion XXX; 1926 W. C. Ells }
+
+\hh{XXX cognitive problems in judging area of circles leads to Steven's Power Law: the perceived
+area of a circle is usually equal to the actual area raised to an exponent of about 0.8 times a
+scaling constant. \cite{kosslyn2006}}
+
+
 The purpose of this paper is not to add to this lengthy discussion, but to let this data set tell its story. 
 
 In the chart here, geometric elements correspond to quantitaties in the data as follows: 
