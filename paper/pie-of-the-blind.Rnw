@@ -184,6 +184,8 @@ The next citation comes verbatim from the R help file for pie charts:
 
 Cleveland (1985), page 264: ``Data that can be shown by pie charts always can be shown by a dot chart. This means that judgements of position along a common scale can be made instead of the less accurate angle judgements." This statement is based on the empirical investigations of Cleveland and McGill as well as investigations by perceptual psychologists.
 
+\hh{the only thing that pie charts do slightly better than barcharts is to summarize visually A+B and C+D if A and B and C and D are neighboring segments~\cite{spence1991}. }
+
 \hh{XXX cognitive problems in judging area of circles leads to Steven's Power Law: the perceived
 area of a circle is usually equal to the actual area raised to an exponent of about 0.8 times a
 scaling constant. \cite{kosslyn2006}}
