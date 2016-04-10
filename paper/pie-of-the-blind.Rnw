@@ -267,8 +267,9 @@ ggplot(aes(x=TOTAL.POPULATION/10^6, y=blindEst), data = state_pop) +
   geom_point() +
   xlab("Total population (in millions)") + ylab("Blind individuals") + 
   theme_bw() +
-  geom_label(aes(label=state.abb), nudge_x=-.175, alpha=0.5,
-             data=subset(state_pop, blindEst-blindPred>100 & state.abb != "TN"), size=3) + 
+  geom_label(aes(label=state.abb), nudge_x=-.175, alpha=0.5, size=3,
+             data=subset(state_pop, 
+                         blindEst-blindPred>100 & state.abb != "TN")) + 
   geom_label(aes(label=state.abb), nudge_x=.175, alpha=0.5,
              data=subset(state_pop, state.abb == "TN"), size=3)
 @
@@ -279,6 +280,20 @@ We can see from these two maps the geographic distribution of the population acr
 What is missing in both Figure~\ref{fig:pie-blind} and the maps, are a comparison of the absolute numbers to population size, allowing us to investigate rates. This missing comparison to the overall population  confounds
 the whole interpretation of this chart, e.g. at face value, there are more blind men than blind women.  Does that mean that the proportion of men affected by blindness is also higher or is this a reflection of the gender balance at the time? 
 
+\hh{ XXX I am not sure where the following paragrph should go, but I think it would be good to write the paper around Wines own statements XXX
+
+Interpretation by Wines (p.3 of the introduction) in his own words:
+\begin{itemize}
+\item ``Males are shown to be in excess among the Blind"
+\item ``Foreigners are shown to be in excess of their proportion among the Blind"
+\item ``The Colored are shown to be in excess of their proportion among the Blind"
+\end{itemize}
+
+Based on the chart he presented, it is not immediately clear, how these statements come to pass.
+}
+
+
+\begin{figure}
 <<mapBlindRate, dependson='mapUS', echo=FALSE, out.width='.9\\linewidth', fig.height=4>>=
 ggplot(aes(fill=blindEst/TOTAL.POPULATION*10000), data=state_pop) + 
   geom_polygon(aes(x=long, y=lat, group=group), fill=NA, 
@@ -289,6 +304,8 @@ ggplot(aes(fill=blindEst/TOTAL.POPULATION*10000), data=state_pop) +
   theme(plot.margin=grid::unit(c(0,0,0,0), units="cm")) + 
   scale_fill_gradient("#Blind per 10,000", na.value = "grey80")
 @
+\caption{\label{fig:rates-overall}Choropleth map of the number of blind per every 10,000 individuals. A fairly strong geographic relationship becomes apparent: highest rates of blinds are in states surrounding the capital.}
+\end{figure}
 
 We see a similar problem with the `donut' rings  at the bottom of Wines' chart. Here, the inner ring stands for the number of blind in 1860, while the outer ring represents the number of blind in 1870. This representation only works, if there is an increase in the number of blind individuals in every single state. The US was growing at a fast pace during this time (from about 31.2 million people in 1860  to 38.5 million people in 1870), and as long as living conditions and health care conditions did not improve, we would expect proportionally about the same  increase in the blind population. Again, the fact that the absolute number of blind increased is less of a story than if there are deviations from this growth.  
 
