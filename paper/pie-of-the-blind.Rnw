@@ -266,8 +266,10 @@ ggplot(aes(fill=blindEst), data=state_pop) +
 \caption{\label{fig:map-total}Maps of the United States. States established in 1870 are filled by color. Color shows total population (top) and total number of blind (bottom). The value for Nevada is missing from the second figure, because it is missing from Figure~\ref{fig:pie-blind}. It is not clear, why Wines excluded Nevada from his chart.}
 \end{figure}
 
-\ak{We're talking about correlation here, would a scatter plot make sense to include also?} 
-\hh{XXX I agree, it does make sense - showing correlation on a map is not ideal. \Sexpr{with(state_pop, cor(TOTAL.POPULATION, blindEst, use="complete.obs"))}}
+
+\hh{Obviously, a direct comparison of the numbers by state allows us to better quantify the correlation between the variables involved. The scatterplot in Figure~\ref{fig:correlation} shows the strong relationship between the number of blind and total population for each state (the correlation is \Sexpr{round(with(state_pop, cor(TOTAL.POPULATION, blindEst, use="complete.obs")),3)}). States with a higher number of blind individuals compared to total population of the state are labelled. Figure~\ref{fig:rates-overall} shows a choropleth map of the rate of blind per 10,000 that reveals a fairly strong geographic pattern of relatively many blinds in states in the South East. }
+% \ak{We're talking about correlation here, would a scatter plot make sense to include also?} 
+% \hh{XXX I agree, it does make sense - showing correlation on a map is not ideal. }
 \begin{figure}
 <<correlation, echo=FALSE, out.width='.7\\linewidth'>>=
 state.labels <- data.frame(state.abb, state=tolower(state.name))
