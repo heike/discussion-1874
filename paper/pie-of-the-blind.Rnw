@@ -178,6 +178,21 @@ While amazing in its complexity and amount of detail, this chart has several maj
 
 \section{Discussion of the 1874 Chart}
 
+\subsection{What is the chart supposed to tell us?}
+\hh{
+
+Interpretation by Wines (p.3 of the introduction) in his own words:
+\begin{itemize}
+\item ``Males are shown to be in excess among the Blind"
+\item ``Foreigners are shown to be in excess of their proportion among the Blind"
+\item ``The Colored are shown to be in excess of their proportion among the Blind"
+\end{itemize}
+
+Based on the chart he presented, it is not immediately clear, how these statements come to pass.
+}
+
+\subsection{What can the chart tell us?}
+
  Generally, William Playfair is credited to have published the first pie chart~\cite{spence04, friendly01} in his Statistical Breviary~\cite{playfair1801} from 1801.
 The discussion of suitability of pie charts is almost as old as pie charts themselves. \hh{XXX citations and a bit of discussion XXX; 1926 W. C. Ells }
 The next citation comes verbatim from the R help file for pie charts:
@@ -280,17 +295,6 @@ We can see from these two maps the geographic distribution of the population acr
 What is missing in both Figure~\ref{fig:pie-blind} and the maps, are a comparison of the absolute numbers to population size, allowing us to investigate rates. This missing comparison to the overall population  confounds
 the whole interpretation of this chart, e.g. at face value, there are more blind men than blind women.  Does that mean that the proportion of men affected by blindness is also higher or is this a reflection of the gender balance at the time? 
 
-\hh{ XXX I am not sure where the following paragrph should go, but I think it would be good to write the paper around Wines own statements XXX
-
-Interpretation by Wines (p.3 of the introduction) in his own words:
-\begin{itemize}
-\item ``Males are shown to be in excess among the Blind"
-\item ``Foreigners are shown to be in excess of their proportion among the Blind"
-\item ``The Colored are shown to be in excess of their proportion among the Blind"
-\end{itemize}
-
-Based on the chart he presented, it is not immediately clear, how these statements come to pass.
-}
 
 
 \begin{figure}
@@ -336,6 +340,20 @@ This leaves the overall number of blind individuals as the only variable. For th
 \end{itemize}
 
 While the 1.2\% microsample does not help with  the small number of blind at the state level, it does allow us to get an estimate for the total number of blind for the nation: using the 252 blind individuals in the 1.2\% microsample as a basis, we get an estimated number of  $38.5 \cdot 10^6 \cdot p = 21,882$ blind individuals nationwide with a corresponding 95\% Wald confidence interval of (21,586, 22,178). This is the number that the values in Figure~\ref{fig:mapblind} is based on.
+
+\section{Fact checking}
+\hh{Following along Wines' statements we will provide graphical evidence to check on his statements and also comment on their visual accessibility. }
+\subsection{``Males are shown to be in excess among the Blind"}
+\hh{XXX when talking about excess, the baseline needs to be defined. for gender we have a natural assumption of 50:50, which we can use here. }
+\hh{XXX this statement turns out to be ok both at face value (i.e. assuming a 50:50 ratio of the genders) and when adjusting for the state marginal distributions. The face value can be seen in the pie charts when adding the two segments for men. }
+\hh{XXX We also see from the topleft pie for the whole of the U.S.\ that the proportion of men is (quite a bit) more than 50 percent.}
+\subsection{``Foreigners are shown to be in excess of their proportion among the Blind"}
+\hh{XXX Unlike the previous statement there is no natural baseline, so there is no way to assess this statemnt based on Wines' pie charts. here, we can include a chart that compares the numbers.
+The statement turns out to be true on the proportions, but we should also include the number of people that it is based on (because different states have very different population sizes). }
+\subsection{``The Colored are shown to be in excess of their proportion among the Blind"}
+\hh{XXX Again, there is no natural baseline, so we cannot use the pie charts to assess the validity of the statement. Based on the actual numbers this statement is true for some states, but not for all. XXX Need to still check the overall numbers. This statement is in direct conflict to our finding later on - that is a Simpson's paradoxon. }
+
+
 
 \section{Re-worked Graphic and Story}
 We are going to let this dataset tell its story in two steps. First, we plot the same data that Wines used in a different design to get a better overview of the situation. In a second step, we are going to use demographics of the total population to find where the blind population deviates the most. 
@@ -428,6 +446,8 @@ We calculate expected proportions for blind by gender and nativity/race based on
 \[
 D = \frac{obs - exp}{\sqrt{exp}}.
 \]
+
+\hh{XXX some of these findings are in direct contradiction to Wines' statements. That's probably du to a Simpson's paradox. Let's pull out the example of Texas and go through the numbers. }
 
 <<simulate-resid-distr, cache=TRUE, echo=FALSE>>=
 B <- 100000
@@ -613,7 +633,7 @@ ggplot(aes(fill=Multiple), data=fourth) +
   theme_map() +
   scale_fill_brewer("Change from 1860 to 1870", palette="Reds") 
 @
-\caption{\label{fig:map-change}Choropleth map of a geographic overview of the changes in the number of blind between 1860 and 1870.}
+\caption{\label{fig:map-change}Choropleth map of a geographic overview of the changes in the number of blind between 1860 and 1870. \hh{XXX how do these changes compare to whole population?}}
 \end{figure}
 
 \section{Conclusion}

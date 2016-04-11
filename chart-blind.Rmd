@@ -29,67 +29,6 @@ This is the chart that we are discussing:
 
 - con against the pies: the areas of the first two rows of circles combined are the same area as each one of the large circles at the top of the page. Visually this is not at all clear. HH: I am not at all sure how we could visualize this relationship in a meaningful way. 
 
-- "Males are shown to be in excess among the blind"
-what is the comparison? - under the assumption that the gender ratio is 50:50, Wines' statement is true; there are more men among the blind than women. Based on the pie charts this is what he seems to suggest. However, Wines should be aware that the gender ratio in the US overall is slightly tilted towards men -- in the 1870 census 50.5% of the population are men. However, the ratio is very different from one state to the next. 
-```{r, echo=FALSE}
-
-
-blindGender <- blind %>% group_by(State, gender) %>% 
-  summarize(
-    blind = sum(blind)
-  )
-blindGender$state <- tolower(blindGender$State)
-state_pop <- merge(state_pop, subset(blindGender, gender=="Male")[,-(1:2)], by="state", all.x=TRUE)
-
-state_pop$state <- with(state_pop, reorder(state, TOTAL.MALES/TOTAL.POPULATION*100))
-qplot(state, weight=TOTAL.MALES/TOTAL.POPULATION*100, data=state_pop, alpha=I(0.8)) + 
-  ylab("Percentage") + ylim(c(0,100)) + xlab("State") + 
-  theme(axis.text.x=element_text(angle=90, vjust=0.5, hjust=1)) +
-  geom_hline(yintercept=50, colour="white") + 
-  ggtitle("Percent male population, blind overlaid") + 
-  geom_bar(aes(x = state, weight=blind), fill="orange", alpha=0.4)
-```
-
-- "Foreigners are shown to be in excess of their proportion among the blind"
-
-```{r, echo=FALSE}
-
-
-blindForeign <- blind %>% group_by(State, nativity) %>% 
-  summarize(
-    blindForeign = sum(blind)
-  )
-blindForeign$state <- tolower(blindForeign$State)
-state_pop <- merge(state_pop, subset(blindForeign, nativity=="Foreign")[,-(1:2)], by="state", all.x=TRUE)
-
-state_pop$state <- with(state_pop, reorder(state, FOREIGN.BORN.PERSONS/TOTAL.POPULATION*100))
-qplot(state, weight=FOREIGN.BORN.PERSONS/TOTAL.POPULATION*100, data=state_pop, alpha=I(0.8)) + 
-  ylab("Percentage") + ylim(c(0,100)) + xlab("State") + 
-  theme(axis.text.x=element_text(angle=90, vjust=0.5, hjust=1)) +
-  geom_hline(yintercept=50, colour="white") + 
-  ggtitle("Percent foreign population, blind overlaid") + 
-  geom_bar(aes(x = state, weight=blindForeign), fill="orange", alpha=0.4)
-```
-
-- "The Colored are shown to be in excess of their proportion among the Blind"
-```{r, echo=FALSE}
-
-
-blindColored <- blind2 %>% group_by(State, race) %>% 
-  summarize(
-    blindRace = sum(blind)
-  )
-blindColored$state <- tolower(blindColored$State)
-state_pop <- merge(state_pop, subset(blindColored, race=="Non-White")[,-(1:2)], by="state", all.x=TRUE)
-
-state_pop$state <- with(state_pop, reorder(state, COLORED.PERSONS/TOTAL.POPULATION*100))
-qplot(state, weight=COLORED.PERSONS/TOTAL.POPULATION*100, data=state_pop, alpha=I(0.8)) + 
-  ylab("Percentage") + ylim(c(0,100)) + xlab("State") + 
-  theme(axis.text.x=element_text(angle=90, vjust=0.5, hjust=1)) +
-  geom_hline(yintercept=50, colour="white") + 
-  ggtitle("Percent coloured population, blind overlaid") + 
-  geom_bar(aes(x = state, weight=blindRace), fill="orange", alpha=0.4)
-```
 
 - earliest pie chart is credited to Statistical Breviary (William Playfair, 1801)
 
@@ -441,4 +380,66 @@ ggplot(aes(fill=Multiple), data=fourth) +
   expand_limits(x=states$long, y = states$lat) + 
   theme_map() +
   scale_fill_brewer(palette="Reds") 
+```
+
+- "Males are shown to be in excess among the blind"
+what is the comparison? - under the assumption that the gender ratio is 50:50, Wines' statement is true; there are more men among the blind than women. Based on the pie charts this is what he seems to suggest. However, Wines should be aware that the gender ratio in the US overall is slightly tilted towards men -- in the 1870 census 50.5% of the population are men. However, the ratio is very different from one state to the next. 
+```{r, echo=FALSE}
+library(dplyr)
+#blind <- read.csv("data/blind-per.state.csv")
+blindGender <- blind %>% group_by(State, gender) %>% 
+  summarize(
+    blind = sum(blind)
+  )
+blindGender$state <- tolower(blindGender$State)
+state_pop <- merge(state_pop, subset(blindGender, gender=="Male")[,-(1:2)], by="state", all.x=TRUE)
+
+state_pop$state <- with(state_pop, reorder(state, TOTAL.MALES/TOTAL.POPULATION*100))
+qplot(state, weight=TOTAL.MALES/TOTAL.POPULATION*100, data=state_pop, alpha=I(0.8)) + 
+  ylab("Percentage") + ylim(c(0,100)) + xlab("State") + 
+  theme(axis.text.x=element_text(angle=90, vjust=0.5, hjust=1)) +
+  geom_hline(yintercept=50, colour="white") + 
+  ggtitle("Percent male population, blind overlaid") + 
+  geom_bar(aes(x = state, weight=blind), fill="orange", alpha=0.4)
+```
+
+- "Foreigners are shown to be in excess of their proportion among the blind"
+
+```{r, echo=FALSE}
+
+
+blindForeign <- blind %>% group_by(State, nativity) %>% 
+  summarize(
+    blindForeign = sum(blind)
+  )
+blindForeign$state <- tolower(blindForeign$State)
+state_pop <- merge(state_pop, subset(blindForeign, nativity=="Foreign")[,-(1:2)], by="state", all.x=TRUE)
+
+state_pop$state <- with(state_pop, reorder(state, FOREIGN.BORN.PERSONS/TOTAL.POPULATION*100))
+qplot(state, weight=FOREIGN.BORN.PERSONS/TOTAL.POPULATION*100, data=state_pop, alpha=I(0.8)) + 
+  ylab("Percentage") + ylim(c(0,100)) + xlab("State") + 
+  theme(axis.text.x=element_text(angle=90, vjust=0.5, hjust=1)) +
+  geom_hline(yintercept=50, colour="white") + 
+  ggtitle("Percent foreign population, blind overlaid") + 
+  geom_bar(aes(x = state, weight=blindForeign), fill="orange", alpha=0.4)
+```
+
+- "The Colored are shown to be in excess of their proportion among the Blind"
+```{r, echo=FALSE}
+
+
+blindColored <- blind2 %>% group_by(State, race) %>% 
+  summarize(
+    blindRace = sum(blind)
+  )
+blindColored$state <- tolower(blindColored$State)
+state_pop <- merge(state_pop, subset(blindColored, race=="Non-White")[,-(1:2)], by="state", all.x=TRUE)
+
+state_pop$state <- with(state_pop, reorder(state, COLORED.PERSONS/TOTAL.POPULATION*100))
+qplot(state, weight=COLORED.PERSONS/TOTAL.POPULATION*100, data=state_pop, alpha=I(0.8)) + 
+  ylab("Percentage") + ylim(c(0,100)) + xlab("State") + 
+  theme(axis.text.x=element_text(angle=90, vjust=0.5, hjust=1)) +
+  geom_hline(yintercept=50, colour="white") + 
+  ggtitle("Percent coloured population, blind overlaid") + 
+  geom_bar(aes(x = state, weight=blindRace), fill="orange", alpha=0.4)
 ```
