@@ -148,13 +148,20 @@ circles$area <- (circles$pixel_diameter/2)^2*pi
 base <- subset(circles, State=="US") # this is all the blind in the US in 1870
 blindprop <- read.csv("data/blind-per.state.csv", na.strings="#VALUE!")
 ipums <- read.csv("data/ipums-1870.csv")
-ipums %>% group_by(YEAR, BLIND) %>% summarize(n = n())
+
+ipums %>% group_by(YEAR, BLIND) %>% summarize(n = n()) # we need to compare this to the weighted data
+
+ipums %>% group_by(YEAR, BLIND) %>% summarize(n = n()/nrow(ipums)*38155505, slwt = sum(SLWT*1.0)/100)
 
 # how many blind individuals were there in total in 1870? - I don't seem to be able to find a good number. 
 # https://www.census.gov/newsroom/releases/archives/facts_for_features_special_editions/cb09-ff13.html
 
 # there are 252 blind individuals in the data. This would mean that there were about 21686.26 blind individuals in the US in 1870. 
 252/nrow(ipums)*38155505
+
+# maybe better estimate: 
+sum(subset(ipums, BLIND=="Yes")$SLWT*1.0)/100
+######## need to fix from here on out
 
 # the real size diameter of the US on the chart is therefore about 2.40 inches, if 1 square inch corresponds to 4,800 individuals
 sqi <- 252/nrow(ipums)*38155505/4800
