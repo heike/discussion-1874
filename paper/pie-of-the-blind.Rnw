@@ -348,10 +348,11 @@ While the 1.2\% microsample does not help with  the small number of blind at the
 \hh{XXX this statement turns out to be ok both at face value (i.e. assuming a 50:50 ratio of the genders) and when adjusting for the state marginal distributions. The face value can be seen in the pie charts when adding the two segments for men. }
 \hh{XXX We also see from the topleft pie for the whole of the U.S.\ that the proportion of men is (quite a bit) more than 50 percent.}
 \subsection{``Foreigners are shown to be in excess of their proportion among the Blind"}
-\hh{XXX Unlike the previous statement there is no natural baseline, so there is no way to assess this statemnt based on Wines' pie charts. here, we can include a chart that compares the numbers.
+\hh{XXX Unlike the previous statement there is no natural baseline, so there is no way to assess this statement based on Wines' pie charts, i.e. if we think of these statements by Wines as the caption of the chart, it does not match with the chart, which is always confusing to the audience \cite{robbins2005}. 
+here, we can include a chart that compares the numbers.
 The statement turns out to be true on the proportions, but we should also include the number of people that it is based on (because different states have very different population sizes). }
 \subsection{``The Colored are shown to be in excess of their proportion among the Blind"}
-\hh{XXX Again, there is no natural baseline, so we cannot use the pie charts to assess the validity of the statement. Based on the actual numbers this statement is true for some states, but not for all. XXX Need to still check the overall numbers. This statement is in direct conflict to our finding later on - that is a Simpson's paradoxon. }
+\hh{XXX Again, there is no natural baseline, so we cannot use the pie charts to assess the validity of the statement. Based on the actual numbers this statement is true for some states, but not for all. XXX Need to still check the overall numbers. This statement is in direct conflict to our finding later on - that is a Simpson's paradoxon~\cite{simpson1951}. }
 
 
 
