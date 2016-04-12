@@ -333,9 +333,9 @@ Unfortunately, only political and economic factors are included in these data so
 
 The reliability of the microsample for questions regarding the blind is not high enough to allow for accurate statements: The microsample for the 1870 census consists of 443,377 individuals, out of which 252 are identified as blind, i.e.\ on average there are only 5 to 6 blind individuals in a population of size 10,000. 
 \hh{XXX motivate p more XXX}
-Let's assume that the actual proportion of blind individuals in the US at 1870 is actually 241.5 in 443,377 \hh{XXX based on total \# blind}.  Then $X$, the number of blind individuals in the microsample, follows a Binomial distribution $B_{n, p }$ with $\hat{p} = 20970.51/(38.5\cdot 10^6)$ and $n = 443377$. This means that $X$ has an expected value of 241.5, but its variance is the same size (Var$(X) = 241.4)$, which means that a Wald 95\% confidence interval is (222, 282). This puts the relative uncertainty around the number of blind individuals at about 25\%.
+Let's assume that the actual proportion of blind individuals in the US at 1870 is actually 241.5 in 443,377 \hh{XXX based on total \# blind}.  Then $X$, the number of blind individuals in the microsample, follows a Binomial distribution $B_{n, p }$ with $\hat{p} = 20970.51/(38.5\cdot 10^6)$ and $n = 443377$. This means that $X$ has an expected value of 241.5, but its variance is the same size (Var$(X) = 241.4)$, which means that a Wald 95\% confidence interval is (222, 282). This puts the relative uncertainty around the number of blind individuals in the microsample at about 25\%.
 
-For blind individuals at the state level the situation is worse and therefore does not allow us to draw any inference based on the microsample.
+For blind individuals at the state level the situation is worse and we should therefore not base inferential statements about blind individuals  on the microsample.
 
 \item {\bf chart based estimates:} the route that we are finally going to take is provided by Wines himself: for each of the pie segments Wines included the numeric values for each of the angles (out of 360). Based on these numbers, we can recover the proportions, if not the overall numbers. For the number of blind individuals in each state, we make use of the size at which each of the circles is drawn. 
 \jc{The TIFF of the chart was loaded into Preview and bounding boxes drawn around each circle to measure the diameter in pixels.}
@@ -500,7 +500,8 @@ qu2 <- qnorm(c(0.01, 0.05, 0.95, 0.99), sd=1/6)
 ipums <- read.csv("../data/ipums-1870.csv")
 ipums <- subset(ipums, STATEICP != "Colorado")
 
-gborn <- as.data.frame(xtabs(data=ipums, ~STATEICP+SEX+I(NATIVITY=="Foreign born")))
+gborn <- as.data.frame(xtabs(data=ipums, SLWT~STATEICP+SEX+I(NATIVITY=="Foreign born")))
+gborn$Freq <- gborn$Freq/100
 gborn$State <- toupper(gborn$STATEICP)
 names(gborn)[3] <- "nativity"
 levels(gborn$nativity) <- c("Native", "Foreign")
@@ -547,7 +548,8 @@ Kansas and Nebraska are two exceptions of the general trend. These are two of th
 Figure~\ref{fig:map-resids-race} tells maybe the most important story of the blind population of the US in 1870. Unfortunately, it is the story of discrimination within a minority. From the pattern of deviations in the choropleth maps we see that in all but a few states white men among the blind are by far over-represented, while all other demographics, i.e.\ women and people of color are under-represented in a lot of states. For white women, this pattern is particularly predominant in the Northeast, while for women of color, the pattern is very strong in the South.  Blind men of color are with a few exceptions a by far under-represented group all across the US.
 \begin{figure}
 <<ipums-gender-race, dependson='simulate-resid-distr', echo=FALSE>>=
-grace <- as.data.frame(xtabs(data=ipums, ~STATEICP+SEX+I(RACE=="White")))
+grace <- as.data.frame(xtabs(data=ipums, SLWT~STATEICP+SEX+I(RACE=="White")))
+grace$Freq <- grace$Freq/100.0
 grace$State <- toupper(grace$STATEICP)
 names(grace)[3] <- "race"
 levels(grace$race) <- c("Non-White", "White")
