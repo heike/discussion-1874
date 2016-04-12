@@ -23,6 +23,7 @@ library(ggplot2)
 library(tidyr)
 library(dplyr)
 blind <- blindprop %>% select(State, Male.native.blind.perc, Male.foreign.blind.perc, Female.native.blind.perc, Female.foreign.blind.perc) %>% gather(gender.born, blind, -State)
+blind$blind <- as.numeric(blind$blind)
 
 blind$gender <- "Male"
 blind$gender[grep("Female", blind$gender.born)] <- "Female"
@@ -37,11 +38,12 @@ blind$gender.born <- with(blind, interaction(gender, nativity, sep="/"))
 blind$gender.born <- factor(blind$gender.born, levels=c("Female/Native", "Female/Foreign", "Male/Foreign", "Male/Native"))
 blind$State <- reorder(blind$State, blind$blind, function(x) x[1]+x[3])
 
-ggplot(data=blind, aes(x=State, weight=blind, fill=gender.born)) +
+ggplot(data=data.frame(blind), aes(x=State, weight=blind, fill=gender.born)) +
   geom_bar() + 
   coord_flip() + 
   scale_fill_manual("Gender/Nativity", values=cols[c(6,5,1,2)]) +
-  theme(legend.position="bottom")
+  theme(legend.position="bottom") + 
+  ylab("Percentage") 
 ```
 
 
@@ -160,23 +162,33 @@ ipums %>% group_by(YEAR, BLIND) %>% summarize(n = n()/nrow(ipums)*38155505, slwt
 252/nrow(ipums)*38155505
 
 # maybe better estimate: 
-sum(subset(ipums, BLIND=="Yes")$SLWT*1.0)/100
-######## need to fix from here on out
+(blindUS <- sum(subset(ipums, BLIND=="Yes")$SLWT*1.0)/100)
 
 # the real size diameter of the US on the chart is therefore about 2.40 inches, if 1 square inch corresponds to 4,800 individuals
-sqi <- 252/nrow(ipums)*38155505/4800
+sqi <- blindUS/4800
 sqrt(sqi/pi)*2
 
-base$blindEst <- 21686.26
-multiplier <- 21686.26/385945.4
+#base$blindEst <- 21686.26
+base$blindEst <- blindUS
+#multiplier <- 21686.26/385945.4
+multiplier <- blindUS/385945.4
 
 circles$blindEst <- with(circles, area*multiplier)
 
 
-blindByState <- ipums %>% group_by(STATEICP) %>% summarize(
-  blindIPUMS = sum(BLIND=="Yes")/nrow(ipums)*38155505,
-  StateTotalIPUMS=n()/nrow(ipums)*38155505
+# blindByState <- ipums %>% group_by(STATEICP) %>% summarize(
+#   blindIPUMS = sum(BLIND=="Yes")/nrow(ipums)*38155505,
+#   StateTotalIPUMS=n()/nrow(ipums)*38155505
+# )
+
+blindByState <- ipums %>% group_by(STATEICP, BLIND) %>% summarize(
+  blindIPUMS = sum(SLWT)/100
 )
+
+blindByState <- blindByState %>% group_by(STATEICP) %>% mutate(
+  StateTotalIPUMS = sum(blindIPUMS)/100
+) %>% filter(BLIND=="Yes") %>% select(STATEICP, blindIPUMS, StateTotalIPUMS)
+
 
 circles <- merge(circles, blindByState, by.x="State", by.y="STATEICP", all=TRUE)
 circles$blindIPUMS[circles$location=="4I"] <- NA
@@ -194,6 +206,8 @@ qplot(abs(blindIPUMS-blindEst), y=reorder(State, area), data=circles)
 
 # we are more interested in the relative errors. Using blindEst as a reference, we see that with a decrease in the population size, the relative error increases. 
 qplot(abs(blindIPUMS-blindEst)/blindEst, y=reorder(State, area), data=circles)
+
+# write.csv(circles, "data/diameters.csv", row.names=FALSE)
 ```
 
 

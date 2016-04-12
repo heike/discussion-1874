@@ -331,8 +331,9 @@ Unfortunately, only political and economic factors are included in these data so
 
 \item {\bf census microsamples}: ipums USA at \url{https://usa.ipums.org/usa/} provides access to microsamples of all of the US census data. However, microsamples of 1.2\% for the 1860 and 1870 census include only a handful of blind individuals for each state, and  therefore do not provide a reliable estimate of these proportions.
 
-The reliability of the microsample for questions regarding the blind is not high enough to allow for accurate statements: The microsample for the 1870 census consists of 443,377 individuals, out of which 252 are identified as blind, i.e.\ on average there are only 5 to 6 blind individuals in a population of size 10,000.
-Let's assume that the actual proportion of blind individuals in the US at 1870 is actually 252 in 443,377.  Then $X$, the number of blind individuals in the microsample, follows a Binomial distribution $B_{n, p }$ with $\hat{p} = 252/443377$ and $n = 443377$. This means that $X$ has an expected value of 252, but its variance is almost the same size (Var$(X) = 251.9)$, which means that a Wald 95\% confidence interval is (220, 284). This puts the relative uncertainty around the number of blind individuals at about 25\%.
+The reliability of the microsample for questions regarding the blind is not high enough to allow for accurate statements: The microsample for the 1870 census consists of 443,377 individuals, out of which 252 are identified as blind, i.e.\ on average there are only 5 to 6 blind individuals in a population of size 10,000. 
+\hh{XXX motivate p more XXX}
+Let's assume that the actual proportion of blind individuals in the US at 1870 is actually 241.5 in 443,377 \hh{XXX based on total \# blind}.  Then $X$, the number of blind individuals in the microsample, follows a Binomial distribution $B_{n, p }$ with $\hat{p} = 20970.51/(38.5\cdot 10^6)$ and $n = 443377$. This means that $X$ has an expected value of 241.5, but its variance is the same size (Var$(X) = 241.4)$, which means that a Wald 95\% confidence interval is (222, 282). This puts the relative uncertainty around the number of blind individuals at about 25\%.
 
 For blind individuals at the state level the situation is worse and therefore does not allow us to draw any inference based on the microsample.
 
@@ -341,7 +342,8 @@ For blind individuals at the state level the situation is worse and therefore do
 This leaves the overall number of blind individuals as the only variable. For this number we will make use of the 1.2\% microsample as detailed below. 
 \end{itemize}
 
-While the 1.2\% microsample does not help with  the small number of blind at the state level, it does allow us to get an estimate for the total number of blind for the nation: using the 252 blind individuals in the 1.2\% microsample as a basis, we get an estimated number of  $38.5 \cdot 10^6 \cdot p = 21,882$ blind individuals nationwide with a corresponding 95\% Wald confidence interval of (21,586, 22,178). This is the number that the values in Figure~\ref{fig:mapblind} is based on.
+While the 1.2\% microsample does not help with  the small number of blind at the state level, it does allow us to get an estimate for the total number of blind for the nation: using the 252 records on blind individuals in the 1.2\% microsample as a basis, we get (using the survey weights associated with each record) an estimated number of  20970.51 blind individuals nationwide with a corresponding 95\% Wald confidence interval of (20687, 21254). This is the number that the values in Figure~\ref{fig:mapblind} is based on.
+
 
 \section{Fact checking}
 \hh{Following along Wines' statements we will provide graphical evidence to check on his statements and also comment on their visual accessibility. }
