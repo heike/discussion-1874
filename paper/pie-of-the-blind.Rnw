@@ -545,7 +545,7 @@ Relative deviations are then plotted on choropleth maps as shown in Figure~\ref{
 
 Kansas and Nebraska are two exceptions of the general trend. These are two of the youngest states and might have been affected the most by the Homestead Act of 1862, which gave the opportunity to anyone `who had not taken up arms against the United States' to own 160 acres of land, if they settled and farmed the land for five years. In both Kansas and Nebraska, the proportion of foreign-born blind individuals is by far lower than expected, favoring the proportion of native born blind men and women, instead. %Nebraska is a state since 1867, Kansas since 1861 (Nevada 1864, West Virginia 1863).
 
-Figure~\ref{fig:map-resids-race} tells maybe the most important story of the blind population of the US in 1870. Unfortunately, it is the story of discrimination within a minority. From the pattern of deviations in the choropleth maps we see that in all but a few states white men among the blind are by far over-represented, while all other demographics, i.e.\ women and people of color are under-represented in a lot of states. For white women, this pattern is particularly predominant in the Northeast, while for women of color, the pattern is very strong in the South.  Blind men of color are with a few exceptions a by far under-represented group all across the US.
+Figure~\ref{fig:map-resids-race} tells maybe the most important story of the blind population of the US in 1870. Unfortunately, it is the story of discrimination within a minority. From the pattern of deviations in the choropleth maps we see that in most states white men among the blind are  over-represented, while all other demographics, and in particular white females are under-represented in most states. For men and women of color, the geographic pattern is more random, but overall there are more states, in which these two groups are under-represented than over-represented.
 \begin{figure}
 <<ipums-gender-race, dependson='simulate-resid-distr', echo=FALSE>>=
 grace <- as.data.frame(xtabs(data=ipums, SLWT~STATEICP+SEX+I(RACE=="White")))
@@ -586,7 +586,7 @@ ggplot(aes(fill=residCut), data=blind.plus3) +
   theme(legend.position="bottom") +
   ggtitle("Where are the Women and People of Color?")
 @
-\caption{\label{fig:map-resids-race} Choropleth maps of the deviations of observed and expected proportions of blind by gender and race show the real story in the data: there are significantly too many white men among the blind in all but three states. All other demographics are by far under-represented. }
+\caption{\label{fig:map-resids-race} Choropleth maps of the deviations of observed and expected proportions of blind by gender and race show the real story in the data: there are significantly too many white men among the blind in most states. White females are under-represented in almost all states. Non-white blinds are under-represented in more states than not.}
 \end{figure}
 
 \subsection{Changes over time}
@@ -642,6 +642,14 @@ ggplot(aes(fill=Multiple), data=fourth) +
 @
 \caption{\label{fig:map-change}Choropleth map of a geographic overview of the changes in the number of blind between 1860 and 1870. \hh{XXX how do these changes compare to whole population?}}
 \end{figure}
+
+\section{Other things}
+One of the reasons why foreign borns might be `in excess' of their proportion is age: there is a clear correlation between age and nativity. Foreign-born individuals are generally older. The age of blind individuals exhibits a clear double mode: the first mode is around age 15-20, corresponding to the age distribution of the young nation. Another mode in the age of blind b=individuals can be found in the older population -- blindness is clearly associated with losing eye-sight at an advanced age. 
+We would need to test whether the percentage of foreigners among the blind is still too high after adjusting for age.
+<<echo=FALSE>>=
+ipums$native <- ipums$NATIVITY != "Foreign born"
+qplot(AGE, weight=SLWT/100, data=ipums, fill=native) + facet_grid(BLIND~., scales="free_y", labeller="label_both") 
+@
 
 \section{Conclusion}
 
