@@ -234,7 +234,7 @@ library(ggplot2)
 states <- map_data("state")
 
 state_pop <- read.csv("../data/states-1870.csv")
-state_pop <- subset(state_pop, State != "COLORADO") # not a state until 1876
+state_pop <- subset(state_pop, State_Caps != "COLORADO") # not a state until 1876
 names(state_pop)[1] <- "State"
 state_pop$state <- tolower(state_pop$State)
 
